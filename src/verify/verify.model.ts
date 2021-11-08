@@ -1,6 +1,6 @@
 export class Verify {
   id: string;
-  phoneNumber: string;
+  phone_number: string;
   status: string;
-  expiredIn: string;
+  expired_in: string;
 }

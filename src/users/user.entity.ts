@@ -7,7 +7,6 @@ import {
   PrimaryGeneratedColumn,
   BeforeInsert,
   BeforeUpdate,
-  Generated,
   DeleteDateColumn,
   CreateDateColumn,
   UpdateDateColumn,
@@ -135,8 +134,11 @@ export class User extends EntityHelper {
   @IsOptional()
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
   @Column({ nullable: true })
-  @Generated('uuid')
-  user_type_id?: string;
+  @Transform((value: string | null) => (value == '' ? null : value))
+  @Validate(IsExist, ['UserType', 'id'], {
+    message: 'User Type not Found',
+  })
+  user_type_id?: string | null;
 
   public previousPassword: string;
   userType: UserType;

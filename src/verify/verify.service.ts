@@ -25,9 +25,9 @@ export class VerifyService {
 
       const v = new Verify();
       v.id = res.sid;
-      v.phoneNumber = res.to;
+      v.phone_number = res.to;
       v.status = res.status;
-      v.expiredIn = res.sendCodeAttempts[0]['time'];
+      v.expired_in = res.sendCodeAttempts[0]['time'];
       return v;
     } catch (error) {
       throw new HttpException(
@@ -58,9 +58,9 @@ export class VerifyService {
 
       const v = new Verify();
       v.id = res.sid;
-      v.phoneNumber = res.to;
+      v.phone_number = res.to;
       v.status = res.status;
-      v.expiredIn = null;
+      v.expired_in = null;
       return v;
     } catch (error) {
       throw new HttpException(
