@@ -7,7 +7,10 @@ import {
   PrimaryGeneratedColumn,
   BeforeInsert,
   BeforeUpdate,
-  Generated, DeleteDateColumn,
+  Generated,
+  DeleteDateColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Exclude, Transform } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
@@ -72,6 +75,10 @@ export class User extends EntityHelper {
   @IsOptional()
   @Index()
   @Column({ type: 'bigint', nullable: true })
+  @Validate(IsNotExist, ['User'], {
+    message: 'phone number already exists',
+    groups: [CrudValidationGroups.CREATE],
+  })
   phone_no: number | null;
 
   @ApiProperty({ example: '1' })
@@ -181,15 +188,19 @@ export class User extends EntityHelper {
   @Index()
   hash: string | null;
 
+  @Allow()
   @IsOptional()
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  created_date?: string;
+  @ApiProperty({ example: true })
+  @Column({ type: 'bool', nullable: false, default: 'FALSE' })
+  is_verified?: boolean;
 
-  @IsOptional()
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  updated_date?: string;
+  @CreateDateColumn()
+  created_date: Date;
+
+  @UpdateDateColumn()
+  updated_date: Date;
 
   @IsOptional()
   @DeleteDateColumn()
-  deletedAt: Date;
+  deleted_at: Date;
 }

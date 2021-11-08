@@ -1,14 +1,11 @@
 import {
   Body,
   Controller,
-  // Get,
   HttpCode,
   HttpStatus,
   Request,
   Post,
   UseGuards,
-  // Patch,
-  // Delete,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -16,7 +13,6 @@ import { AuthEmailLoginDto } from './dtos/auth-email-login.dto';
 import { AuthForgotPasswordDto } from './dtos/auth-forgot-password.dto';
 import { AuthConfirmEmailDto } from './dtos/auth-confirm-email.dto';
 import { AuthResetPasswordDto } from './dtos/auth-reset-password.dto';
-// import { AuthUpdateDto } from './dtos/auth-update.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthRegisterLoginDto } from './dtos/auth-register-login.dto';
 import { AuthSwitchUserTypeDto } from './dtos/switch-user-type.dto';
@@ -34,12 +30,6 @@ export class AuthController {
   public async login(@Body() loginDto: AuthEmailLoginDto) {
     return this.service.validateLogin(loginDto, false);
   }
-
-  // @Post('admin/email/login')
-  // @HttpCode(HttpStatus.OK)
-  // public async adminLogin(@Body() loginDTO: AuthEmailLoginDto) {
-  //   return this.service.validateLogin(loginDTO, true);
-  // }
 
   @Post('email/register')
   @HttpCode(HttpStatus.CREATED)
@@ -78,28 +68,4 @@ export class AuthController {
   ) {
     return this.service.switchUserType(userDto, request.user);
   }
-
-  // @ApiBearerAuth()
-  // @Get('me')
-  // @UseGuards(AuthGuard('jwt'))
-  // @HttpCode(HttpStatus.OK)
-  // public async me(@Request() request) {
-  //   return this.service.me(request.user);
-  // }
-  //
-  // @ApiBearerAuth()
-  // @Patch('me')
-  // @UseGuards(AuthGuard('jwt'))
-  // @HttpCode(HttpStatus.OK)
-  // public async update(@Request() request, @Body() userDto: AuthUpdateDto) {
-  //   return this.service.update(request.user, userDto);
-  // }
-  //
-  // @ApiBearerAuth()
-  // @Delete('me')
-  // @UseGuards(AuthGuard('jwt'))
-  // @HttpCode(HttpStatus.OK)
-  // public async delete(@Request() request) {
-  //   return this.service.softDelete(request.user);
-  // }
 }

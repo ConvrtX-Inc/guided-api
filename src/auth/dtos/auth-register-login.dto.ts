@@ -9,6 +9,7 @@ import {
 } from 'class-validator';
 import { IsNotExist } from 'src/utils/validators/is-not-exists.validator';
 import { Transform } from 'class-transformer';
+import { CrudValidationGroups } from '@nestjsx/crud';
 
 export class AuthRegisterLoginDto {
   @ApiProperty({ example: 'test1@example.com' })
@@ -34,6 +35,10 @@ export class AuthRegisterLoginDto {
   @Allow()
   @IsOptional()
   @ApiProperty({ example: '3235534022' })
+  @Validate(IsNotExist, ['User'], {
+    message: 'phone number already exists',
+    groups: [CrudValidationGroups.CREATE],
+  })
   phone_no: number;
 
   @Allow()
