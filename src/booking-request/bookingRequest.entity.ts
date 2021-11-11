@@ -38,16 +38,18 @@ export class BookingRequest extends EntityHelper {
   status_id?: string;
 
   @IsOptional()
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @ApiProperty({ example: '11/10/21' })
+  @Column({ type: 'timestamp' })
   booking_date_start?: string;
 
   @IsOptional()
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @ApiProperty({ example: '11/20/21' })
+  @Column({ type: 'timestamp' })
   booking_date_end?: string;
 
   @IsOptional()
-  @ApiProperty({ example: 'Place Name' })
-  @Column({ nullable: true })
+  @ApiProperty({ example: 5 })
+  @Column({ nullable: false })
   number_of_person?: number;
 
   @IsOptional()
