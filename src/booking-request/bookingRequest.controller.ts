@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Request, UseGuards } from '@nestjs/common';
 import { BookingRequestService } from './bookingRequest.service';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
@@ -49,5 +49,12 @@ export class BookingRequestController
   @Get(':user_id')    
   async getProjectNotes(@Param('user_id') id: string) {
     return this.service.userBookings(id); 
+  }
+
+  @ApiOperation({ summary: 'Post multiple booking request' })    
+  @Post('/multiple')    
+  async multipleBookingRequest(@Body() multipleRequest: BookingRequest[]) {
+    console.log(multipleRequest);
+    return this.service.saveEntity(multipleRequest); 
   }
 }
