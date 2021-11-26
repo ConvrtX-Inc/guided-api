@@ -50,6 +50,9 @@ import { ActivityOutfitterModule } from './activity-outfitter/activityOutfitter.
 import { ActivityOutfitterImageModule } from './activity-outfitter-image/activityOutfitterImage.module';
 import { ActivityAdvertisementModule } from './activity-advertisement/activityAdvertisement.module';
 import { ActivityAdvertisementImageModule } from './activity-advertisement-image/activityAdvertisementImage.module';
+import { FaqModule } from './faq/faq.module';
+import { TravelerReleaseModule } from './traveler-release/traveler-release.module';
+import { TermsandconditionsModule } from './termsandconditions/termsandconditions.module';
 
 @Module({
   imports: [
@@ -126,6 +129,9 @@ import { ActivityAdvertisementImageModule } from './activity-advertisement-image
     ActivityOutfitterImageModule,
     ActivityAdvertisementModule,
     ActivityAdvertisementImageModule,
+    FaqModule,
+    TravelerReleaseModule,
+    TermsandconditionsModule,
   ],
 })
 export class AppModule {}
