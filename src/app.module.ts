@@ -50,6 +50,7 @@ import { ActivityOutfitterModule } from './activity-outfitter/activityOutfitter.
 import { ActivityOutfitterImageModule } from './activity-outfitter-image/activityOutfitterImage.module';
 import { ActivityAdvertisementModule } from './activity-advertisement/activityAdvertisement.module';
 import { ActivityAdvertisementImageModule } from './activity-advertisement-image/activityAdvertisementImage.module';
+import { GuidelinesModule } from './guidelines/guidelines.module';
 import { UserScheduleAvailabilityModule } from './user-schedule-availability/user-schedule-availability.module';
 
 @Module({
@@ -127,6 +128,7 @@ import { UserScheduleAvailabilityModule } from './user-schedule-availability/use
     ActivityOutfitterImageModule,
     ActivityAdvertisementModule,
     ActivityAdvertisementImageModule,
+    GuidelinesModule,
     UserScheduleAvailabilityModule,
   ],
 })
