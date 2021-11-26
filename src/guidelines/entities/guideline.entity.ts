@@ -11,14 +11,14 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class TravelerRelease extends EntityHelper {
+export class Guideline extends EntityHelper {
   @Allow()
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Allow()
-  @ApiProperty({ example: 'Title' })
+  @ApiProperty({ example: 'FAQ' }) //Terms & Conditions, Traveler Release & Waiver Form, Cancellation Policy, Local Laws & Taxes
   @Column({ nullable: false, length: 100 })
   type_name: string;
 

@@ -1,27 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
-import { FindOptions } from 'src/utils/types/find-options.type';
 import { Repository } from 'typeorm';
-import { Termsandcondition } from './entities/termsandcondition.entity';
+import { Guideline } from './entities/guideline.entity';
 import { DeepPartial } from '../utils/types/deep-partial.type';
+import { FindOptions } from 'src/utils/types/find-options.type';
 
 @Injectable()
-export class TermsandconditionsService extends TypeOrmCrudService<Termsandcondition> {
+export class GuidelinesService extends TypeOrmCrudService<Guideline> {
   constructor(
-    @InjectRepository(Termsandcondition)
-    private destinationRepository: Repository<Termsandcondition>,
-  ) {
+    @InjectRepository(Guideline)
+    private destinationRepository: Repository<Guideline>
+  ){
     super(destinationRepository);
   }
-
-  async findOneEntity(options: FindOptions<Termsandcondition>) {
+  async findOneEntity(options: FindOptions<Guideline>) {
     return this.destinationRepository.findOne({
       where: options.where,
     });
   }
 
-  async findManyEntities(options: FindOptions<Termsandcondition>) {
+  async findManyEntities(options: FindOptions<Guideline>) {
     return this.destinationRepository.find({
       where: options.where,
     });
@@ -35,7 +34,7 @@ export class TermsandconditionsService extends TypeOrmCrudService<Termsandcondit
     return await this.saveEntity(data);
   }
 
-  async saveEntity(data: DeepPartial<Termsandcondition>[]) {
+  async saveEntity(data: DeepPartial<Guideline>[]) {
     return this.destinationRepository.save(
       this.destinationRepository.create(data),
     );

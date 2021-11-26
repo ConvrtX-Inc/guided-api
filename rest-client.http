@@ -1,17 +1,23 @@
 
 curl -X 'POST' \
-  'http://localhost:3000/api/v1/termsandconditions' \
+  'http://localhost:3000/api/v1/guidelines' \
   -H 'accept: application/json' \
-  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA5ZGNmNmM5LTVlNGUtNDIxMy04YjNjLTc2ZGQzMzNjZjc3OCIsImlhdCI6MTYzNzkwMjQ4OSwiZXhwIjoxNjM3OTg4ODg5fQ.rSXxF3tGDuTgEY_IArzZlcvEX7rzME4Q3sj7y3Z1_NM' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImU3OTU1MzM2LWRmMzEtNGJjMi04NDA5LTRmYzZhOTk3ZWVhNCIsImlhdCI6MTYzNzkwNzM2NCwiZXhwIjoxNjM3OTkzNzY0fQ.x5gpGJbDm8K0ofiv4uAjSH7fttH1pwBya-awQ2Chgpo' \
   -H 'Content-Type: application/json' \
   -d '{
-  "id": "cbcfa8b8-2a25-3adb-a9c6-e325f0d0f3ae",
-  "type_name": "Sample FAQ 1",
-  "text_content": "FAQ 1 sample description"
+  "id": "abcfa1b8-1b25-3adb-a9c6-e325f0d0f3ae",
+  "type_name": "Local Laws & Taxes",
+  "text_content": "Local Laws & Taxes Description"
 }'
 
 ###
 curl -X 'GET' \
-  'http://localhost:3000/api/v1/termsandconditions' \
+  'http://localhost:3000/api/v1/guidelines' \
   -H 'accept: application/json' \
-  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA5ZGNmNmM5LTVlNGUtNDIxMy04YjNjLTc2ZGQzMzNjZjc3OCIsImlhdCI6MTYzNzkwMjQ4OSwiZXhwIjoxNjM3OTg4ODg5fQ.rSXxF3tGDuTgEY_IArzZlcvEX7rzME4Q3sj7y3Z1_NM'
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImU3OTU1MzM2LWRmMzEtNGJjMi04NDA5LTRmYzZhOTk3ZWVhNCIsImlhdCI6MTYzNzkwNzM2NCwiZXhwIjoxNjM3OTkzNzY0fQ.x5gpGJbDm8K0ofiv4uAjSH7fttH1pwBya-awQ2Chgpo'
+
+###
+curl -X 'GET' \
+  'http://localhost:3000/api/v1/guidelines?filter=type_name%7C%7C%24eq%7C%7CLocal%20Laws%20%26%20Taxes' \
+  -H 'accept: application/json' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImU3OTU1MzM2LWRmMzEtNGJjMi04NDA5LTRmYzZhOTk3ZWVhNCIsImlhdCI6MTYzNzkwODU2NiwiZXhwIjoxNjM3OTk0OTY2fQ.jMghihF5GzzCtsvuNcZ7IJhv4zN73MOeYun9Kf3KboY'

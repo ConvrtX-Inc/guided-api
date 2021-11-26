@@ -1,16 +1,18 @@
-import { Controller, UseGuards, Request } from '@nestjs/common';
-import { FaqService } from './faq.service';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
+import { GuidelinesService } from './guidelines.service';
+import { CreateGuidelineDto } from './dto/create-guideline.dto';
+import { UpdateGuidelineDto } from './dto/update-guideline.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Crud, CrudController, Override } from '@nestjsx/crud';
-import { Faq } from './entities/faq.entity';
+import { Guideline } from './entities/guideline.entity';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
-@ApiTags('FAQ')
+@ApiTags('Guidelines')
 @Crud({
   model: {
-    type: Faq,
+    type: Guideline,
   },
   routes: {
     exclude: ['replaceOneBase', 'createManyBase'],
@@ -28,13 +30,13 @@ import { Faq } from './entities/faq.entity';
   },
 })
 @Controller({
-  path: 'faq',
-  version: '1',
+  path: 'guidelines',
+  version: '1'
 })
-export class FaqController implements CrudController<Faq> {
-  constructor(public service: FaqService) {}
+export class GuidelinesController implements CrudController<Guideline> {
+  constructor(public service: GuidelinesService) {}
 
-  get base(): CrudController<Faq> {
+  get base(): CrudController<Guideline> {
     return this;
   }
 

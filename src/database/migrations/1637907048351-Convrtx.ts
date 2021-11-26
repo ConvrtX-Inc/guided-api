@@ -1,7 +1,7 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class Convrtx1637847094631 implements MigrationInterface {
-    name = 'Convrtx1637847094631'
+export class Convrtx1637907048351 implements MigrationInterface {
+    name = 'Convrtx1637907048351'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "activity_advertisement_image" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "activity_advertisement_id" uuid NOT NULL DEFAULT uuid_generate_v4(), "snapshot_img" bytea NOT NULL, "created_date" TIMESTAMP NOT NULL DEFAULT now(), "updated_date" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, CONSTRAINT "PK_37e00f5f55cbe18e0817c699e95" PRIMARY KEY ("id"))`);
@@ -19,7 +19,6 @@ export class Convrtx1637847094631 implements MigrationInterface {
         await queryRunner.query(`CREATE TABLE "booking_request" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "user_id" uuid NOT NULL DEFAULT uuid_generate_v4(), "from_user_id" uuid NOT NULL DEFAULT uuid_generate_v4(), "request_msg" character varying(100) NOT NULL, "activity_package_id" uuid NOT NULL DEFAULT uuid_generate_v4(), "status_id" uuid NOT NULL DEFAULT uuid_generate_v4(), "booking_date_start" TIMESTAMP NOT NULL DEFAULT now(), "booking_date_end" TIMESTAMP NOT NULL DEFAULT now(), "number_of_person" integer, "created_date" TIMESTAMP NOT NULL DEFAULT now(), "updated_date" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, CONSTRAINT "PK_aa4e0da4a49be8782cd00bf5a99" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "certificate" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "user_id" uuid NOT NULL DEFAULT uuid_generate_v4(), "certificate_name" character varying(200) NOT NULL, "certificate_description" text NOT NULL, "img_snapshot" bytea, CONSTRAINT "PK_8daddfc65f59e341c2bbc9c9e43" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "currency" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "currency_code" character varying, "currency_name" character varying, "currency_symbol" character varying, "deletedAt" TIMESTAMP, CONSTRAINT "PK_3cda65c731a6264f0e444cc9b91" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "faq" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "type_name" character varying(100) NOT NULL, "text_content" text NOT NULL, "created_date" TIMESTAMP NOT NULL DEFAULT now(), "update_date" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, CONSTRAINT "PK_d6f5a52b1a96dd8d0591f9fbc47" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "file" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "path" character varying NOT NULL, CONSTRAINT "PK_36b46d232307066b3a2c9ea3a1d" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "status" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "status_name" character varying NOT NULL, "is_active" boolean, "created_date" TIMESTAMP NOT NULL DEFAULT now(), "updated_date" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, CONSTRAINT "PK_e12743a7086ec826733f54e1d95" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "user" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "first_name" character varying, "last_name" character varying, "email" character varying, "password" character varying, "phone_no" bigint, "country_code" bigint, "is_guide" boolean, "is_traveller" boolean, "is_for_the_planet" boolean NOT NULL DEFAULT 'FALSE', "is_first_aid_trained" boolean NOT NULL DEFAULT 'FALSE', "about" text, "is_terms_conditions_agreed" boolean NOT NULL DEFAULT 'FALSE', "release_waiver_data" text, "user_type_id" uuid DEFAULT uuid_generate_v4(), "provider" character varying NOT NULL DEFAULT 'email', "socialId" character varying, "hash" character varying, "created_date" TIMESTAMP NOT NULL DEFAULT now(), "updated_date" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, "photoId" uuid, "statusId" uuid, CONSTRAINT "UQ_e12875dfb3b1d92d7d7c5377e22" UNIQUE ("email"), CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY ("id"))`);
@@ -30,12 +29,11 @@ export class Convrtx1637847094631 implements MigrationInterface {
         await queryRunner.query(`CREATE INDEX "IDX_e282acb94d2e3aec10f480e4f6" ON "user" ("hash") `);
         await queryRunner.query(`CREATE TABLE "forgot" ("id" SERIAL NOT NULL, "hash" character varying NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, "userId" uuid, CONSTRAINT "PK_087959f5bb89da4ce3d763eab75" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE INDEX "IDX_df507d27b0fb20cd5f7bef9b9a" ON "forgot" ("hash") `);
+        await queryRunner.query(`CREATE TABLE "guideline" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "type_name" character varying(100) NOT NULL, "text_content" text NOT NULL, "created_date" TIMESTAMP NOT NULL DEFAULT now(), "update_date" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, CONSTRAINT "PK_8c57320ee4904d6b23c0af65069" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "messages" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "sender_id" uuid NOT NULL DEFAULT uuid_generate_v4(), "receiver_id" uuid NOT NULL DEFAULT uuid_generate_v4(), "message" text NOT NULL, "session_id" character varying(200) NOT NULL, "is_read" boolean, "attachment" bytea, "offer_id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_date" TIMESTAMP NOT NULL DEFAULT now(), "updated_date" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_18325f38ae6de43878487eff986" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "notification" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "user_id" uuid NOT NULL DEFAULT uuid_generate_v4(), "notification_msg" character varying(50) NOT NULL, "created_date" TIMESTAMP NOT NULL DEFAULT now(), "updated_date" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, CONSTRAINT "PK_705b6c7cdf9b2c2ff7ac7872cb7" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "offer" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "activity_package_id" uuid NOT NULL DEFAULT uuid_generate_v4(), "description" text, "number_person" integer NOT NULL, "offer_date" TIMESTAMP NOT NULL DEFAULT now(), "offer_price" numeric(12,2) NOT NULL DEFAULT '0', "currency_id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_date" TIMESTAMP NOT NULL DEFAULT now(), "updated_date" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, CONSTRAINT "PK_57c6ae1abe49201919ef68de900" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "termsandcondition" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "type_name" character varying(100) NOT NULL, "text_content" text NOT NULL, "created_date" TIMESTAMP NOT NULL DEFAULT now(), "update_date" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, CONSTRAINT "PK_fccf9ac2f4ee7637d74d6aefd55" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "transaction" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "user_id" uuid NOT NULL DEFAULT uuid_generate_v4(), "activity_package_id" uuid NOT NULL DEFAULT uuid_generate_v4(), "total" numeric(12,2) NOT NULL DEFAULT '0', "tour_guide_id" uuid NOT NULL DEFAULT uuid_generate_v4(), "book_date" TIMESTAMP NOT NULL DEFAULT now(), "number_of_people" integer, "service_name" character varying(100) NOT NULL, "transaction_number" character varying(100) NOT NULL, "status_id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_date" TIMESTAMP NOT NULL DEFAULT now(), "updated_date" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, CONSTRAINT "PK_89eadb93a89810556e1cbcd6ab9" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "traveler_release" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "type_name" character varying(100) NOT NULL, "text_content" text NOT NULL, "created_date" TIMESTAMP NOT NULL DEFAULT now(), "update_date" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, CONSTRAINT "PK_fcf4d1b974be24e6c338ed36628" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "user_type" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying(100) NOT NULL, "created_date" TIMESTAMP NOT NULL DEFAULT now(), "updated_date" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, CONSTRAINT "PK_1f9c6d05869e094dee8fa7d392a" PRIMARY KEY ("id"))`);
         await queryRunner.query(`ALTER TABLE "user" ADD CONSTRAINT "FK_75e2be4ce11d447ef43be0e374f" FOREIGN KEY ("photoId") REFERENCES "file"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "user" ADD CONSTRAINT "FK_dc18daa696860586ba4667a9d31" FOREIGN KEY ("statusId") REFERENCES "status"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
@@ -47,12 +45,11 @@ export class Convrtx1637847094631 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "user" DROP CONSTRAINT "FK_dc18daa696860586ba4667a9d31"`);
         await queryRunner.query(`ALTER TABLE "user" DROP CONSTRAINT "FK_75e2be4ce11d447ef43be0e374f"`);
         await queryRunner.query(`DROP TABLE "user_type"`);
-        await queryRunner.query(`DROP TABLE "traveler_release"`);
         await queryRunner.query(`DROP TABLE "transaction"`);
-        await queryRunner.query(`DROP TABLE "termsandcondition"`);
         await queryRunner.query(`DROP TABLE "offer"`);
         await queryRunner.query(`DROP TABLE "notification"`);
         await queryRunner.query(`DROP TABLE "messages"`);
+        await queryRunner.query(`DROP TABLE "guideline"`);
         await queryRunner.query(`DROP INDEX "public"."IDX_df507d27b0fb20cd5f7bef9b9a"`);
         await queryRunner.query(`DROP TABLE "forgot"`);
         await queryRunner.query(`DROP INDEX "public"."IDX_e282acb94d2e3aec10f480e4f6"`);
@@ -63,7 +60,6 @@ export class Convrtx1637847094631 implements MigrationInterface {
         await queryRunner.query(`DROP TABLE "user"`);
         await queryRunner.query(`DROP TABLE "status"`);
         await queryRunner.query(`DROP TABLE "file"`);
-        await queryRunner.query(`DROP TABLE "faq"`);
         await queryRunner.query(`DROP TABLE "currency"`);
         await queryRunner.query(`DROP TABLE "certificate"`);
         await queryRunner.query(`DROP TABLE "booking_request"`);
