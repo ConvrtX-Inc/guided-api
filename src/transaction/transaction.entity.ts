@@ -1,9 +1,11 @@
 import {
   Column,
+  CreateDateColumn,
   DeleteDateColumn,
   Entity,
   Generated,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Allow, IsOptional } from 'class-validator';
@@ -64,15 +66,13 @@ export class Transaction extends EntityHelper {
   @Generated('uuid')
   status_id?: string;
 
-  @IsOptional()
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  created_date?: string;
+  @CreateDateColumn()
+  created_date: Date;
 
-  @IsOptional()
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  updated_date?: string;
+  @UpdateDateColumn()
+  updated_date: Date;
 
   @IsOptional()
   @DeleteDateColumn()
-  deletedAt: Date;
+  deleted_at: Date;
 }

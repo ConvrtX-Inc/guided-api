@@ -1,6 +1,6 @@
-import { Controller, Request, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Request, UseGuards } from '@nestjs/common';
 import { BookingRequestService } from './bookingRequest.service';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Crud, CrudController, Override } from '@nestjsx/crud';
 import { BookingRequest } from './bookingRequest.entity';
@@ -43,5 +43,11 @@ export class BookingRequestController
   @Override()
   async deleteOne(@Request() request) {
     return this.service.softDelete(request.params.id);
+  }
+
+  @ApiOperation({ summary: 'Retrieve all bookings of a user' })    
+  @Get(':user_id')    
+  async getProjectNotes(@Param('user_id') id: string) {
+    return this.service.userBookings(id); 
   }
 }
