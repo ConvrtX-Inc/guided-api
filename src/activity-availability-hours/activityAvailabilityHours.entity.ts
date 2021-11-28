@@ -6,8 +6,9 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Allow, IsOptional } from 'class-validator';
+import { Allow, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
+import { CrudValidationGroups } from '@nestjsx/crud';
 @Entity()
 export class ActivityAvailabilityHours extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
@@ -28,6 +29,13 @@ export class ActivityAvailabilityHours extends EntityHelper {
     default: () => 'CURRENT_TIMESTAMP',
   })
   availability_date_hour?: string;
+
+  @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
+  @IsNotEmpty({ groups: [CrudValidationGroups.CREATE] })
+  @IsNumber()
+  @Column({type: 'integer', nullable: false})
+  @ApiProperty({ example: '1', name: 'slots', required: true})
+  slots: number;
 
   @IsOptional()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

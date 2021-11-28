@@ -40,4 +40,12 @@ export class BookingRequestService extends TypeOrmCrudService<BookingRequest> {
   async softDelete(id: number): Promise<void> {
     await this.destinationsRepository.softDelete(id);
   }
+
+  async userBookings(user_id: string) {
+    return this.destinationsRepository.find({
+      where:  {
+        user_id: user_id,
+      },
+    });
+  }
 }
