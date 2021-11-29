@@ -53,8 +53,10 @@ export class VerifyService {
           phone_no: request.phone_number,
         },
       });
-      user.is_verified = true;
-      await user.save();
+      if (user) {
+        user.is_verified = true;
+        await user.save();
+      }
 
       const v = new Verify();
       v.id = res.sid;
