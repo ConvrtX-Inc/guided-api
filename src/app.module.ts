@@ -51,6 +51,7 @@ import { ActivityOutfitterImageModule } from './activity-outfitter-image/activit
 import { ActivityAdvertisementModule } from './activity-advertisement/activityAdvertisement.module';
 import { ActivityAdvertisementImageModule } from './activity-advertisement-image/activityAdvertisementImage.module';
 import { GuidelinesModule } from './guidelines/guidelines.module';
+import { PasswordGeneratorModule } from './password-generator/password-generator.module';
 import { UserScheduleAvailabilityModule } from './user-schedule-availability/user-schedule-availability.module';
 
 @Module({
@@ -129,6 +130,7 @@ import { UserScheduleAvailabilityModule } from './user-schedule-availability/use
     ActivityAdvertisementModule,
     ActivityAdvertisementImageModule,
     GuidelinesModule,
+    PasswordGeneratorModule,
     UserScheduleAvailabilityModule,
   ],
 })
