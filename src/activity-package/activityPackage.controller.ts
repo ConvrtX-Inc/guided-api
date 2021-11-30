@@ -1,6 +1,6 @@
-import { Controller, Request, UseGuards } from '@nestjs/common';
+import { Controller, Request, UseGuards, Get, HttpCode, HttpStatus, Param } from '@nestjs/common';
 import { ActivityPackageService } from './activityPackage.service';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags, ApiOperation} from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Crud, CrudController, Override } from '@nestjsx/crud';
 import { ActivityPackage } from './activityPackage.entity';
@@ -44,4 +44,11 @@ export class ActivityPackageController
   async deleteOne(@Request() request) {
     return this.service.softDelete(request.params.id);
   }
+  
+  @ApiOperation({ summary: 'Get the activity packages of a user' })
+  @Get('byuser/:user_id')      
+  public async getActivityPackageByUser(@Param('user_id') user_id: string) {
+    return this.service.getActivityPackageByUser(user_id);
+  }
+
 }
