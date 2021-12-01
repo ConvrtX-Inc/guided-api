@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import {forwardRef, Module} from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { PassportModule } from '@nestjs/passport';
@@ -10,12 +10,14 @@ import { UsersModule } from 'src/users/users.module';
 import { ForgotModule } from 'src/forgot/forgot.module';
 import { MailModule } from 'src/mail/mail.module';
 import { UserTypeModule } from 'src/user-type/userType.module';
+import { VerifyModule } from 'src/verify/verify.module';
 
 @Module({
   imports: [
     UsersModule,
     ForgotModule,
     PassportModule,
+    forwardRef(() => VerifyModule),
     UserTypeModule,
     MailModule,
     JwtModule.registerAsync({
