@@ -279,6 +279,34 @@ export class AuthService {
           phone_no: phone,
         },
       });
+      if (!user) {
+        throw new HttpException(
+          {
+            status: HttpStatus.BAD_REQUEST,
+            errors: {
+              user: `User not found`,
+            },
+          },
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      try {
+        const phoneNumber = '+' + user.country_code + user.phone_no;
+        await this.verifyService.CheckPhoneVerificationToken({
+          phone_number: phoneNumber,
+          verifyCode: hash,
+        });
+      } catch (e) {
+        throw new HttpException(
+          {
+            status: HttpStatus.BAD_REQUEST,
+            errors: {
+              msg: `Something went wrong`,
+            },
+          },
+          HttpStatus.BAD_REQUEST,
+        );
+      }
     } else {
       const forgot = await this.forgotService.findOneEntity({
         where: {
