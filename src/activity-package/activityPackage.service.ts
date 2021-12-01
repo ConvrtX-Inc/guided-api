@@ -33,4 +33,12 @@ export class ActivityPackageService extends TypeOrmCrudService<ActivityPackage> 
   async softDelete(id: number): Promise<void> {
     await this.activityRepository.softDelete(id);
   }
+
+  async getActivityPackageByUser(user_id: string) {
+    return this.activityRepository.find({
+      where:  {
+        user_id: user_id,
+      },
+    });    
+  }
 }
