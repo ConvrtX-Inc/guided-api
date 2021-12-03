@@ -1,6 +1,6 @@
-import { Controller, UseGuards, Request } from '@nestjs/common';
+import { Controller, UseGuards, Post, HttpCode, HttpStatus, Param } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { Crud, CrudController, Override } from '@nestjsx/crud';
 import { ActivityAdvertisementService } from './activityAdvertisement.service';
 import { ActivityAdvertisement } from './entities/activityAdvertisement.entity';
@@ -26,5 +26,19 @@ export class ActivityAdvertisementController implements CrudController<ActivityA
 
   get base(): CrudController<ActivityAdvertisement> {
     return this;
+  }
+
+  @ApiOperation({ summary: 'Approved an advertisement.' })
+  @Post('approved-activity-advertisement/:id')
+  @HttpCode(HttpStatus.OK)
+  public async approvedActivityAdvertisement(@Param('id') id: string) {
+    return this.service.approvedActivityAdvertisement(id);
+  }
+
+  @ApiOperation({ summary: 'Reject an advertisement.' })
+  @Post('reject-activity-advertisement/:id')
+  @HttpCode(HttpStatus.OK)
+  public async rejectActivityAdvertisement(@Param('id') id: string) {
+    return this.service.rejectActivityAdvertisement(id);
   }
 }

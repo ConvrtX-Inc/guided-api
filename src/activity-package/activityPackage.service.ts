@@ -41,4 +41,25 @@ export class ActivityPackageService extends TypeOrmCrudService<ActivityPackage> 
       },
     });    
   }
+
+  async approvedActivityPackage(id: string) {    
+    const post = await this.activityRepository.findOne({
+      where: { id: id },
+    });
+    if (post) {
+      post.is_published = true;      
+      await post.save();
+    }
+  }
+
+  async rejectActivityPackage(id: string) {    
+    const post = await this.activityRepository.findOne({
+      where: { id: id },
+    });
+    if (post) {
+      post.is_published = false;      
+      await post.save();
+    }
+  }
+
 }

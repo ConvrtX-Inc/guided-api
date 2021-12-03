@@ -57,6 +57,11 @@ export class ActivityOutfitter extends EntityHelper{
     @IsNotEmpty({ groups: [CrudValidationGroups.CREATE] })
     @Column({ nullable: false, type: 'text' })
     description: string;
+    
+    @IsOptional()
+    @ApiProperty({ example: false })
+    @Column({ type: 'bool', nullable: true, default: false })
+    is_published?: boolean;
 
     @CreateDateColumn()
     created_date: Date;

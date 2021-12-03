@@ -7,6 +7,7 @@ import { ActivityAdvertisement } from './entities/activityAdvertisement.entity';
 @Module({
   controllers: [ActivityAdvertisementController],
   providers: [ActivityAdvertisementService],
-  imports: [TypeOrmModule.forFeature([ActivityAdvertisement])]
+  imports: [TypeOrmModule.forFeature([ActivityAdvertisement])], 
+  exports: [ActivityAdvertisementService]
 })
 export class ActivityAdvertisementModule {}

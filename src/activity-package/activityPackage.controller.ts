@@ -1,4 +1,4 @@
-import { Controller, Request, UseGuards, Get, HttpCode, HttpStatus, Param } from '@nestjs/common';
+import { Controller, Request, UseGuards, Get, HttpCode, HttpStatus, Param, Post } from '@nestjs/common';
 import { ActivityPackageService } from './activityPackage.service';
 import { ApiBearerAuth, ApiTags, ApiOperation} from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
@@ -49,6 +49,20 @@ export class ActivityPackageController
   @Get('byuser/:user_id')      
   public async getActivityPackageByUser(@Param('user_id') user_id: string) {
     return this.service.getActivityPackageByUser(user_id);
+  }
+
+  @ApiOperation({ summary: 'Approved an activity package.' })
+  @Post('approved-activity-package/:id')
+  @HttpCode(HttpStatus.OK)
+  public async approvedActivityPackage(@Param('id') id: string) {
+    return this.service.approvedActivityPackage(id);
+  }
+
+  @ApiOperation({ summary: 'Reject an activity package.' })
+  @Post('reject-activity-package/:id')
+  @HttpCode(HttpStatus.OK)
+  public async rejectActivityPackage(@Param('id') id: string) {
+    return this.service.rejectActivityPackage(id);
   }
 
 }

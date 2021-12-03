@@ -8,5 +8,6 @@ import { ActivityEvent } from './activityEvent.entity';
   controllers: [ActivityEventController],
   providers: [ActivityEventService],
   imports: [TypeOrmModule.forFeature([ActivityEvent])],
+  exports: [ActivityEventService]
 })
 export class ActivityEventModule {}

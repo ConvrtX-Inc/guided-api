@@ -1,6 +1,6 @@
-import { Controller, Request, UseGuards } from '@nestjs/common';
+import { Controller, Request, UseGuards, Post, HttpCode, HttpStatus, Param } from '@nestjs/common';
 import { ActivityEventService } from './activityEvent.service';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Crud, CrudController, Override } from '@nestjsx/crud';
 import { ActivityEvent } from './activityEvent.entity';
@@ -42,4 +42,18 @@ export class ActivityEventController implements CrudController<ActivityEvent> {
   async deleteOne(@Request() request) {
     return this.service.softDelete(request.params.id);
   }
+
+  @ApiOperation({ summary: 'Approved an event.' })
+  @Post('approved-event/:id')
+  @HttpCode(HttpStatus.OK)
+  public async approvedEvent(@Param('id') id: string) {
+    return this.service.approvedEvent(id);
+  }  
+
+  @ApiOperation({ summary: 'Reject an event.' })
+  @Post('reject-event/:id')
+  @HttpCode(HttpStatus.OK)
+  public async rejectEvent(@Param('id') id: string) {
+    return this.service.rejectEvent(id);
+  }  
 }

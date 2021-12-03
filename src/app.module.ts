@@ -53,6 +53,9 @@ import { ActivityAdvertisementImageModule } from './activity-advertisement-image
 import { GuidelinesModule } from './guidelines/guidelines.module';
 import { PasswordGeneratorModule } from './password-generator/password-generator.module';
 import { UserScheduleAvailabilityModule } from './user-schedule-availability/user-schedule-availability.module';
+import { ActivityPostModule } from './activity-post/activity-post.module';
+import { ActivityNewsfeedModule } from './activity-newsfeed/activity-newsfeed.module';
+import { ActivityArticleModule } from './activity-article/activity-article.module';
 
 @Module({
   imports: [
@@ -99,7 +102,6 @@ import { UserScheduleAvailabilityModule } from './user-schedule-availability/use
     }),
     UsersModule,
     FilesModule,
-    VerifyModule,
     AuthModule,
     AuthFacebookModule,
     AuthGoogleModule,
@@ -109,6 +111,7 @@ import { UserScheduleAvailabilityModule } from './user-schedule-availability/use
     MailModule,
     HomeModule,
     CurrencyModule,
+    VerifyModule,
     BadgeModule,
     ActivityPackageModule,
     ActivityPackageDestinationModule,
@@ -132,6 +135,9 @@ import { UserScheduleAvailabilityModule } from './user-schedule-availability/use
     GuidelinesModule,
     PasswordGeneratorModule,
     UserScheduleAvailabilityModule,
+    ActivityPostModule,
+    ActivityNewsfeedModule,
+    ActivityArticleModule,
   ],
 })
 export class AppModule {}

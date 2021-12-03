@@ -1,17 +1,22 @@
-import {Column, DeleteDateColumn, Entity, Generated, PrimaryGeneratedColumn} from 'typeorm';
+import { Column, Entity, Generated, PrimaryGeneratedColumn} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, Allow } from 'class-validator';
+import { Allow, IsOptional, Validate } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
+import { IsExist } from '../utils/validators/is-exists.validator';
+import { Transform } from 'class-transformer';
 @Entity()
-export class ActivityEvent extends EntityHelper {
+export class ActivityNewsfeed extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @IsOptional()
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
-  @Column()
-  @Generated('uuid')
-  user_id?: string;
+  @Transform((value: string | null) => (value == '' ? null : value))
+  @Validate(IsExist, ['User', 'id'], {
+    message: 'User not Found',
+  })
+  @Column({ nullable: true })
+  user_id?: string | null;
 
   @IsOptional()
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
@@ -25,18 +30,8 @@ export class ActivityEvent extends EntityHelper {
   title?: string;
 
   @IsOptional()
-  @ApiProperty({ example: 'Country' })
-  @Column({ type: 'char', nullable: false, length: 10 })
-  country?: string;
-
-  @IsOptional()
-  @ApiProperty({ example: '{address: "USA"}' })
-  @Column('simple-json')
-  address?: { address: string };
-
-  @IsOptional()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  event_date?: string;
+  news_date?: string;
 
   @IsOptional()
   @ApiProperty({ example: 'Description' })
@@ -45,17 +40,12 @@ export class ActivityEvent extends EntityHelper {
   })
   description?: string;
 
-  @IsOptional()
-  @ApiProperty({ example: '12.0' })
-  @Column({ type: 'decimal', precision: 12, scale: 2, default: 0 })
-  price?: string;
-
   @Allow()
   @IsOptional()
   @ApiProperty({ example: false })
   @Column({ type: 'bool', nullable: true, default: false })
   is_published?: boolean;
-
+  
   @IsOptional()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_date?: string;
@@ -64,7 +54,4 @@ export class ActivityEvent extends EntityHelper {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updated_date?: string;
 
-  @IsOptional()
-  @DeleteDateColumn()
-  deletedAt: Date;
 }
