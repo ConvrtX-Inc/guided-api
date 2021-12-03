@@ -53,6 +53,7 @@ import { ActivityAdvertisementImageModule } from './activity-advertisement-image
 import { GuidelinesModule } from './guidelines/guidelines.module';
 import { PasswordGeneratorModule } from './password-generator/password-generator.module';
 import { UserScheduleAvailabilityModule } from './user-schedule-availability/user-schedule-availability.module';
+import { DashboardRelatedModule } from './dashboard-related/dashboard-related.module';
 
 @Module({
   imports: [
@@ -132,6 +133,7 @@ import { UserScheduleAvailabilityModule } from './user-schedule-availability/use
     GuidelinesModule,
     PasswordGeneratorModule,
     UserScheduleAvailabilityModule,
+    DashboardRelatedModule,
   ],
 })
 export class AppModule {}

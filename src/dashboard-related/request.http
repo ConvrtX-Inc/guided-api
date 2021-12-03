@@ -1,0 +1,4 @@
+curl -X 'GET' \
+  'http://localhost:3000/api/v1/dashboard-related/total-downloads' \
+  -H 'accept: */*' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExODRkOTQxLWIzYTEtNGMxNS1hNTQxLThlODllODliOWM4ZCIsImlhdCI6MTYzODUyNjUzNiwiZXhwIjoxNjM4NjEyOTM2fQ.CrAt6DoL0h8lNbW2JpsJvYfKkPwv2nD2EyyDS9I8oc4'
