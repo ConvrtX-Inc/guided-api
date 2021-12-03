@@ -16,8 +16,8 @@ import { VerifyModule } from 'src/verify/verify.module';
   imports: [
     UsersModule,
     ForgotModule,
+    VerifyModule,
     PassportModule,
-    forwardRef(() => VerifyModule),
     UserTypeModule,
     MailModule,
     JwtModule.registerAsync({

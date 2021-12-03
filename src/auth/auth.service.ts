@@ -26,7 +26,6 @@ import { VerifyService } from 'src/verify/verify.service';
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject(forwardRef(() => VerifyService))
     private jwtService: JwtService,
     private verifyService: VerifyService,
     private usersService: UsersService,
