@@ -56,6 +56,7 @@ import { UserScheduleAvailabilityModule } from './user-schedule-availability/use
 import { ActivityPostModule } from './activity-post/activity-post.module';
 import { ActivityNewsfeedModule } from './activity-newsfeed/activity-newsfeed.module';
 import { ActivityArticleModule } from './activity-article/activity-article.module';
+import { CustomOfferModule } from './custom-offer/custom-offer.module';
 
 @Module({
   imports: [
@@ -138,6 +139,7 @@ import { ActivityArticleModule } from './activity-article/activity-article.modul
     ActivityPostModule,
     ActivityNewsfeedModule,
     ActivityArticleModule,
+    CustomOfferModule,
   ],
 })
 export class AppModule {}
