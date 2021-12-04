@@ -1,6 +1,6 @@
-import { Controller, Request, UseGuards } from '@nestjs/common';
+import { Controller, Request, UseGuards, Get, Param } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Crud, CrudController, Override } from '@nestjsx/crud';
 import { Transaction } from './transaction.entity';
@@ -41,5 +41,11 @@ export class TransactionController implements CrudController<Transaction> {
   @Override()
   async deleteOne(@Request() request) {
     return this.service.softDelete(request.params.id);
+  }
+
+  @ApiOperation({ summary: 'Get the transactions of a guide/partners.' })
+  @Get('byguide/:user_id')      
+  public async getTransactionsByGuide(@Param('user_id') user_id: string) {
+    return this.service.getTransactionsByGuide(user_id);
   }
 }

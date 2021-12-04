@@ -54,6 +54,9 @@ import { GuidelinesModule } from './guidelines/guidelines.module';
 import { PasswordGeneratorModule } from './password-generator/password-generator.module';
 import { UserScheduleAvailabilityModule } from './user-schedule-availability/user-schedule-availability.module';
 import { DashboardRelatedModule } from './dashboard-related/dashboard-related.module';
+import { ActivityPostModule } from './activity-post/activity-post.module';
+import { ActivityNewsfeedModule } from './activity-newsfeed/activity-newsfeed.module';
+import { ActivityArticleModule } from './activity-article/activity-article.module';
 
 @Module({
   imports: [
@@ -134,6 +137,9 @@ import { DashboardRelatedModule } from './dashboard-related/dashboard-related.mo
     PasswordGeneratorModule,
     UserScheduleAvailabilityModule,
     DashboardRelatedModule,
+    ActivityPostModule,
+    ActivityNewsfeedModule,
+    ActivityArticleModule,
   ],
 })
 export class AppModule {}

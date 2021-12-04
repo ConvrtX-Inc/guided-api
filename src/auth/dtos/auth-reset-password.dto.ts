@@ -9,4 +9,8 @@ export class AuthResetPasswordDto {
   @ApiProperty()
   @IsNotEmpty()
   hash: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  phone: number;
 }
