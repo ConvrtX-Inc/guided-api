@@ -5,8 +5,8 @@ import { Crud, CrudController, Override } from '@nestjsx/crud';
 import { ActivityOutfitterService } from './activityOutfitter.service';
 import { ActivityOutfitter } from './entities/activityOutfitter.entity';
 
-// @ApiBearerAuth()
-// @UseGuards(AuthGuard('jwt'))
+@ApiBearerAuth()
+@UseGuards(AuthGuard('jwt'))
 @ApiTags('Activity Outfitter')
 @Crud({
   model: {
