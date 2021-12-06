@@ -50,6 +50,13 @@ import { ActivityOutfitterModule } from './activity-outfitter/activityOutfitter.
 import { ActivityOutfitterImageModule } from './activity-outfitter-image/activityOutfitterImage.module';
 import { ActivityAdvertisementModule } from './activity-advertisement/activityAdvertisement.module';
 import { ActivityAdvertisementImageModule } from './activity-advertisement-image/activityAdvertisementImage.module';
+import { GuidelinesModule } from './guidelines/guidelines.module';
+import { PasswordGeneratorModule } from './password-generator/password-generator.module';
+import { UserScheduleAvailabilityModule } from './user-schedule-availability/user-schedule-availability.module';
+import { ActivityPostModule } from './activity-post/activity-post.module';
+import { ActivityNewsfeedModule } from './activity-newsfeed/activity-newsfeed.module';
+import { ActivityArticleModule } from './activity-article/activity-article.module';
+import { CustomOfferModule } from './custom-offer/custom-offer.module';
 
 @Module({
   imports: [
@@ -126,6 +133,13 @@ import { ActivityAdvertisementImageModule } from './activity-advertisement-image
     ActivityOutfitterImageModule,
     ActivityAdvertisementModule,
     ActivityAdvertisementImageModule,
+    GuidelinesModule,
+    PasswordGeneratorModule,
+    UserScheduleAvailabilityModule,
+    ActivityPostModule,
+    ActivityNewsfeedModule,
+    ActivityArticleModule,
+    CustomOfferModule,
   ],
 })
 export class AppModule {}

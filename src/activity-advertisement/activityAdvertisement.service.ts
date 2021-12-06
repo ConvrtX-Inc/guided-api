@@ -15,4 +15,24 @@ export class ActivityAdvertisementService extends TypeOrmCrudService<ActivityAdv
     async softDelete(id: string): Promise<void> {
       await this.advertisementRepository.softDelete(id);
     }
+
+    async approvedActivityAdvertisement(id: string) {    
+      const post = await this.advertisementRepository.findOne({
+        where: { id: id },
+      });
+      if (post) {
+        post.is_published = true;      
+        await post.save();
+      }
+    }
+
+    async rejectActivityAdvertisement(id: string) {    
+      const post = await this.advertisementRepository.findOne({
+        where: { id: id },
+      });
+      if (post) {
+        post.is_published = false;      
+        await post.save();
+      }
+    }
 }

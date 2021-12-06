@@ -40,4 +40,12 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
   async softDelete(id: number): Promise<void> {
     await this.destinationsRepository.softDelete(id);
   }
+
+  async getTransactionsByGuide(user_id: string) {
+    return this.destinationsRepository.find({
+      where:  {
+        tour_guide_id: user_id,
+      },
+    });    
+  }
 }

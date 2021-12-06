@@ -53,6 +53,11 @@ export class ActivityAdvertisement extends EntityHelper {
     @IsNumber()
     @Column({ nullable: false, type: 'money' })
     price: number;
+  
+    @IsOptional()
+    @ApiProperty({ example: false })
+    @Column({ type: 'bool', nullable: true, default: false })
+    is_published?: boolean;
 
     @CreateDateColumn()
     created_date: Date;

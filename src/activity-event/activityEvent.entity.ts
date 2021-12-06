@@ -1,6 +1,6 @@
 import {Column, DeleteDateColumn, Entity, Generated, PrimaryGeneratedColumn} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional } from 'class-validator';
+import { IsOptional, Allow } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
 @Entity()
 export class ActivityEvent extends EntityHelper {
@@ -49,6 +49,12 @@ export class ActivityEvent extends EntityHelper {
   @ApiProperty({ example: '12.0' })
   @Column({ type: 'decimal', precision: 12, scale: 2, default: 0 })
   price?: string;
+
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: false })
+  @Column({ type: 'bool', nullable: true, default: false })
+  is_published?: boolean;
 
   @IsOptional()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  forwardRef,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../users/user.entity';
 import * as bcrypt from 'bcryptjs';
@@ -14,11 +20,14 @@ import { ForgotService } from 'src/forgot/forgot.service';
 import { MailService } from 'src/mail/mail.service';
 import { AuthSwitchUserTypeDto } from './dtos/switch-user-type.dto';
 import { UserTypeService } from 'src/user-type/userType.service';
+import { AuthForgotPasswordDto } from './dtos/auth-forgot-password.dto';
+import { VerifyService } from 'src/verify/verify.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private jwtService: JwtService,
+    private verifyService: VerifyService,
     private usersService: UsersService,
     private userTypeService: UserTypeService,
     private forgotService: ForgotService,
@@ -204,66 +213,123 @@ export class AuthService {
     await user.save();
   }
 
-  async forgotPassword(email: string): Promise<void> {
-    const user = await this.usersService.findOneEntity({
-      where: {
-        email,
-      },
-    });
+  async forgotPassword(dto: AuthForgotPasswordDto): Promise<void> {
+    let user = null;
+    if (dto.email) {
+      user = await this.usersService.findOneEntity({
+        where: {
+          email: dto.email,
+        },
+      });
+    } else {
+      user = await this.usersService.findOneEntity({
+        where: {
+          phone_no: dto.phone_no,
+        },
+      });
+    }
 
     if (!user) {
       throw new HttpException(
         {
           status: HttpStatus.UNPROCESSABLE_ENTITY,
           errors: {
-            email: 'emailNotExists',
+            user: 'user do not exist',
           },
         },
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     } else {
-      const hash = crypto
-        .createHash('sha256')
-        .update(randomStringGenerator())
-        .digest('hex');
-      await this.forgotService.saveEntity({
-        hash,
-        user,
-      });
-
-      await this.mailService.forgotPassword({
-        to: email,
-        name: user.first_name,
-        data: {
+      if (dto.email) {
+        const hash = crypto
+          .createHash('sha256')
+          .update(randomStringGenerator())
+          .digest('hex');
+        await this.forgotService.saveEntity({
           hash,
-        },
-      });
+          user,
+        });
+
+        await this.mailService.forgotPassword({
+          to: dto.email,
+          name: user.first_name,
+          data: {
+            hash,
+          },
+        });
+      } else {
+        const phone = user.country_code + dto.phone_no;
+        await this.verifyService.sendPhoneVerificationToken({
+          phone_number: phone,
+        });
+      }
     }
   }
 
-  async resetPassword(hash: string, password: string): Promise<void> {
-    const forgot = await this.forgotService.findOneEntity({
-      where: {
-        hash,
-      },
-    });
-
-    if (!forgot) {
-      throw new HttpException(
-        {
-          status: HttpStatus.UNPROCESSABLE_ENTITY,
-          errors: {
-            hash: `notFound`,
-          },
+  async resetPassword(
+    hash: string,
+    password: string,
+    phone: number,
+  ): Promise<void> {
+    let user = null;
+    if (phone) {
+      user = await this.usersService.findOneEntity({
+        where: {
+          phone_no: phone,
         },
-        HttpStatus.UNPROCESSABLE_ENTITY,
-      );
+      });
+      if (!user) {
+        throw new HttpException(
+          {
+            status: HttpStatus.BAD_REQUEST,
+            errors: {
+              user: `User not found`,
+            },
+          },
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      try {
+        const phoneNumber = '+' + user.country_code + user.phone_no;
+        await this.verifyService.CheckPhoneVerificationToken({
+          phone_number: phoneNumber,
+          verifyCode: hash,
+        });
+      } catch (e) {
+        throw new HttpException(
+          {
+            status: HttpStatus.BAD_REQUEST,
+            errors: {
+              msg: `Something went wrong`,
+            },
+          },
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+    } else {
+      const forgot = await this.forgotService.findOneEntity({
+        where: {
+          hash,
+        },
+      });
+
+      if (!forgot) {
+        throw new HttpException(
+          {
+            status: HttpStatus.UNPROCESSABLE_ENTITY,
+            errors: {
+              hash: `notFound`,
+            },
+          },
+          HttpStatus.UNPROCESSABLE_ENTITY,
+        );
+      }
+      user = forgot.user;
+      await this.forgotService.softDelete(forgot.id);
     }
 
-    const user = forgot.user;
     user.password = password;
     await user.save();
-    await this.forgotService.softDelete(forgot.id);
   }
 
   async me(user: User): Promise<User> {
