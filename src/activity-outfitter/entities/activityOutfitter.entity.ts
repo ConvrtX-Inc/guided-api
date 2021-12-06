@@ -1,7 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { CrudValidationGroups } from "@nestjsx/crud";
-import { IsNotEmpty, IsNumber, IsOptional } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional, Validate } from "class-validator";
 import { EntityHelper } from "src/utils/entity-helper";
+import { IsExist } from "src/utils/validators/is-exists.validator";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, Generated, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
@@ -11,9 +12,11 @@ export class ActivityOutfitter extends EntityHelper{
 
     @IsOptional()
     @ApiProperty({ example: 'eae25276-3af3-432c-9c1b-7b7548513015' })
+    @Validate(IsExist, ['User', 'id'], {
+        message: 'User not Found',
+    })
     @Column()
-    @Generated('uuid')
-    user_id?: string;
+    user_id: string;
 
     @ApiProperty({ example: 'Sports Gloves' })
     @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
