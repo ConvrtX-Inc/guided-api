@@ -9,6 +9,6 @@ import { DashboardRelatedService } from './dashboard-related.service';
 @Module({
   controllers: [DashboardRelatedController],
   providers: [DashboardRelatedService],
-  imports: [TypeOrmModule.forFeature([User, Guideline, Transaction])]
+  imports: [TypeOrmModule.forFeature([User, Guideline, Transaction])],
 })
 export class DashboardRelatedModule {}

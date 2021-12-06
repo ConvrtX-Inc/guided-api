@@ -1,7 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { MailService } from 'src/mail/mail.service';
+import { TemporaryPasswordDto } from './dtos/temporary-password.dto';
 
 @Injectable()
 export class PasswordGeneratorService {
+  constructor(private mailService: MailService) {}
+
   generatePassword() {
     var generator = require('generate-password');
 
@@ -11,7 +15,14 @@ export class PasswordGeneratorService {
     });
 
     return {
-      password: randompassword
+      password: randompassword,
     };
+  }
+
+  sendTemporaryPassword(tempPassword: TemporaryPasswordDto) {
+    return this.mailService.sendTempPassword(
+      tempPassword.email,
+      tempPassword.password,
+    );
   }
 }

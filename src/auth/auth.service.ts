@@ -255,7 +255,7 @@ export class AuthService {
           hash,
           user,
         });
-
+        
         await this.mailService.forgotPassword({
           to: dto.email,
           name: user.first_name,

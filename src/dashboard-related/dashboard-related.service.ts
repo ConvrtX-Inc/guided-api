@@ -42,32 +42,18 @@ export class DashboardRelatedService {
 
   async countTotalDownloads() {
     const { exec } = require('child_process');
-    {/*exec('node googledata.js', (error, data, getter) => {
-      if (error) {
-        console.log('error', error.message);
-        return;
-      }
-      if (getter) {
-        console.log('data', data);
-        return;
-      }
-      console.log('data', data);
-    });*/}
 
-    try{
-      const cmd ='node googledata.js';
+    try {
+      const cmd = 'node googledata.js';
       execSync(cmd).toString();
-        
+
       const fs = require('fs');
 
       let rawdata = fs.readFileSync('gdata.json');
       let student = JSON.parse(rawdata);
-      
-      return { downloads: student['maxInstalls'] };
-    }
-    catch{
 
-    }
+      return { downloads: student['maxInstalls'] };
+    } catch {}
   }
 
   recentPosts() {
