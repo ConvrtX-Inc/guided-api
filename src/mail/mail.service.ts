@@ -64,4 +64,17 @@ export class MailService {
       },
     });
   }
+
+  async sendTempPassword(email: string, temp_password: string) {
+    return this.mailerService.sendMail({
+      to: email,
+      subject: 'Temporary Password',
+      template: './temporary-password',
+      context: {
+        title: 'Temporary Password',
+        app_name: this.configService.get('app.name'),
+        text1: temp_password
+      }
+    });
+  }
 }
