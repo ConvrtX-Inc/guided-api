@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { GuidelinesService } from './guidelines.service';
 import { CreateGuidelineDto } from './dto/create-guideline.dto';
 import { UpdateGuidelineDto } from './dto/update-guideline.dto';
@@ -31,7 +41,7 @@ import { Guideline } from './entities/guideline.entity';
 })
 @Controller({
   path: 'guidelines',
-  version: '1'
+  version: '1',
 })
 export class GuidelinesController implements CrudController<Guideline> {
   constructor(public service: GuidelinesService) {}

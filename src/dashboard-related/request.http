@@ -1,0 +1,9 @@
+curl -X 'POST' \
+  'http://localhost:3000/api/v1/password-generator/send-password' \
+  -H 'accept: */*' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExODRkOTQxLWIzYTEtNGMxNS1hNTQxLThlODllODliOWM4ZCIsImlhdCI6MTYzODY5MTcwNSwiZXhwIjoxNjM4Nzc4MTA1fQ.11DQdDSlK_4CCsFNft5EIgNWRMLpVoZ0WTg6dXfESPo' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "email": "angelo.g.serrano@gmail.com",
+  "password": "Password123!"
+}'
