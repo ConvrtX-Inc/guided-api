@@ -41,7 +41,7 @@ import { ActivityEventModule } from './activity-event/activityEvent.module';
 import { UserTypeModule } from './user-type/userType.module';
 import { StatusModule } from './statuses/status.module';
 import { CertificateModule } from './certificate/certificate.module';
-import { BookingRequestModule } from './booking-request/bookingRequest.module';
+import { BookingRequestModule } from './booking-request/booking-request.module';
 import { NotificationModule } from './notification/notification.module';
 import { MessagesModule } from './messages/messages.module';
 import { TransactionModule } from './transaction/transaction.module';
