@@ -10,8 +10,8 @@ import { FindOptions } from 'src/utils/types/find-options.type';
 export class GuidelinesService extends TypeOrmCrudService<Guideline> {
   constructor(
     @InjectRepository(Guideline)
-    private destinationRepository: Repository<Guideline>
-  ){
+    private destinationRepository: Repository<Guideline>,
+  ) {
     super(destinationRepository);
   }
   async findOneEntity(options: FindOptions<Guideline>) {

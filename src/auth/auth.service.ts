@@ -78,6 +78,12 @@ export class AuthService {
         id: user.id,
       });
 
+      //Update is_online status for user
+      const updateIsOnline = await this.usersService.updateOnline(
+        user.id,
+        true,
+      );
+
       return { token, user: user };
     } else {
       throw new HttpException(
@@ -249,7 +255,7 @@ export class AuthService {
           hash,
           user,
         });
-
+        
         await this.mailService.forgotPassword({
           to: dto.email,
           name: user.first_name,
