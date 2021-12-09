@@ -1,7 +1,8 @@
-import {Column, DeleteDateColumn, Entity, Generated, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, DeleteDateColumn, Entity, Generated, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional } from 'class-validator';
+import { Allow, IsOptional } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
+import { Status } from 'src/statuses/status.entity';
 
 @Entity()
 export class BookingRequest extends EntityHelper {
@@ -37,6 +38,12 @@ export class BookingRequest extends EntityHelper {
   @Generated('uuid')
   status_id?: string;
 
+  @ManyToOne(() => Status, {
+    eager: true,
+  })
+  @JoinColumn({ name: 'status_id', referencedColumnName: 'id' })
+  status?: Status;
+
   @IsOptional()
   @ApiProperty({ example: '11/10/21' })
   @Column({ type: 'timestamp' })
@@ -52,6 +59,12 @@ export class BookingRequest extends EntityHelper {
   @Column({ nullable: false })
   number_of_person?: number;
 
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: false })
+  @Column({ type: 'bool', nullable: true, default: false })
+  is_approved?: boolean;
+
   @IsOptional()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_date?: string;
@@ -59,6 +72,7 @@ export class BookingRequest extends EntityHelper {
   @IsOptional()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updated_date?: string;
+
 
   @IsOptional()
   @DeleteDateColumn()
