@@ -15,7 +15,7 @@ import * as crypto from 'crypto';
 import { AuthProvidersEnum } from './auth-providers.enum';
 import { SocialInterface } from 'src/social/interfaces/social.interface';
 import { AuthRegisterLoginDto } from './dtos/auth-register-login.dto';
-import { UsersService } from 'src/users/users.service';
+import { UsersCrudService } from '../users/users-crud.service'
 import { ForgotService } from 'src/forgot/forgot.service';
 import { MailService } from 'src/mail/mail.service';
 import { AuthSwitchUserTypeDto } from './dtos/switch-user-type.dto';
@@ -28,7 +28,7 @@ export class AuthService {
   constructor(
     private jwtService: JwtService,
     private verifyService: VerifyService,
-    private usersService: UsersService,
+    private usersService: UsersCrudService,
     private userTypeService: UserTypeService,
     private forgotService: ForgotService,
     private mailService: MailService,

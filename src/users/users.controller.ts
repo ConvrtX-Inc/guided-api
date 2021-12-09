@@ -4,6 +4,7 @@ import { User } from './user.entity'
 import { UsersService } from './users.service'
 import { AuthGuard } from '@nestjs/passport'
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger'
+import { UsersCrudService } from './users-crud.service'
 
 @ApiBearerAuth()
 // @Roles(RoleEnum.admin)
@@ -45,11 +46,12 @@ import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger'
   version: '1',
 })
 export class UsersController implements CrudController<User> {
-  constructor(public service: UsersService) { }
+  constructor(public service: UsersCrudService, public userService: UsersService) { }
 
   get base(): CrudController<User> {
-    return this;
+    return this
   }
+
   @Override('getOneBase')
   async getOneAndDoStuff(@Request() req) {
     return this.service.getOneBase(req.params.id)
@@ -71,7 +73,7 @@ export class UsersController implements CrudController<User> {
   })
   async updatePassword(@Param('id') id: string, @Request() req) {
     req.body.id = id;
-    return this.service.update(id, req.body)
+    return this.userService.update(id, req.body)
   }
 
   @Patch('/updatePhoneNo')
@@ -85,6 +87,6 @@ export class UsersController implements CrudController<User> {
     }
   })
   async updatePhoneNo(@Request() req) {
-    return this.service.updatePhoneNo(req.body.id, req.body.phone_no)
+    return this.userService.updatePhoneNo(req.body.id, req.body.phone_no)
   }
 }
