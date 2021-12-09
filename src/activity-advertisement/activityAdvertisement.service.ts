@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
-import { FindOptions } from 'src/utils/types/find-options.type';
+import { FindOptions } from '../utils/types/find-options.type';
 import { DeepPartial, Repository } from 'typeorm';
 import { ActivityAdvertisement } from './entities/activityAdvertisement.entity';
 

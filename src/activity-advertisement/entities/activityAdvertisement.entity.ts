@@ -1,8 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { CrudValidationGroups } from "@nestjsx/crud";
 import { IsNotEmpty, IsNumber, IsOptional, Validate } from "class-validator";
-import { EntityHelper } from "src/utils/entity-helper";
-import { IsExist } from "src/utils/validators/is-exists.validator";
+import { EntityHelper } from "../../utils/entity-helper";
+import { IsExist } from "../../utils/validators/is-exists.validator";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, Generated, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 
