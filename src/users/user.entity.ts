@@ -196,6 +196,13 @@ export class User extends EntityHelper {
   @Column({ type: 'bool', nullable: false, default: 'FALSE' })
   is_verified?: boolean;
 
+  
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: true })
+  @Column({ type: 'bool', nullable: false, default: 'FALSE' })
+  is_online?: boolean;
+
   @CreateDateColumn()
   created_date: Date;
 

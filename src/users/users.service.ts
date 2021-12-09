@@ -17,26 +17,32 @@ export class UsersService {
   async update(id: string, data: User) {
     var user = await this.userCrudService.findOneEntity({
       where: {
-        id: id
-      }
-    })
+        id: id,
+      },
+    });
 
     if (data.password.length < 6) {
-      throw new HttpException({
-        status: HttpStatus.UNPROCESSABLE_ENTITY,
-        errors: {
-          'password': 'password must be longer than or equal to 6 characters'
-        }
-      }, HttpStatus.UNPROCESSABLE_ENTITY);
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            password: 'password must be longer than or equal to 6 characters',
+          },
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
     }
 
     if (!user) {
-      throw new HttpException({
-        status: HttpStatus.UNPROCESSABLE_ENTITY,
-        errors: {
-          'user': 'notFound'
-        }
-      }, HttpStatus.UNPROCESSABLE_ENTITY)
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            user: 'notFound',
+          },
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
     }
 
     var previousPassword = user.password;
@@ -88,5 +94,14 @@ export class UsersService {
     user.phone_no = phone_no
 
     await this.usersRepository.update(id, user)
+  }
+
+  updateOnline(id: string, online: boolean) {
+    return this.usersRepository
+      .createQueryBuilder()
+      .update()
+      .set({ is_online: online })
+      .where('id = :id', { id: id })
+      .execute();
   }
 }

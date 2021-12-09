@@ -41,7 +41,7 @@ import { ActivityEventModule } from './activity-event/activityEvent.module';
 import { UserTypeModule } from './user-type/userType.module';
 import { StatusModule } from './statuses/status.module';
 import { CertificateModule } from './certificate/certificate.module';
-import { BookingRequestModule } from './booking-request/bookingRequest.module';
+import { BookingRequestModule } from './booking-request/booking-request.module';
 import { NotificationModule } from './notification/notification.module';
 import { MessagesModule } from './messages/messages.module';
 import { TransactionModule } from './transaction/transaction.module';
@@ -53,6 +53,7 @@ import { ActivityAdvertisementImageModule } from './activity-advertisement-image
 import { GuidelinesModule } from './guidelines/guidelines.module';
 import { PasswordGeneratorModule } from './password-generator/password-generator.module';
 import { UserScheduleAvailabilityModule } from './user-schedule-availability/user-schedule-availability.module';
+import { DashboardRelatedModule } from './dashboard-related/dashboard-related.module';
 import { ActivityPostModule } from './activity-post/activity-post.module';
 import { ActivityNewsfeedModule } from './activity-newsfeed/activity-newsfeed.module';
 import { ActivityArticleModule } from './activity-article/activity-article.module';
@@ -136,6 +137,7 @@ import { CustomOfferModule } from './custom-offer/custom-offer.module';
     GuidelinesModule,
     PasswordGeneratorModule,
     UserScheduleAvailabilityModule,
+    DashboardRelatedModule,
     ActivityPostModule,
     ActivityNewsfeedModule,
     ActivityArticleModule,
