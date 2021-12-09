@@ -11,19 +11,19 @@ import { CustomOffer } from './custom-offer.entity';
 export class CustomOfferService extends TypeOrmCrudService<CustomOffer> {
   constructor(
     @InjectRepository(CustomOffer)
-    private activityPostRepository: Repository<CustomOffer>    
+    private customOfferRepository: Repository<CustomOffer>    
   ) {
-    super(activityPostRepository);
+    super(customOfferRepository);
   }
 
   async findOneEntity(options: FindOptions<CustomOffer>) {
-    return this.activityPostRepository.findOne({
+    return this.customOfferRepository.findOne({
       where: options.where,
     });
   }
 
   async findManyEntities(options: FindOptions<CustomOffer>) {
-    return this.activityPostRepository.find({
+    return this.customOfferRepository.find({
       where: options.where,
     });
   }
@@ -33,13 +33,26 @@ export class CustomOfferService extends TypeOrmCrudService<CustomOffer> {
   }
 
   async saveEntity(data: DeepPartial<CustomOffer>[]) {
-    return this.activityPostRepository.save(this.activityPostRepository.create(data));
+    return this.customOfferRepository.save(this.customOfferRepository.create(data));
   }
 
   async softDelete(id: number): Promise<void> {
-    await this.activityPostRepository.softDelete(id);
+    await this.customOfferRepository.softDelete(id);
   }
  
+  async withdrawOffer(id: string) {
+    const offer = await this.customOfferRepository.findOne({
+      where: { id: id }
+    });
+    if (offer) {
+      offer.is_withdrawn = true;
+      await offer.save();
+    }
+    const data = await this.customOfferRepository.findOne({
+      where: { id: id },
+    });    
+    return data;
+  }
 
 
 }
