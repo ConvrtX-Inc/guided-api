@@ -15,13 +15,16 @@ export class UsersService {
   }
 
   async update(id: string, data: User) {
-    var user = await this.userCrudService.findOneEntity({
-      where: {
-        id: id,
-      },
-    });
+    if (!id) {
+      throw new HttpException({
+        status: HttpStatus.UNPROCESSABLE_ENTITY,
+        errors: {
+          'id': 'Invalid user id'
+        }
+      }, HttpStatus.UNPROCESSABLE_ENTITY)
+    }
 
-    if (data.password.length < 6) {
+    if (!data.password || data.password.length < 6) {
       throw new HttpException(
         {
           status: HttpStatus.UNPROCESSABLE_ENTITY,
@@ -32,6 +35,12 @@ export class UsersService {
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
+
+    var user = await this.userCrudService.findOneEntity({
+      where: {
+        id: id,
+      },
+    });
 
     if (!user) {
       throw new HttpException(

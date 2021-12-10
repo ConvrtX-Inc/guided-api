@@ -118,4 +118,89 @@ describe('Users Service (Unit Test)', () => {
             expect(updateSpy).toHaveBeenCalledTimes(0)
         })
     })
+
+    describe('Update User', () => {
+        it('should successfully update', async () => {
+
+            expect(service).toBeDefined()
+            expect(crudService).toBeDefined()
+            expect(userRepo).toBeDefined()
+
+            let findOneEntitySpy = jest.spyOn(crudService, 'findOneEntity').mockImplementation(async (options: FindOptions<User>) => { return testUser })
+            let updateSpy = jest.spyOn(userRepo, 'update').mockImplementation(async (id: string, user: User) => { return new UpdateResult() })
+
+            testUser.password = '123456'
+            await service.update('123', testUser)
+
+            expect(findOneEntitySpy).toHaveBeenCalled()
+            expect(updateSpy).toHaveBeenCalled()
+        })
+
+        it('should fail if password is not provided', async () => {
+            expect(service).toBeDefined()
+            expect(crudService).toBeDefined()
+            expect(userRepo).toBeDefined()
+
+            let findOneEntitySpy = jest.spyOn(crudService, 'findOneEntity').mockImplementation(async (options: FindOptions<User>) => { return testUser })
+            let updateSpy = jest.spyOn(userRepo, 'update').mockImplementation(async (id: string, user: User) => { return new UpdateResult() })
+
+            await expect(service.update('123', testUser))
+                .rejects
+                .toThrow(HttpException)
+
+            expect(findOneEntitySpy).toHaveBeenCalledTimes(0)
+            expect(updateSpy).toHaveBeenCalledTimes(0)
+        })
+
+        it('should fail if password is not long enough (should be 6 chars)', async () => {
+            expect(service).toBeDefined()
+            expect(crudService).toBeDefined()
+            expect(userRepo).toBeDefined()
+
+            let findOneEntitySpy = jest.spyOn(crudService, 'findOneEntity').mockImplementation(async (options: FindOptions<User>) => { return testUser })
+            let updateSpy = jest.spyOn(userRepo, 'update').mockImplementation(async (id: string, user: User) => { return new UpdateResult() })
+
+            testUser.password = '12345'
+            await expect(service.update('123', testUser))
+                .rejects
+                .toThrow(HttpException)
+
+            expect(findOneEntitySpy).toHaveBeenCalledTimes(0)
+            expect(updateSpy).toHaveBeenCalledTimes(0)
+        })
+
+        it('should fail if id is not specified', async () => {
+            expect(service).toBeDefined()
+            expect(crudService).toBeDefined()
+            expect(userRepo).toBeDefined()
+
+            let findOneEntitySpy = jest.spyOn(crudService, 'findOneEntity').mockImplementation(async (options: FindOptions<User>) => { return testUser })
+            let updateSpy = jest.spyOn(userRepo, 'update').mockImplementation(async (id: string, user: User) => { return new UpdateResult() })
+
+            testUser.id = null
+            await expect(service.update('123', testUser))
+                .rejects
+                .toThrow(HttpException)
+
+            expect(findOneEntitySpy).toHaveBeenCalledTimes(0)
+            expect(updateSpy).toHaveBeenCalledTimes(0)
+        })
+
+        it('should fail if user does not exist', async () => {
+            expect(service).toBeDefined()
+            expect(crudService).toBeDefined()
+            expect(userRepo).toBeDefined()
+
+            let findOneEntitySpy = jest.spyOn(crudService, 'findOneEntity').mockImplementation(async (options: FindOptions<User>) => { return null })
+            let updateSpy = jest.spyOn(userRepo, 'update').mockImplementation(async (id: string, user: User) => { return new UpdateResult() })
+
+            testUser.password = '123456'
+            await expect(service.update('123', testUser))
+                .rejects
+                .toThrow(HttpException)
+
+            expect(findOneEntitySpy).toHaveBeenCalled()
+            expect(updateSpy).toHaveBeenCalledTimes(0)
+        })
+    })
 })
