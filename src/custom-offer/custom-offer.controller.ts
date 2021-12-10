@@ -46,5 +46,11 @@ export class CustomOfferController implements CrudController<CustomOffer> {
     return this;
   }    
 
+  @Post('withdraw/:id')
+  @ApiOperation({ summary: 'Withdraw custom offer.' })
+  @HttpCode(HttpStatus.OK)
+  public async withdrawOffer(@Param('id') id: string) {
+    return this.service.withdrawOffer(id);
+  }
 }
   
