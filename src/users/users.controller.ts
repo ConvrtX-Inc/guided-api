@@ -1,9 +1,10 @@
-import { Controller, Param, Patch, Request, UseGuards, UseInterceptors } from '@nestjs/common';
-import { Crud, CrudController, Override } from '@nestjsx/crud';
-import { User } from './user.entity';
-import { UsersService } from './users.service';
-import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Controller, Param, Patch, Request, UseGuards } from '@nestjs/common'
+import { Crud, CrudController, Override } from '@nestjsx/crud'
+import { User } from './user.entity'
+import { UsersService } from './users.service'
+import { AuthGuard } from '@nestjs/passport'
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger'
+import { UsersCrudService } from './users-crud.service'
 
 @ApiBearerAuth()
 // @Roles(RoleEnum.admin)
@@ -45,19 +46,20 @@ import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
   version: '1',
 })
 export class UsersController implements CrudController<User> {
-  constructor(public service: UsersService) { }
+  constructor(public service: UsersCrudService, public userService: UsersService) { }
 
   get base(): CrudController<User> {
-    return this;
+    return this
   }
+
   @Override('getOneBase')
   async getOneAndDoStuff(@Request() req) {
-    return this.service.getOneBase(req.params.id);
+    return this.service.getOneBase(req.params.id)
   }
 
   @Override()
   async deleteOne(@Request() request) {
-    return this.service.softDelete(request.params.id);
+    return this.service.softDelete(request.params.id)
   }
 
   @Patch('/newpassword/:id')
@@ -71,6 +73,20 @@ export class UsersController implements CrudController<User> {
   })
   async updatePassword(@Param('id') id: string, @Request() req) {
     req.body.id = id;
-    return this.service.update(id, req.body);
+    return this.userService.update(id, req.body)
+  }
+
+  @Patch('/updatePhoneNo')
+  @ApiOperation({ summary: 'Update one User\'s phone no' })
+  @ApiBody({
+    schema: {
+      properties: {
+        'id': { type: 'string' },
+        'phone_no': { type: 'number' }
+      }
+    }
+  })
+  async updatePhoneNo(@Request() req) {
+    return this.userService.updatePhoneNo(req.body.id, req.body.phone_no)
   }
 }

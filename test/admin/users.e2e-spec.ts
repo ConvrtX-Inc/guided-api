@@ -46,6 +46,16 @@ describe('Users admin (e2e)', () => {
       .expect(200);
   });
 
+  it('Change phone no for new user: /api/v1/users/updatePhoneNo (POST)', () => {
+    return request(app)
+      .patch(`/api/v1/users/updatePhoneNo`)
+      .auth(apiToken, {
+        type: 'bearer',
+      })
+      .send({ id: newUserFirst.id, phone_no: 63917000123678})
+      .expect(200);
+  });
+
   it('Login via registered user: /api/v1/auth/email/login (GET)', () => {
     return request(app)
       .post('/api/v1/auth/email/login')

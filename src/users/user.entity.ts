@@ -26,8 +26,8 @@ import { IsNotExist } from '../utils/validators/is-not-exists.validator';
 import { FileEntity } from '../files/file.entity';
 import { IsExist } from '../utils/validators/is-exists.validator';
 import * as bcrypt from 'bcryptjs';
-import { EntityHelper } from 'src/utils/entity-helper';
-import { AuthProvidersEnum } from 'src/auth/auth-providers.enum';
+import { EntityHelper } from '../utils/entity-helper';
+import { AuthProvidersEnum } from '../auth/auth-providers.enum';
 import { CrudValidationGroups } from '@nestjsx/crud';
 import { UserType } from '../user-type/userType.entity';
 
