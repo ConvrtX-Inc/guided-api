@@ -22,13 +22,15 @@ import { AuthSwitchUserTypeDto } from './dtos/switch-user-type.dto';
 import { UserTypeService } from 'src/user-type/userType.service';
 import { AuthForgotPasswordDto } from './dtos/auth-forgot-password.dto';
 import { VerifyService } from 'src/verify/verify.service';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private jwtService: JwtService,
     private verifyService: VerifyService,
-    private usersService: UsersCrudService,
+    private usersCrudService: UsersCrudService,
+    private usersService: UsersService,
     private userTypeService: UserTypeService,
     private forgotService: ForgotService,
     private mailService: MailService,
@@ -38,7 +40,7 @@ export class AuthService {
     loginDto: AuthEmailLoginDto,
     onlyAdmin: boolean,
   ): Promise<{ token: string; user: User }> {
-    const user = await this.usersService.findOneEntity({
+    const user = await this.usersCrudService.findOneEntity({
       where: {
         email: loginDto.email,
       },
@@ -105,13 +107,13 @@ export class AuthService {
     let user: User;
     const socialEmail = socialData.email?.toLowerCase();
 
-    const userByEmail = await this.usersService.findOneEntity({
+    const userByEmail = await this.usersCrudService.findOneEntity({
       where: {
         email: socialEmail,
       },
     });
 
-    user = await this.usersService.findOneEntity({
+    user = await this.usersCrudService.findOneEntity({
       where: {
         socialId: socialData.id,
         provider: authProvider,
@@ -122,7 +124,7 @@ export class AuthService {
       if (socialEmail && !userByEmail) {
         user.email = socialEmail;
       }
-      await this.usersService.saveEntity(user);
+      await this.usersCrudService.saveEntity(user);
     } else if (userByEmail) {
       user = userByEmail;
     } else {
@@ -132,7 +134,7 @@ export class AuthService {
         },
       });
 
-      user = await this.usersService.saveEntity({
+      user = await this.usersCrudService.saveEntity({
         email: socialEmail,
         first_name: socialData.firstName,
         last_name: socialData.lastName,
@@ -141,7 +143,7 @@ export class AuthService {
         user_type_id: userType ? userType.id : '',
       });
 
-      user = await this.usersService.findOneEntity({
+      user = await this.usersCrudService.findOneEntity({
         where: {
           id: user.id,
         },
@@ -179,7 +181,7 @@ export class AuthService {
       });
     }
 
-    const user = await this.usersService.saveEntity({
+    const user = await this.usersCrudService.saveEntity({
       ...dto,
       email: dto.email,
       user_type_id: userType ? userType.id : '',
@@ -196,7 +198,7 @@ export class AuthService {
   }
 
   async confirmEmail(hash: string): Promise<void> {
-    const user = await this.usersService.findOneEntity({
+    const user = await this.usersCrudService.findOneEntity({
       where: {
         hash,
       },
@@ -222,13 +224,13 @@ export class AuthService {
   async forgotPassword(dto: AuthForgotPasswordDto): Promise<void> {
     let user = null;
     if (dto.email) {
-      user = await this.usersService.findOneEntity({
+      user = await this.usersCrudService.findOneEntity({
         where: {
           email: dto.email,
         },
       });
     } else {
-      user = await this.usersService.findOneEntity({
+      user = await this.usersCrudService.findOneEntity({
         where: {
           phone_no: dto.phone_no,
         },
@@ -279,7 +281,7 @@ export class AuthService {
   ): Promise<void> {
     let user = null;
     if (phone) {
-      user = await this.usersService.findOneEntity({
+      user = await this.usersCrudService.findOneEntity({
         where: {
           phone_no: phone,
         },
@@ -339,7 +341,7 @@ export class AuthService {
   }
 
   async me(user: User): Promise<User> {
-    return this.usersService.findOneEntity({
+    return this.usersCrudService.findOneEntity({
       where: {
         id: user.id,
       },
@@ -350,7 +352,7 @@ export class AuthService {
     userType: AuthSwitchUserTypeDto,
     user: User,
   ): Promise<User> {
-    const currentUser = await this.usersService.findOneEntity({
+    const currentUser = await this.usersCrudService.findOneEntity({
       where: {
         id: user.id,
       },
@@ -382,13 +384,13 @@ export class AuthService {
       );
     }
 
-    return this.usersService.getOneBase(user.id);
+    return this.usersCrudService.getOneBase(user.id);
   }
 
   async update(user: User, userDto: AuthUpdateDto): Promise<User> {
     if (userDto.password) {
       if (userDto.oldPassword) {
-        const currentUser = await this.usersService.findOneEntity({
+        const currentUser = await this.usersCrudService.findOneEntity({
           where: {
             id: user.id,
           },
@@ -423,12 +425,12 @@ export class AuthService {
       }
     }
 
-    await this.usersService.saveEntity({
+    await this.usersCrudService.saveEntity({
       id: user.id,
       ...userDto,
     });
 
-    return this.usersService.findOneEntity({
+    return this.usersCrudService.findOneEntity({
       where: {
         id: user.id,
       },
@@ -436,6 +438,6 @@ export class AuthService {
   }
 
   async softDelete(user: User): Promise<void> {
-    await this.usersService.softDelete(user.id);
+    await this.usersCrudService.softDelete(user.id);
   }
 }
