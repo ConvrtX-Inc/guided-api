@@ -203,4 +203,56 @@ describe('Users Service (Unit Test)', () => {
             expect(updateSpy).toHaveBeenCalledTimes(0)
         })
     })
+
+    describe('Update About Text', () => {
+
+        it('should successfully update', async () => {
+
+            expect(service).toBeDefined()
+            expect(crudService).toBeDefined()
+            expect(userRepo).toBeDefined()
+
+            let findOneEntitySpy = jest.spyOn(crudService, 'findOneEntity').mockImplementation(async (options: FindOptions<User>) => { return testUser })
+            let updateSpy = jest.spyOn(userRepo, 'update').mockImplementation(async (id: string, user: User) => { return new UpdateResult() })
+
+            await service.updateAbout('123', 'a valid about text')
+
+            expect(findOneEntitySpy).toHaveBeenCalled()
+            expect(updateSpy).toHaveBeenCalled()
+        })
+
+        it('should fail if user id not specified', async () => {
+
+            expect(service).toBeDefined()
+            expect(crudService).toBeDefined()
+            expect(userRepo).toBeDefined()
+
+            let findOneEntitySpy = jest.spyOn(crudService, 'findOneEntity').mockImplementation(async (options: FindOptions<User>) => { return testUser })
+            let updateSpy = jest.spyOn(userRepo, 'update').mockImplementation(async (id: string, user: User) => { return new UpdateResult() })
+
+            await expect(service.updateAbout(null, 'a valid about text'))
+                .rejects
+                .toThrow(HttpException)
+
+            expect(findOneEntitySpy).toHaveBeenCalledTimes(0)
+            expect(updateSpy).toHaveBeenCalledTimes(0)
+        })
+
+        it('should fail if User not Found', async () => {
+
+            expect(service).toBeDefined()
+            expect(crudService).toBeDefined()
+            expect(userRepo).toBeDefined()
+
+            let findOneEntitySpy = jest.spyOn(crudService, 'findOneEntity').mockImplementation(async (options: FindOptions<User>) => { return null })
+            let updateSpy = jest.spyOn(userRepo, 'update').mockImplementation(async (id: string, user: User) => { return new UpdateResult() })
+
+            await expect(service.updateAbout('123', 'a valid about text'))
+                .rejects
+                .toThrow(HttpException)
+
+            expect(findOneEntitySpy).toHaveBeenCalled()
+            expect(updateSpy).toHaveBeenCalledTimes(0)
+        })
+    })
 })
