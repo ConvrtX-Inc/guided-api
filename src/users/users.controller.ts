@@ -76,7 +76,7 @@ export class UsersController implements CrudController<User> {
     return this.userService.update(id, req.body)
   }
 
-  @Patch('/updatePhoneNo')
+  @Patch('/update-phone-no')
   @ApiOperation({ summary: 'Update one User\'s phone no' })
   @ApiBody({
     schema: {
@@ -88,5 +88,19 @@ export class UsersController implements CrudController<User> {
   })
   async updatePhoneNo(@Request() req) {
     return this.userService.updatePhoneNo(req.body.id, req.body.phone_no)
+  }
+
+  @Patch('/update-about')
+  @ApiOperation({ summary: 'Update one User\'s about text' })
+  @ApiBody({
+    schema: {
+      properties: {
+        'id': { type: 'string' },
+        'about': { type: 'string' }
+      }
+    }
+  })
+  async updateAbout(@Request() req) {
+    return this.userService.updateAbout(req.body.id, req.body.about)
   }
 }

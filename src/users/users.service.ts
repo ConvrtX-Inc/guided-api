@@ -105,6 +105,48 @@ export class UsersService {
     await this.usersRepository.update(id, user)
   }
 
+  async updateAbout(id: string, about: string) {
+    
+    if (!id) {
+      throw new HttpException({
+        status: HttpStatus.UNPROCESSABLE_ENTITY,
+        errors: {
+          'id': 'Invalid user id'
+        }
+      }, HttpStatus.UNPROCESSABLE_ENTITY)
+    }
+
+    if (about && about.length > 5000) {
+      throw new HttpException({
+        status: HttpStatus.UNPROCESSABLE_ENTITY,
+        errors: {
+          'about': 'About text is too long'
+        }
+      }, HttpStatus.UNPROCESSABLE_ENTITY)
+    }
+
+    let user: User = await this.userCrudService.findOneEntity({
+      where: {
+        id: id
+      }
+    })
+
+    if (!user) {
+      throw new HttpException({
+        status: HttpStatus.NOT_FOUND,
+        errors: {
+          'id': 'User not found'
+        }
+      }, HttpStatus.NOT_FOUND)
+    }
+
+    user = new User()
+    user.id = id
+    user.about = about
+
+    await this.usersRepository.update(id, user)
+  }
+
   updateOnline(id: string, online: boolean) {
     return this.usersRepository
       .createQueryBuilder()
