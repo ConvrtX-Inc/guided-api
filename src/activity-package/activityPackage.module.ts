@@ -8,5 +8,6 @@ import { ActivityPackage } from './activityPackage.entity';
   controllers: [ActivityPackageController],
   providers: [ActivityPackageService],
   imports: [TypeOrmModule.forFeature([ActivityPackage])],
+  exports: [ActivityPackageService],
 })
 export class ActivityPackageModule {}

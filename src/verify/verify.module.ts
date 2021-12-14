@@ -7,5 +7,6 @@ import { UsersModule } from 'src/users/users.module';
   controllers: [VerifyController],
   providers: [VerifyService],
   imports: [UsersModule],
+  exports: [VerifyService],
 })
 export class VerifyModule {}

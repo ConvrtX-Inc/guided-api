@@ -3,13 +3,13 @@ import { InjectTwilio, TwilioClient } from 'nestjs-twilio';
 import { CheckVerificationTokenDTO } from './dto/CheckVerificationToken.dto';
 import { SendVerificationTokenDTO } from './dto/SendVerificationToken.dto';
 import { Verify } from './verify.model';
-import { UsersService } from 'src/users/users.service';
+import { UsersCrudService } from 'src/users/users-crud.service';
 
 @Injectable()
 export class VerifyService {
   constructor(
     @InjectTwilio() private readonly client: TwilioClient,
-    private usersService: UsersService,
+    private usersCrudService: UsersCrudService,
   ) {}
 
   async sendPhoneVerificationToken(
@@ -48,7 +48,7 @@ export class VerifyService {
           code: request.verifyCode,
         });
 
-      const user = await this.usersService.findOneEntity({
+      const user = await this.usersCrudService.findOneEntity({
         where: {
           phone_no: request.phone_number,
         },

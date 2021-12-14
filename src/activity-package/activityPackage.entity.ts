@@ -122,6 +122,12 @@ export class ActivityPackage extends EntityHelper {
   @Column({ type: 'text', nullable: true })
   price_note?: number;
 
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: false })
+  @Column({ type: 'bool', nullable: true, default: false })
+  is_published?: boolean;
+
   @IsOptional()
   @DeleteDateColumn()
   deletedAt: Date;

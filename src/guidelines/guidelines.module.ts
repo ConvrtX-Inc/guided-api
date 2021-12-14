@@ -7,6 +7,6 @@ import { Guideline } from './entities/guideline.entity';
 @Module({
   controllers: [GuidelinesController],
   providers: [GuidelinesService],
-  imports: [TypeOrmModule.forFeature([Guideline])]
+  imports: [TypeOrmModule.forFeature([Guideline])],
 })
 export class GuidelinesModule {}

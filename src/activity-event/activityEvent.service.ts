@@ -33,4 +33,24 @@ export class ActivityEventService extends TypeOrmCrudService<ActivityEvent> {
   async softDelete(id: number): Promise<void> {
     await this.activityRepository.softDelete(id);
   }
+
+  async approvedEvent(id: string) {    
+    const post = await this.activityRepository.findOne({
+      where: { id: id },
+    });
+    if (post) {
+      post.is_published = true;      
+      await post.save();
+    }
+  }
+
+  async rejectEvent(id: string) {    
+    const post = await this.activityRepository.findOne({
+      where: { id: id },
+    });
+    if (post) {
+      post.is_published = false;      
+      await post.save();
+    }
+  }  
 }

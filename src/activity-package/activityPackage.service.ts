@@ -33,4 +33,33 @@ export class ActivityPackageService extends TypeOrmCrudService<ActivityPackage> 
   async softDelete(id: number): Promise<void> {
     await this.activityRepository.softDelete(id);
   }
+
+  async getActivityPackageByUser(user_id: string) {
+    return this.activityRepository.find({
+      where:  {
+        user_id: user_id,
+      },
+    });    
+  }
+
+  async approvedActivityPackage(id: string) {    
+    const post = await this.activityRepository.findOne({
+      where: { id: id },
+    });
+    if (post) {
+      post.is_published = true;      
+      await post.save();
+    }
+  }
+
+  async rejectActivityPackage(id: string) {    
+    const post = await this.activityRepository.findOne({
+      where: { id: id },
+    });
+    if (post) {
+      post.is_published = false;      
+      await post.save();
+    }
+  }
+
 }
