@@ -4,12 +4,15 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import * as bcrypt from 'bcryptjs'
 import { UsersCrudService } from './users-crud.service'
+import { FileEntity } from '../files/file.entity'
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    @InjectRepository(FileEntity)
+    private fileRepository: Repository<FileEntity>,
     private userCrudService: UsersCrudService
   ) {
   }
@@ -143,6 +146,59 @@ export class UsersService {
     user = new User()
     user.id = id
     user.about = about
+
+    await this.usersRepository.update(id, user)
+  }
+
+  async updatePhoto(id: string, file_id: string) {
+    
+    if (!id) {
+      throw new HttpException({
+        status: HttpStatus.UNPROCESSABLE_ENTITY,
+        errors: {
+          'id': 'User id is required'
+        }
+      }, HttpStatus.UNPROCESSABLE_ENTITY)
+    }
+
+    if (!file_id) {
+      throw new HttpException({
+        status: HttpStatus.UNPROCESSABLE_ENTITY,
+        errors: {
+          'about': 'File id is required'
+        }
+      }, HttpStatus.UNPROCESSABLE_ENTITY)
+    }
+
+    let user: User = await this.userCrudService.findOneEntity({
+      where: {
+        id: id
+      }
+    })
+
+    if (!user) {
+      throw new HttpException({
+        status: HttpStatus.NOT_FOUND,
+        errors: {
+          'id': 'User not found'
+        }
+      }, HttpStatus.NOT_FOUND)
+    }
+
+    let file: FileEntity = await this.fileRepository.findOne(file_id)
+
+    if (!file) {
+      throw new HttpException({
+        status: HttpStatus.NOT_FOUND,
+        errors: {
+          'file_id': 'File not found'
+        }
+      }, HttpStatus.NOT_FOUND)
+    }
+
+    user = new User()
+    user.id = id
+    user.photo = file
 
     await this.usersRepository.update(id, user)
   }
