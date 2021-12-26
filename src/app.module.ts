@@ -59,6 +59,7 @@ import { ActivityNewsfeedModule } from './activity-newsfeed/activity-newsfeed.mo
 import { ActivityArticleModule } from './activity-article/activity-article.module';
 import { CustomOfferModule } from './custom-offer/custom-offer.module';
 import { CardModule } from './card/card.module';
+import { UserReviewModule } from './user-review/user-review.module';
 
 @Module({
   imports: [
@@ -144,6 +145,7 @@ import { CardModule } from './card/card.module';
     ActivityArticleModule,
     CustomOfferModule,
     CardModule,
+    UserReviewModule
   ],
 })
 export class AppModule {}
