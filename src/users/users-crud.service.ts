@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { FindOptions } from '../utils/types/find-options.type'
 import { DeepPartial } from '../utils/types/deep-partial.type'
-import { UserTypeService } from '../user-type/userType.service'
+import { UserTypeService } from '../user-type/user-type.service'
 
 @Injectable()
 export class UsersCrudService extends TypeOrmCrudService<User> {

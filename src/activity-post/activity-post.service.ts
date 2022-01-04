@@ -7,12 +7,12 @@ import { DeepPartial } from '../utils/types/deep-partial.type';
 
 import { ActivityPost } from './activity-post.entity';
 import { CategoryPost } from './category-post';
-import { ActivityPackageService } from '../activity-package/activityPackage.service';
+import { ActivityPackageService } from '../activity-package/activity-package.service';
 import { ActivityNewsfeedService } from '../activity-newsfeed/activity-newsfeed.service';
-import { ActivityEventService } from '../activity-event/activityEvent.service';
+import { ActivityEventService } from '../activity-event/activity-event.service';
 import { ActivityArticleService } from '../activity-article/activity-article.service';
-import { ActivityAdvertisementService } from '../activity-advertisement/activityAdvertisement.service';
-import { ActivityOutfitterService } from '../activity-outfitter/activityOutfitter.service';
+import { ActivityAdvertisementService } from '../activity-advertisement/activity-advertisement.service';
+import { ActivityOutfitterService } from '../activity-outfitter/activity-outfitter.service';
 
 @Injectable()
 export class ActivityPostService extends TypeOrmCrudService<ActivityPost> {
