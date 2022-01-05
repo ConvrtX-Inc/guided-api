@@ -1,7 +1,8 @@
 import {Column, DeleteDateColumn, Entity, Generated, PrimaryGeneratedColumn} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional } from 'class-validator';
+import { IsOptional, Validate } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
+import { IsExist } from '../utils/validators/is-exists.validator';
 @Entity()
 export class ActivityPackageDestination extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
@@ -9,8 +10,10 @@ export class ActivityPackageDestination extends EntityHelper {
 
   @IsOptional()
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
+  @Validate(IsExist, ['ActivityPackage', 'id'], {
+    message: 'Activity Package not found',
+  })
   @Column()
-  @Generated('uuid')
   activity_package_id?: string;
 
   @IsOptional()

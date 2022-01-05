@@ -1,7 +1,9 @@
 import {Column, DeleteDateColumn, Entity, Generated, PrimaryGeneratedColumn} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Allow, IsOptional } from 'class-validator';
+import { Allow, IsOptional, Validate } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
+import { IsExist } from '../utils/validators/is-exists.validator';
+import { Transform } from 'class-transformer';
 @Entity()
 export class ActivityPackage extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
@@ -9,8 +11,11 @@ export class ActivityPackage extends EntityHelper {
 
   @IsOptional()
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
+  @Transform((value: string | null) => (value == '' ? null : value))
+  @Validate(IsExist, ['User', 'id'], {
+    message: 'User not Found',
+  })
   @Column()
-  @Generated('uuid')
   user_id?: string;
 
   @IsOptional()

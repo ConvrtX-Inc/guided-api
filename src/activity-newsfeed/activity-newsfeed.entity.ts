@@ -20,8 +20,10 @@ export class ActivityNewsfeed extends EntityHelper {
 
   @IsOptional()
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
+  @Validate(IsExist, ['Badge', 'id'], {
+    message: 'Badge not found',
+  })
   @Column()
-  @Generated('uuid')
   badge_id?: string;
 
   @IsOptional()
