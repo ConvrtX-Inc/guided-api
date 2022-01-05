@@ -1,11 +1,11 @@
-import { Column, Entity, Generated, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, DeleteDateColumn, Entity, Generated, PrimaryGeneratedColumn} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Allow, IsOptional, Validate } from 'class-validator';
+import { IsOptional, Allow, Validate } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { IsExist } from '../utils/validators/is-exists.validator';
 import { Transform } from 'class-transformer';
 @Entity()
-export class ActivityNewsfeed extends EntityHelper {
+export class ActivityEvent extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -15,8 +15,8 @@ export class ActivityNewsfeed extends EntityHelper {
   @Validate(IsExist, ['User', 'id'], {
     message: 'User not Found',
   })
-  @Column({ nullable: true })
-  user_id?: string | null;
+  @Column()
+  user_id?: string;
 
   @IsOptional()
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
@@ -32,8 +32,18 @@ export class ActivityNewsfeed extends EntityHelper {
   title?: string;
 
   @IsOptional()
+  @ApiProperty({ example: 'Country' })
+  @Column({ type: 'char', nullable: false, length: 10 })
+  country?: string;
+
+  @IsOptional()
+  @ApiProperty({ example: '{address: "USA"}' })
+  @Column('simple-json')
+  address?: { address: string };
+
+  @IsOptional()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  news_date?: string;
+  event_date?: string;
 
   @IsOptional()
   @ApiProperty({ example: 'Description' })
@@ -42,12 +52,17 @@ export class ActivityNewsfeed extends EntityHelper {
   })
   description?: string;
 
+  @IsOptional()
+  @ApiProperty({ example: '12.0' })
+  @Column({ type: 'decimal', precision: 12, scale: 2, default: 0 })
+  price?: string;
+
   @Allow()
   @IsOptional()
   @ApiProperty({ example: false })
   @Column({ type: 'bool', nullable: true, default: false })
   is_published?: boolean;
-  
+
   @IsOptional()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_date?: string;
@@ -56,4 +71,7 @@ export class ActivityNewsfeed extends EntityHelper {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updated_date?: string;
 
+  @IsOptional()
+  @DeleteDateColumn()
+  deletedAt: Date;
 }

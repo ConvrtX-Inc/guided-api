@@ -1,6 +1,6 @@
 import { Factory, Seeder } from 'typeorm-seeding';
 import { Connection } from 'typeorm';
-import { UserType } from 'src/user-type/userType.entity';
+import { UserType } from 'src/user-type/user-type.entity';
 
 export default class CreateUserType implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<void> {

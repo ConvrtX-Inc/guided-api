@@ -29,7 +29,7 @@ import * as bcrypt from 'bcryptjs';
 import { EntityHelper } from '../utils/entity-helper';
 import { AuthProvidersEnum } from '../auth/auth-providers.enum';
 import { CrudValidationGroups } from '@nestjsx/crud';
-import { UserType } from '../user-type/userType.entity';
+import { UserType } from '../user-type/user-type.entity';
 
 @Entity()
 export class User extends EntityHelper {
