@@ -60,6 +60,10 @@ import { ActivityArticleModule } from './activity-article/activity-article.modul
 import { CustomOfferModule } from './custom-offer/custom-offer.module';
 import { CardModule } from './card/card.module';
 import { UserReviewModule } from './user-review/user-review.module';
+import { ParticipantModule } from './messenger/participant/participant.module';
+import { RoomModule } from './messenger/room/room.module';
+import { MessageModule } from './messenger/message/message.module';
+import { MessageDetailModule } from './messenger/message-detail/message-detail.module';
 
 @Module({
   imports: [
@@ -145,7 +149,11 @@ import { UserReviewModule } from './user-review/user-review.module';
     ActivityArticleModule,
     CustomOfferModule,
     CardModule,
-    UserReviewModule
+    UserReviewModule,
+    ParticipantModule,
+    RoomModule,
+    MessageModule,
+    MessageDetailModule
   ],
 })
 export class AppModule {}

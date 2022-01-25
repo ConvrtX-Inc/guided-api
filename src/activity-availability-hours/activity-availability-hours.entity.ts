@@ -2,7 +2,6 @@ import {
   Column,
   DeleteDateColumn,
   Entity,
-  Generated,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
