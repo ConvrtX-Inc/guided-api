@@ -41,4 +41,3 @@ lerna-debug.log*
 
 /ormconfig.json
 package-lock.json
-yarn.lock
