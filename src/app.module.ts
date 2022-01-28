@@ -31,14 +31,14 @@ import { HomeModule } from './home/home.module';
 import { CurrencyModule } from './currency/currency.module';
 import { VerifyModule } from './verify/verify.module';
 import { BadgeModule } from './badge/badge.module';
-import { ActivityPackageModule } from './activity-package/activityPackage.module';
-import { ActivityPackageDestinationModule } from './activity-package-destination/activityPackageDestination.module';
-import { ActivityPackageDestinationImageModule } from './activity-package-destination-image/activityPackageDestinationImage.module';
-import { ActivityAvailabilityModule } from './activity-availability/activityAvailability.module';
-import { ActivityAvailabilityHoursModule } from './activity-availability-hours/activityAvailabilityHours.module';
-import { ActivityPackageFormsModule } from './activity-package-forms/activityPackageForms.module';
-import { ActivityEventModule } from './activity-event/activityEvent.module';
-import { UserTypeModule } from './user-type/userType.module';
+import { ActivityPackageModule } from './activity-package/activity-package.module';
+import { ActivityPackageDestinationModule } from './activity-package-destination/activity-package-destination.module';
+import { ActivityPackageDestinationImageModule } from './activity-package-destination-image/activity-package-destination-image.module';
+import { ActivityAvailabilityModule } from './activity-availability/activity-availability.module';
+import { ActivityAvailabilityHoursModule } from './activity-availability-hours/activity-availability-hours.module';
+import { ActivityPackageFormsModule } from './activity-package-forms/activity-package-forms.module';
+import { ActivityEventModule } from './activity-event/activity-event.module';
+import { UserTypeModule } from './user-type/user-type.module';
 import { StatusModule } from './statuses/status.module';
 import { CertificateModule } from './certificate/certificate.module';
 import { BookingRequestModule } from './booking-request/booking-request.module';
@@ -46,10 +46,10 @@ import { NotificationModule } from './notification/notification.module';
 import { MessagesModule } from './messages/messages.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { OfferModule } from './offer/offer.module';
-import { ActivityOutfitterModule } from './activity-outfitter/activityOutfitter.module';
-import { ActivityOutfitterImageModule } from './activity-outfitter-image/activityOutfitterImage.module';
-import { ActivityAdvertisementModule } from './activity-advertisement/activityAdvertisement.module';
-import { ActivityAdvertisementImageModule } from './activity-advertisement-image/activityAdvertisementImage.module';
+import { ActivityOutfitterModule } from './activity-outfitter/activity-outfitter.module';
+import { ActivityOutfitterImageModule } from './activity-outfitter-image/activity-outfitter-image.module';
+import { ActivityAdvertisementModule } from './activity-advertisement/activity-advertisement.module';
+import { ActivityAdvertisementImageModule } from './activity-advertisement-image/activity-advertisement-image.module';
 import { GuidelinesModule } from './guidelines/guidelines.module';
 import { PasswordGeneratorModule } from './password-generator/password-generator.module';
 import { UserScheduleAvailabilityModule } from './user-schedule-availability/user-schedule-availability.module';
@@ -59,6 +59,11 @@ import { ActivityNewsfeedModule } from './activity-newsfeed/activity-newsfeed.mo
 import { ActivityArticleModule } from './activity-article/activity-article.module';
 import { CustomOfferModule } from './custom-offer/custom-offer.module';
 import { CardModule } from './card/card.module';
+import { UserReviewModule } from './user-review/user-review.module';
+import { ParticipantModule } from './messenger/participant/participant.module';
+import { RoomModule } from './messenger/room/room.module';
+import { MessageModule } from './messenger/message/message.module';
+import { MessageDetailModule } from './messenger/message-detail/message-detail.module';
 
 @Module({
   imports: [
@@ -144,6 +149,11 @@ import { CardModule } from './card/card.module';
     ActivityArticleModule,
     CustomOfferModule,
     CardModule,
+    UserReviewModule,
+    ParticipantModule,
+    RoomModule,
+    MessageModule,
+    MessageDetailModule
   ],
 })
 export class AppModule {}

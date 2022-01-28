@@ -19,7 +19,7 @@ import { UsersCrudService } from '../users/users-crud.service'
 import { ForgotService } from 'src/forgot/forgot.service';
 import { MailService } from 'src/mail/mail.service';
 import { AuthSwitchUserTypeDto } from './dtos/switch-user-type.dto';
-import { UserTypeService } from 'src/user-type/userType.service';
+import { UserTypeService } from 'src/user-type/user-type.service';
 import { AuthForgotPasswordDto } from './dtos/auth-forgot-password.dto';
 import { VerifyService } from 'src/verify/verify.service';
 import { UsersService } from 'src/users/users.service';
