@@ -16,12 +16,21 @@ import { AuthGuard } from '@nestjs/passport';
     maxLimit: 50,
     alwaysPaginate: false,
   },
+  params: {
+    id: {
+      type: 'uuid',
+      primary: true,
+      field: 'id',
+    },
+  },
 })
 @Controller({
   path: 'activity-outfitter-image',
   version: '1',
 })
-export class ActivityOutfitterImageController implements CrudController<ActivityOutfitterImage>{
+export class ActivityOutfitterImageController
+  implements CrudController<ActivityOutfitterImage>
+{
   constructor(readonly service: ActivityOutfitterImageService) {}
 
   get base(): CrudController<ActivityOutfitterImage> {
