@@ -64,4 +64,9 @@ export class AuthRegisterLoginDto {
   @IsOptional()
   @ApiProperty({ example: 'Guide' })
   user_type?: string;
+
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: true })
+  is_traveller?: boolean;
 }
