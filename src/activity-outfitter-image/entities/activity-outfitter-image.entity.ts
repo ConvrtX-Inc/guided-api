@@ -21,15 +21,6 @@ export class ActivityOutfitterImage extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-<<<<<<< HEAD
-    @IsOptional()
-    @ApiProperty({ example: 'eae25276-3af3-432c-9c1b-7b7548513015' })
-    @Validate(IsExist, ['ActivityOutfitter', 'id'], {
-        message: 'Activity Outfitter not found',
-    })
-    @Column({nullable: true, type: 'uuid'})
-    activity_outfitter_id: string;
-=======
   @IsOptional()
   @ApiProperty({ example: 'eae25276-3af3-432c-9c1b-7b7548513015' })
   @Transform((value: string | null) => (value == '' ? null : value))
@@ -38,7 +29,6 @@ export class ActivityOutfitterImage extends EntityHelper {
   })
   @Column({ nullable: true })
   activity_outfitter_id: string | null;
->>>>>>> c2f85d6519174227674ef69581d2fd2218e7feff
 
   @Allow()
   @IsOptional()
