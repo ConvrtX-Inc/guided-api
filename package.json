@@ -47,6 +47,7 @@
     "@nestjsx/crud-typeorm": "4.6.2",
     "apple-signin-auth": "1.5.1",
     "aws-sdk": "2.1003.0",
+    "base64-arraybuffer-converter": "^1.0.3",
     "bcryptjs": "2.4.3",
     "buffer": "^6.0.3",
     "class-transformer": "0.3.1",
