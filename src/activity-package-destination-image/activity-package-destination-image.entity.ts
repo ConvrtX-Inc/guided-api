@@ -14,9 +14,7 @@ export class ActivityPackageDestinationImage extends EntityHelper {
   @Validate(IsExist, ['ActivityPackageDestination', 'id'], {
     message: 'Activity Package destination not found',
   })
-  @Column({
-    nullable: false,
-  })
+  @Column({ nullable: true, type: 'uuid' })
   activity_package_destination_id?: string;
 
   @Allow()

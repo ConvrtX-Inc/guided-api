@@ -14,7 +14,11 @@ export class ActivityAdvertisementImage extends EntityHelper {
     @Validate(IsExist, ['ActivityAdvertisement', 'id'], {
         message: 'Activity advertisement not found',
     })
-    @Column()
+    @Column(
+       {
+        nullable: true,
+       } 
+    )
     activity_advertisement_id: string;
 
     @Allow()

@@ -1,10 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { ActivityPackage } from './activity-package.entity';
+import { ActivityAvailability } from '../activity-availability/activity-availability.entity';
+import { ActivityAvailabilityHours } from '../activity-availability-hours/activity-availability-hours.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptions } from '../utils/types/find-options.type';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { DeepPartial } from '../utils/types/deep-partial.type';
+import { ActivityPackageDestination } from '../activity-package-destination/activity-package-destination.entity';
+import { ActivityPackageDestinationImage } from '../activity-package-destination-image/activity-package-destination-image.entity';
 
 @Injectable()
 export class ActivityPackageService extends TypeOrmCrudService<ActivityPackage> {
@@ -47,19 +51,35 @@ export class ActivityPackageService extends TypeOrmCrudService<ActivityPackage> 
       where: { id: id },
     });
     if (post) {
-      post.is_published = true;      
+      post.is_published = true;
       await post.save();
     }
   }
 
-  async rejectActivityPackage(id: string) {    
+  async rejectActivityPackage(id: string) {
     const post = await this.activityRepository.findOne({
       where: { id: id },
     });
     if (post) {
-      post.is_published = false;      
+      post.is_published = false;
       await post.save();
     }
+  }
+
+  async getActivityPackageBySearchText(text: string) {
+    return this.activityRepository.createQueryBuilder('activity')
+    .where('activity.name LIKE :name', {name: `%${text}%`})
+    .orWhere('activity.description LIKE :description', {description: `%${text}%`})
+    .orWhere('activity.address LIKE :address', {address: `%${text}%`})
+    .getMany();
+  }
+
+  async checkActivityAvailability(id: string) {
+    return this.activityRepository.createQueryBuilder('activity')
+    .leftJoinAndMapMany('activity.availability', ActivityAvailability, 'availability', 'activity.id = availability.activity_package_id')
+    .leftJoinAndMapMany('activity.availabilityHours', ActivityAvailabilityHours, 'availabilityHours', 'activity.id = availabilityHours.activity_availability_id')
+    .where('activity.id = :id', { id: id })
+    .getMany();
   }
 
 }

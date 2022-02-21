@@ -1,11 +1,11 @@
-import { Column, DeleteDateColumn, Entity, Generated, PrimaryGeneratedColumn} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Allow, IsOptional, Validate } from 'class-validator';
+import { IsOptional, Validate } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { IsExist } from '../utils/validators/is-exists.validator';
 import { Transform } from 'class-transformer';
 @Entity()
-export class ActivityPost extends EntityHelper {
+export class UserProfileQuestion extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -15,29 +15,20 @@ export class ActivityPost extends EntityHelper {
   @Validate(IsExist, ['User', 'id'], {
     message: 'User not Found',
   })
-  @Column({nullable: true, type: 'uuid'})
+  @Column({ nullable: true })
   user_id?: string | null;
 
   @IsOptional()
-  @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
-  @Column()
-  @Generated('uuid')
-  post_id?: string; //id is dynamic based on the category type table
+  @ApiProperty({ example: 'Why do you think you will be a good Guide ?' })
+  @Column({ length: 250 })
+  question: string;
 
-  @Allow()
   @IsOptional()
-  @ApiProperty({ example: 1 })
+  @ApiProperty({ example: 'sample answer...' })
   @Column({
-    type: 'smallint',
-    nullable: false,
+    type: 'text',
   })
-  category_type?: number;
-  
-  @Allow()
-  @IsOptional()
-  @ApiProperty({ example: false })
-  @Column({ type: 'bool', nullable: true, default: false })
-  is_published?: boolean;
+  answer?: string;
   
   @IsOptional()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

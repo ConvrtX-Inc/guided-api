@@ -15,7 +15,7 @@ export class ActivityOutfitter extends EntityHelper{
     @Validate(IsExist, ['User', 'id'], {
         message: 'User not Found',
     })
-    @Column()
+    @Column({nullable: true, type: 'uuid'})
     user_id: string;
 
     @ApiProperty({ example: 'Sports Gloves' })

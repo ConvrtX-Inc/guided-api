@@ -211,4 +211,14 @@ export class UsersService {
       .where('id = :id', { id: id })
       .execute();
   }
+
+  updateAsGuide(id: string, is_guide: boolean) {
+    return this.usersRepository
+      .createQueryBuilder()
+      .update()
+      .set({ is_guide: is_guide })
+      .where('id = :id', { id: id })
+      .execute();
+  }
+
 }

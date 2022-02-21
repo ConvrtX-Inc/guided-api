@@ -65,4 +65,16 @@ export class ActivityPackageController
     return this.service.rejectActivityPackage(id);
   }
 
+  @ApiOperation({ summary: 'Search activity packages (name, description, and address)' })
+  @Get('search/:searchText')
+  public async getActivityPackageBySearchText(@Param('searchText') text: string) {
+    return this.service.getActivityPackageBySearchText(text);
+  }
+
+  @ApiOperation({ summary: 'Check activity availability by activity ID' })
+  @Get('availability/:id')
+  public async checkActivityAvailability(@Param('id') id: string) {
+    return this.service.checkActivityAvailability(id);
+  }
+
 }

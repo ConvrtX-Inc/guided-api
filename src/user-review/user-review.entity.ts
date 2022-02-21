@@ -11,14 +11,14 @@ export class UserReview extends EntityHelper {
   id: string;
 
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
-  @Column({ nullable: false })
+  @Column({ type: 'uuid', nullable: false })
   @Validate(IsExist, ['User', 'id'], {
     message: 'User not Found',
   })
   tourist_user_id: string;
 
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ad' })
-  @Column({ nullable: false })
+  @Column({ type: 'uuid', nullable: false })
   @Validate(IsExist, ['User', 'id'], {
     message: 'User not Found',
   })

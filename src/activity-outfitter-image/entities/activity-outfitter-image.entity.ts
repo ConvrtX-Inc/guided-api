@@ -14,7 +14,7 @@ export class ActivityOutfitterImage extends EntityHelper {
     @Validate(IsExist, ['ActivityOutfitter', 'id'], {
         message: 'Activity Outfitter not found',
     })
-    @Column()
+    @Column({nullable: true, type: 'uuid'})
     activity_outfitter_id: string;
 
     @Allow()

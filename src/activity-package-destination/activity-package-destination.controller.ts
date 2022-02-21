@@ -1,12 +1,12 @@
-import { Controller, Request, UseGuards } from '@nestjs/common';
+import { Controller, Request, UseGuards, Get, Param } from '@nestjs/common';
 import { ActivityPackageDestinationService } from './activity-package-destination.service';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Crud, CrudController, Override } from '@nestjsx/crud';
 import { ActivityPackageDestination } from './activity-package-destination.entity';
 
-@ApiBearerAuth()
-@UseGuards(AuthGuard('jwt'))
+// @ApiBearerAuth()
+// @UseGuards(AuthGuard('jwt'))
 @ApiTags('Activities Package Destinations')
 @Crud({
   model: {

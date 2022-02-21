@@ -2,6 +2,7 @@ import {
     Controller,  
     UseGuards,
     Post,
+    Get,
     HttpCode,
     HttpStatus,
     Param
@@ -44,7 +45,7 @@ import {
     
     get base(): CrudController<ActivityNewsfeed> {
       return this;
-    }    
+    }
 
     @ApiOperation({ summary: 'Approved a newsfeed.' })
     @Post('approved-newsfeed/:id')
@@ -60,5 +61,17 @@ import {
       return this.service.rejectNewsfeed(id);
     }
 
+    @ApiOperation({ summary: 'Get Newsfeed list' })
+    @Get('list/')
+    public async getActivityNewsfeedList() {
+      return this.service.getActivityNewsfeedList();
+    }
+    
+    @ApiOperation({ summary: 'Get Newsfeed detail' })
+    @Get('detail/:id')
+    public async getActivityNewsfeedDetail(@Param('id') id: string) {
+      return this.service.getActivityNewsfeedDetail(id);
+    }
+    
   }
     
