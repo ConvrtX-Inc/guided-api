@@ -6,6 +6,9 @@ import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { DeepPartial } from '../utils/types/deep-partial.type';
 
 import { ActivityNewsfeed } from './activity-newsfeed.entity';
+import { Badge } from '../badge/badge.entity';
+import { ActivityPost } from '../activity-post/activity-post.entity';
+import { User } from '../users/user.entity';
 
 @Injectable()
 export class ActivityNewsfeedService extends TypeOrmCrudService<ActivityNewsfeed> {
@@ -55,8 +58,33 @@ export class ActivityNewsfeedService extends TypeOrmCrudService<ActivityNewsfeed
       where: { id: id },
     });
     if (post) {
-      post.is_published = false;      
+      post.is_published = false;
       await post.save();
     }
   }
+
+  async getActivityNewsfeedList() {
+    return this.activityPostRepository.createQueryBuilder('newsfeed')
+    .leftJoinAndMapOne('newsfeed.badge', Badge, 'badge', 'badge.id = newsfeed.badge_id')
+    .where('newsfeed.is_published = true')
+    .getMany();
+  }
+
+  async getActivityNewsfeedDetail(id: string){
+  return this.activityPostRepository.createQueryBuilder('newsfeed')
+    .leftJoinAndMapOne('newsfeed.badge', Badge, 'badge', 'badge.id = newsfeed.badge_id')
+    .leftJoinAndMapOne('newsfeed.post', ActivityPost, 'post', 'newsfeed.id = post.post_id')
+    .leftJoinAndMapOne('post.publisher', User, 'publisher', 'publisher.id = post.user_id')
+    .leftJoinAndMapOne('newsfeed.author', User, 'author', 'author.id = newsfeed.user_id')
+    .select([
+      'newsfeed',
+      'badge',
+      'post',
+      'author.id', 'author.first_name', 'author.last_name', 'author.phone_no', 'author.email',
+      'publisher.id', 'publisher.first_name', 'publisher.last_name', 'publisher.phone_no','publisher.email'
+    ])
+    .where('newsfeed.id = :id', { id: id })
+    .andWhere('post.is_published = true')
+    .getMany();
+}
 }
