@@ -15,7 +15,7 @@ import * as crypto from 'crypto';
 import { AuthProvidersEnum } from './auth-providers.enum';
 import { SocialInterface } from 'src/social/interfaces/social.interface';
 import { AuthRegisterLoginDto } from './dtos/auth-register-login.dto';
-import { UsersCrudService } from '../users/users-crud.service'
+import { UsersCrudService } from '../users/users-crud.service';
 import { ForgotService } from 'src/forgot/forgot.service';
 import { MailService } from 'src/mail/mail.service';
 import { AuthSwitchUserTypeDto } from './dtos/switch-user-type.dto';
@@ -173,7 +173,7 @@ export class AuthService {
       },
     });
 
-    if (userType) {
+    if (!userType) {
       userType = await this.userTypeService.findOneEntity({
         where: {
           name: 'Guide',
@@ -257,7 +257,7 @@ export class AuthService {
           hash,
           user,
         });
-        
+
         await this.mailService.forgotPassword({
           to: dto.email,
           name: user.first_name,
