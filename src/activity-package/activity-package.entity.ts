@@ -15,12 +15,12 @@ export class ActivityPackage extends EntityHelper {
   @Validate(IsExist, ['User', 'id'], {
     message: 'User not Found',
   })
-  @Column()
+  @Column({type: 'uuid', nullable: true})
   user_id?: string;
 
   @IsOptional()
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
-  @Column()
+  @Column({type: 'uuid', nullable: true})
   @Generated('uuid')
   main_badge_id?: string;
 

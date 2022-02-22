@@ -117,4 +117,18 @@ export class UsersController implements CrudController<User> {
   async updatePhoto(@Request() req) {
     return this.userService.updatePhoto(req.body.id, req.body.file_id)
   }
+
+  @Patch('/update-guide')
+  @ApiOperation({ summary: 'Update one User to Guide' })
+  @ApiBody({
+    schema: {
+      properties: {
+        'id': { type: 'string' },
+        'is_guide': { type: 'boolean' }
+      }
+    }
+  })
+  async updateAsGuide(@Request() req) {
+    return this.userService.updateAsGuide(req.body.id, req.body.is_guide)
+  }
 }

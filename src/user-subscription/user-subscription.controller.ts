@@ -1,15 +1,16 @@
 import { Controller, Request, UseGuards } from '@nestjs/common';
-import { UserTypeService } from './user-type.service';
+import { UserSubscriptionService } from './user-subscription.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Crud, CrudController, Override } from '@nestjsx/crud';
-import { UserType } from './user-type.entity';
+import { UserSubscription } from './user-subscription.entity';
 
-
-@ApiTags('User types')
+@ApiBearerAuth()
+@UseGuards(AuthGuard('jwt'))
+@ApiTags('User Subscription')
 @Crud({
   model: {
-    type: UserType,
+    type: UserSubscription,
   },
   routes: {
     exclude: ['replaceOneBase', 'createManyBase'],
@@ -27,18 +28,20 @@ import { UserType } from './user-type.entity';
   },
 })
 @Controller({
-  path: 'user-types',
+  path: 'user-subscription',
   version: '1',
 })
-export class UserTypeController implements CrudController<UserType> {
-  constructor(public service: UserTypeService) {}
+export class UserSubscriptionController
+  implements CrudController<UserSubscription>
+{
+  constructor(public service: UserSubscriptionService) {}
 
-  get base(): CrudController<UserType> {
+  get base(): CrudController<UserSubscription> {
     return this;
   }
 
   @Override()
   async deleteOne(@Request() request) {
-    return this.service.softDelete(request.params.id);
+    return this.service.delete(request.params.id);
   }
 }

@@ -1,4 +1,4 @@
-import { Controller, Request, UseGuards, Post, HttpCode, HttpStatus, Param } from '@nestjs/common';
+import { Controller, Request, UseGuards, Post, HttpCode, HttpStatus, Param, Get } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { Crud, CrudController, Override } from '@nestjsx/crud';
@@ -47,5 +47,11 @@ export class ActivityOutfitterController implements CrudController<ActivityOutfi
   @HttpCode(HttpStatus.OK)
   public async rejectActivityOutfitter(@Param('id') id: string) {
     return this.service.rejectActivityOutfitter(id);
+  }
+
+  @ApiOperation({ summary: 'Get activity outfitter list' })
+  @Get('outfitter-list')
+  public async getOutfitterList() {
+    return this.service.getOutfitterList();
   }
 }

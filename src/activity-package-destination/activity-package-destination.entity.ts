@@ -13,7 +13,7 @@ export class ActivityPackageDestination extends EntityHelper {
   @Validate(IsExist, ['ActivityPackage', 'id'], {
     message: 'Activity Package not found',
   })
-  @Column()
+  @Column({ nullable: true, type: 'uuid' })
   activity_package_id?: string;
 
   @IsOptional()
@@ -27,6 +27,16 @@ export class ActivityPackageDestination extends EntityHelper {
     type: 'text',
   })
   place_description?: string;
+
+  @IsOptional()
+  @ApiProperty({ example: '9.300221' })
+  @Column({ type: 'decimal', precision: 12, scale: 2, default: 0 })
+  latitude?: string;
+
+  @IsOptional()
+  @ApiProperty({ example: '19.670221' })
+  @Column({ type: 'decimal', precision: 12, scale: 2, default: 0 })
+  longitude?: string;
 
   @IsOptional()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

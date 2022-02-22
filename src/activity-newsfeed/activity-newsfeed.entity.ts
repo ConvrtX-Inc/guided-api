@@ -15,7 +15,7 @@ export class ActivityNewsfeed extends EntityHelper {
   @Validate(IsExist, ['User', 'id'], {
     message: 'User not Found',
   })
-  @Column({ nullable: true })
+  @Column({ type: 'uuid', nullable: true })
   user_id?: string | null;
 
   @IsOptional()
@@ -23,7 +23,7 @@ export class ActivityNewsfeed extends EntityHelper {
   @Validate(IsExist, ['Badge', 'id'], {
     message: 'Badge not found',
   })
-  @Column()
+  @Column({type: 'uuid'})
   badge_id?: string;
 
   @IsOptional()

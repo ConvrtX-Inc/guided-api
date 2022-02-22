@@ -34,6 +34,7 @@ import { BadgeModule } from './badge/badge.module';
 import { ActivityPackageModule } from './activity-package/activity-package.module';
 import { ActivityPackageDestinationModule } from './activity-package-destination/activity-package-destination.module';
 import { ActivityPackageDestinationImageModule } from './activity-package-destination-image/activity-package-destination-image.module';
+import { NearbyActivitiesModule } from './nearby-activities/nearby-activities.module';
 import { ActivityAvailabilityModule } from './activity-availability/activity-availability.module';
 import { ActivityAvailabilityHoursModule } from './activity-availability-hours/activity-availability-hours.module';
 import { ActivityPackageFormsModule } from './activity-package-forms/activity-package-forms.module';
@@ -64,6 +65,8 @@ import { ParticipantModule } from './messenger/participant/participant.module';
 import { RoomModule } from './messenger/room/room.module';
 import { MessageModule } from './messenger/message/message.module';
 import { MessageDetailModule } from './messenger/message-detail/message-detail.module';
+import { UserProfileQuestionModule } from './user-profile-question/user-profile-question.module';
+import { UserSubscriptionModule } from './user-subscription/user-subscription.module';
 
 @Module({
   imports: [
@@ -124,6 +127,7 @@ import { MessageDetailModule } from './messenger/message-detail/message-detail.m
     ActivityPackageModule,
     ActivityPackageDestinationModule,
     ActivityPackageDestinationImageModule,
+    NearbyActivitiesModule,
     ActivityAvailabilityModule,
     ActivityAvailabilityHoursModule,
     ActivityPackageFormsModule,
@@ -153,7 +157,9 @@ import { MessageDetailModule } from './messenger/message-detail/message-detail.m
     ParticipantModule,
     RoomModule,
     MessageModule,
-    MessageDetailModule
+    MessageDetailModule,
+    UserProfileQuestionModule,
+    UserSubscriptionModule
   ],
 })
 export class AppModule {}
