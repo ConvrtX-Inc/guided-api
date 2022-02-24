@@ -1,4 +1,11 @@
-import { Controller, UseGuards, Post, HttpCode, HttpStatus, Param } from '@nestjs/common';
+import {
+  Controller,
+  UseGuards,
+  Post,
+  HttpCode,
+  HttpStatus,
+  Param,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { Crud, CrudController, Override } from '@nestjsx/crud';
@@ -28,7 +35,9 @@ import { ActivityAdvertisement } from './entities/activity-advertisement.entity'
   path: 'activity-advertisement',
   version: '1',
 })
-export class ActivityAdvertisementController implements CrudController<ActivityAdvertisement> {
+export class ActivityAdvertisementController
+  implements CrudController<ActivityAdvertisement>
+{
   constructor(readonly service: ActivityAdvertisementService) {}
 
   get base(): CrudController<ActivityAdvertisement> {
