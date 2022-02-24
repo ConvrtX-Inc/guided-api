@@ -10,19 +10,19 @@ import { DeepPartial } from '../utils/types/deep-partial.type';
 export class NotificationService extends TypeOrmCrudService<Notification> {
   constructor(
     @InjectRepository(Notification)
-    private destinationsRepository: Repository<Notification>,
+    private repository: Repository<Notification>,
   ) {
-    super(destinationsRepository);
+    super(repository);
   }
 
   async findOneEntity(options: FindOptions<Notification>) {
-    return this.destinationsRepository.findOne({
+    return this.repository.findOne({
       where: options.where,
     });
   }
 
   async findManyEntities(options: FindOptions<Notification>) {
-    return this.destinationsRepository.find({
+    return this.repository.find({
       where: options.where,
     });
   }
@@ -32,12 +32,20 @@ export class NotificationService extends TypeOrmCrudService<Notification> {
   }
 
   async saveEntity(data: DeepPartial<Notification>[]) {
-    return this.destinationsRepository.save(
-      this.destinationsRepository.create(data),
+    return this.repository.save(
+      this.repository.create(data),
     );
   }
 
   async softDelete(id: number): Promise<void> {
-    await this.destinationsRepository.softDelete(id);
+    await this.repository.softDelete(id);
+  }
+
+  async getNotificationByUser(user_id: string) {
+    return this.repository.find({
+      where:  {
+        user_id: user_id,
+      },
+    });    
   }
 }
