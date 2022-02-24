@@ -17,6 +17,13 @@ import { ActivityAdvertisementImage } from './entities/activity-advertisement-im
     maxLimit: 50,
     alwaysPaginate: false,
   },
+  params: {
+    id: {
+      type: 'uuid',
+      primary: true,
+      field: 'id',
+    },
+  },
 })
 @Controller({
   path: 'activity-advertisement-image',
