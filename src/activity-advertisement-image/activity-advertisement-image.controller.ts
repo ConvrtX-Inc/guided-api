@@ -5,7 +5,6 @@ import { Crud, CrudController } from '@nestjsx/crud';
 import { ActivityAdvertisementImageService } from './activity-advertisement-image.service';
 import { ActivityAdvertisementImage } from './entities/activity-advertisement-image.entity';
 
-
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
 @ApiTags('Activity Advertisement Image')
@@ -29,7 +28,9 @@ import { ActivityAdvertisementImage } from './entities/activity-advertisement-im
   path: 'activity-advertisement-image',
   version: '1',
 })
-export class ActivityAdvertisementImageController  implements CrudController<ActivityAdvertisementImage> {
+export class ActivityAdvertisementImageController
+  implements CrudController<ActivityAdvertisementImage>
+{
   constructor(readonly service: ActivityAdvertisementImageService) {}
 
   get base(): CrudController<ActivityAdvertisementImage> {
