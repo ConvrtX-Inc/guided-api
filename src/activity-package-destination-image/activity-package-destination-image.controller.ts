@@ -13,7 +13,7 @@ import { ActivityPackageDestinationImage } from './activity-package-destination-
     type: ActivityPackageDestinationImage,
   },
   routes: {
-    exclude: ['replaceOneBase', 'createManyBase'],
+    exclude: ['replaceOneBase'],
   },
   query: {
     maxLimit: 50,
