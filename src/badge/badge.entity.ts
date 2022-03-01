@@ -1,7 +1,17 @@
-import {Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn} from 'typeorm';
+import {
+  AfterLoad,
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  DeleteDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Allow, IsOptional } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
+import * as base64_arraybuffer from 'base64-arraybuffer-converter';
+import { Transform } from 'class-transformer';
 
 @Entity()
 export class Badge extends EntityHelper {
@@ -25,12 +35,32 @@ export class Badge extends EntityHelper {
   @Allow()
   @IsOptional()
   @ApiProperty({ example: 'byte64image' })
+  @Transform((value: Buffer | null | string) => (value == null ? '' : value))
   @Column({
     name: 'img_icon',
     type: 'bytea',
-    nullable: false,
+    nullable: true,
   })
-  img_icon?: Buffer;
+  img_icon?: Buffer | null | string;
+
+  @BeforeUpdate()
+  @BeforeInsert()
+  public encodeImage() {
+    this.img_icon = this.img_icon
+      ? base64_arraybuffer.base64_2_ab(this.img_icon)
+      : '';
+  }
+
+  @AfterLoad()
+  public async decodeImage() {
+    try {
+      if (typeof this.img_icon !== null && this.img_icon != undefined) {
+        this.img_icon = await base64_arraybuffer.ab_2_base64(
+          new Uint8Array(base64_arraybuffer.base64_2_ab(this.img_icon)),
+        );
+      }
+    } catch (e) {}
+  }
 
   @Allow()
   @IsOptional()

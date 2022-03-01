@@ -27,18 +27,20 @@ export class ActivityPackage extends EntityHelper {
     message: 'User not Found',
   })
   @Column({ type: 'uuid', nullable: true })
-  user_id?: string;
+  user_id?: string | null;
 
   @IsOptional()
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
+  @Transform((value: string | null) => (value == '' ? null : value))
   @Column({ type: 'uuid', nullable: true })
   @Generated('uuid')
-  main_badge_id?: string;
+  main_badge_id?: string | null;
 
   @IsOptional()
   @ApiProperty({
     example: '{sub_badge_ids: cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae}',
   })
+  @Transform((value: string | null) => (value == '' ? null : value))
   @Column({
     type: 'simple-json',
     nullable: true,
