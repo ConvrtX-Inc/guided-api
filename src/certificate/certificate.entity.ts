@@ -1,7 +1,17 @@
-import { Column, Entity, Generated, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  AfterLoad,
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Allow, IsOptional } from 'class-validator';
+import { Allow, IsOptional, Validate } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
+import * as base64_arraybuffer from 'base64-arraybuffer-converter';
+import { Transform } from 'class-transformer';
+import { IsExist } from '../utils/validators/is-exists.validator';
 
 @Entity()
 export class Certificate extends EntityHelper {
@@ -10,9 +20,12 @@ export class Certificate extends EntityHelper {
 
   @IsOptional()
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
-  @Column()
-  @Generated('uuid')
-  user_id?: string;
+  @Transform((value: string | null) => (value == '' ? null : value))
+  @Validate(IsExist, ['User', 'id'], {
+    message: 'User not Found',
+  })
+  @Column({ type: 'uuid', nullable: true })
+  user_id?: string | null;
 
   @IsOptional()
   @ApiProperty({ example: 'Certificate Name' })
@@ -28,10 +41,30 @@ export class Certificate extends EntityHelper {
   @Allow()
   @IsOptional()
   @ApiProperty({ example: 'byte64image' })
+  @Transform((value: Buffer | null | string) => (value == null ? '' : value))
   @Column({
     name: 'img_snapshot',
     type: 'bytea',
     nullable: true,
   })
-  img_snapshot?: Buffer;
+  img_snapshot?: Buffer | null | string;
+
+  @BeforeUpdate()
+  @BeforeInsert()
+  public encodeImage() {
+    this.img_snapshot = this.img_snapshot
+      ? base64_arraybuffer.base64_2_ab(this.img_snapshot)
+      : '';
+  }
+
+  @AfterLoad()
+  public async decodeImage() {
+    try {
+      if (typeof this.img_snapshot !== null && this.img_snapshot != undefined) {
+        this.img_snapshot = await base64_arraybuffer.ab_2_base64(
+          new Uint8Array(base64_arraybuffer.base64_2_ab(this.img_snapshot)),
+        );
+      }
+    } catch (e) {}
+  }
 }
