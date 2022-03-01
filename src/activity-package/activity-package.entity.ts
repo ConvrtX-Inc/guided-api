@@ -1,9 +1,20 @@
-import {Column, DeleteDateColumn, Entity, Generated, PrimaryGeneratedColumn} from 'typeorm';
+import {
+  AfterLoad,
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  DeleteDateColumn,
+  Entity,
+  Generated,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Allow, IsOptional, Validate } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { IsExist } from '../utils/validators/is-exists.validator';
 import { Transform } from 'class-transformer';
+import * as base64_arraybuffer from 'base64-arraybuffer-converter';
+
 @Entity()
 export class ActivityPackage extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
@@ -15,12 +26,12 @@ export class ActivityPackage extends EntityHelper {
   @Validate(IsExist, ['User', 'id'], {
     message: 'User not Found',
   })
-  @Column({type: 'uuid', nullable: true})
+  @Column({ type: 'uuid', nullable: true })
   user_id?: string;
 
   @IsOptional()
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
-  @Column({type: 'uuid', nullable: true})
+  @Column({ type: 'uuid', nullable: true })
   @Generated('uuid')
   main_badge_id?: string;
 
@@ -54,12 +65,32 @@ export class ActivityPackage extends EntityHelper {
   @Allow()
   @IsOptional()
   @ApiProperty({ example: 'byte64image' })
+  @Transform((value: Buffer | null | string) => (value == null ? '' : value))
   @Column({
     name: 'cover_img',
     type: 'bytea',
     nullable: true,
   })
-  cover_img?: Buffer;
+  cover_img?: Buffer | null | string;
+
+  @BeforeUpdate()
+  @BeforeInsert()
+  public encodeImage() {
+    this.cover_img = this.cover_img
+      ? base64_arraybuffer.base64_2_ab(this.cover_img)
+      : '';
+  }
+
+  @AfterLoad()
+  public async decodeImage() {
+    try {
+      if (typeof this.cover_img !== null && this.cover_img != undefined) {
+        this.cover_img = await base64_arraybuffer.ab_2_base64(
+          new Uint8Array(base64_arraybuffer.base64_2_ab(this.cover_img)),
+        );
+      }
+    } catch (e) {}
+  }
 
   @Allow()
   @IsOptional()
