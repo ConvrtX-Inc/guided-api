@@ -23,6 +23,7 @@ import { UserTypeService } from 'src/user-type/user-type.service';
 import { AuthForgotPasswordDto } from './dtos/auth-forgot-password.dto';
 import { VerifyService } from 'src/verify/verify.service';
 import { UsersService } from 'src/users/users.service';
+import { SmsService } from 'src/sms/sms.service';
 
 @Injectable()
 export class AuthService {
@@ -34,6 +35,7 @@ export class AuthService {
     private userTypeService: UserTypeService,
     private forgotService: ForgotService,
     private mailService: MailService,
+    private smsService: SmsService,
   ) {}
 
   async validateLogin(
@@ -221,16 +223,17 @@ export class AuthService {
     await user.save();
   }
 
-  async forgotPassword(dto: AuthForgotPasswordDto): Promise<void> {
+  async forgotPassword(dto: AuthForgotPasswordDto) {
     let user = null;
     if (dto.email) {
-      user = await this.usersCrudService.findOneEntity({
+      user = await this.usersService.findOneEntity({
         where: {
           email: dto.email,
         },
       });
-    } else {
-      user = await this.usersCrudService.findOneEntity({
+    }
+    if (!user && dto.phone_no) {
+      user = await this.usersService.findOneEntity({
         where: {
           phone_no: dto.phone_no,
         },
@@ -242,36 +245,62 @@ export class AuthService {
         {
           status: HttpStatus.UNPROCESSABLE_ENTITY,
           errors: {
-            user: 'user do not exist',
+            user: 'user does not exists',
           },
         },
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     } else {
-      if (dto.email) {
-        const hash = crypto
-          .createHash('sha256')
-          .update(randomStringGenerator())
-          .digest('hex');
+      let hash = (Math.floor(Math.random() * 10000) + 10000)
+        .toString()
+        .substring(1);
+      hash = await this.checkIfExistHashOrGenerate(hash);
+      const forgot = await this.forgotService.findOneEntity({
+        where: {
+          user: user,
+        },
+      });
+      if (forgot) {
+        forgot.hash = hash;
+        await forgot.save();
+      } else {
         await this.forgotService.saveEntity({
           hash,
           user,
         });
-
-        await this.mailService.forgotPassword({
+      }
+      if (dto.email) {
+        return await this.mailService.forgotPassword({
           to: dto.email,
-          name: user.first_name,
+          name: user.first_name + ' ' + user.last_name,
           data: {
             hash,
           },
         });
       } else {
-        const phone = user.country_code + dto.phone_no;
-        await this.verifyService.sendPhoneVerificationToken({
-          phone_number: phone,
+        return await this.smsService.send({
+          phone_number:
+            user.country_code.toString() + '' + user.phone_no.toString(),
+          message:
+            'You have requested reset password on Guided App. Please use this code to reset password:' +
+            hash,
         });
       }
     }
+  }
+
+  async checkIfExistHashOrGenerate(hash) {
+    const forgot = await this.forgotService.findOneEntity({
+      where: {
+        hash: hash,
+      },
+    });
+    if (forgot) {
+      hash = (Math.floor(Math.random() * 10000) + 10000)
+        .toString()
+        .substring(1);
+    }
+    return hash;
   }
 
   async resetPassword(
