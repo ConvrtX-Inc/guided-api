@@ -1,10 +1,12 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
-import { User } from './user.entity'
-import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
-import * as bcrypt from 'bcryptjs'
-import { UsersCrudService } from './users-crud.service'
-import { FileEntity } from '../files/file.entity'
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { User } from './user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import * as bcrypt from 'bcryptjs';
+import { UsersCrudService } from './users-crud.service';
+import { FileEntity } from '../files/file.entity';
+import { FindOptions } from '../utils/types/find-options.type';
+import { Waiver } from '../waiver/waiver.entity';
 
 @Injectable()
 export class UsersService {
@@ -13,18 +15,20 @@ export class UsersService {
     private usersRepository: Repository<User>,
     @InjectRepository(FileEntity)
     private fileRepository: Repository<FileEntity>,
-    private userCrudService: UsersCrudService
-  ) {
-  }
+    private userCrudService: UsersCrudService,
+  ) {}
 
   async update(id: string, data: User) {
     if (!id) {
-      throw new HttpException({
-        status: HttpStatus.UNPROCESSABLE_ENTITY,
-        errors: {
-          'id': 'Invalid user id'
-        }
-      }, HttpStatus.UNPROCESSABLE_ENTITY)
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            id: 'Invalid user id',
+          },
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
     }
 
     if (!data.password || data.password.length < 6) {
@@ -39,7 +43,7 @@ export class UsersService {
       );
     }
 
-    var user = await this.userCrudService.findOneEntity({
+    const user = await this.userCrudService.findOneEntity({
       where: {
         id: id,
       },
@@ -57,150 +61,177 @@ export class UsersService {
       );
     }
 
-    var previousPassword = user.password;
+    const previousPassword = user.password;
     if (previousPassword !== data.password && data.password) {
-      const salt = await bcrypt.genSalt()
-      data.password = await bcrypt.hash(data.password, salt)
+      const salt = await bcrypt.genSalt();
+      data.password = await bcrypt.hash(data.password, salt);
     }
 
-    await this.usersRepository.update(id, data)
+    await this.usersRepository.update(id, data);
   }
 
   async updatePhoneNo(id: string, phone_no: number) {
-    
     if (!id) {
-      throw new HttpException({
-        status: HttpStatus.UNPROCESSABLE_ENTITY,
-        errors: {
-          'id': 'Invalid user id'
-        }
-      }, HttpStatus.UNPROCESSABLE_ENTITY)
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            id: 'Invalid user id',
+          },
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
     }
 
     if (!phone_no || phone_no < 0) {
-      throw new HttpException({
-        status: HttpStatus.UNPROCESSABLE_ENTITY,
-        errors: {
-          'phone_no': 'Invalid phone number'
-        }
-      }, HttpStatus.UNPROCESSABLE_ENTITY)
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            phone_no: 'Invalid phone number',
+          },
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
     }
 
     let user: User = await this.userCrudService.findOneEntity({
       where: {
-        id: id
-      }
-    })
+        id: id,
+      },
+    });
 
     if (!user) {
-      throw new HttpException({
-        status: HttpStatus.NOT_FOUND,
-        errors: {
-          'id': 'User not found'
-        }
-      }, HttpStatus.NOT_FOUND)
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          errors: {
+            id: 'User not found',
+          },
+        },
+        HttpStatus.NOT_FOUND,
+      );
     }
 
-    user = new User()
-    user.id = id
-    user.phone_no = phone_no
+    user = new User();
+    user.id = id;
+    user.phone_no = phone_no;
 
-    await this.usersRepository.update(id, user)
+    await this.usersRepository.update(id, user);
   }
 
   async updateAbout(id: string, about: string) {
-    
     if (!id) {
-      throw new HttpException({
-        status: HttpStatus.UNPROCESSABLE_ENTITY,
-        errors: {
-          'id': 'Invalid user id'
-        }
-      }, HttpStatus.UNPROCESSABLE_ENTITY)
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            id: 'Invalid user id',
+          },
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
     }
 
     if (about && about.length > 5000) {
-      throw new HttpException({
-        status: HttpStatus.UNPROCESSABLE_ENTITY,
-        errors: {
-          'about': 'About text is too long'
-        }
-      }, HttpStatus.UNPROCESSABLE_ENTITY)
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            about: 'About text is too long',
+          },
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
     }
 
     let user: User = await this.userCrudService.findOneEntity({
       where: {
-        id: id
-      }
-    })
+        id: id,
+      },
+    });
 
     if (!user) {
-      throw new HttpException({
-        status: HttpStatus.NOT_FOUND,
-        errors: {
-          'id': 'User not found'
-        }
-      }, HttpStatus.NOT_FOUND)
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          errors: {
+            id: 'User not found',
+          },
+        },
+        HttpStatus.NOT_FOUND,
+      );
     }
 
-    user = new User()
-    user.id = id
-    user.about = about
+    user = new User();
+    user.id = id;
+    user.about = about;
 
-    await this.usersRepository.update(id, user)
+    await this.usersRepository.update(id, user);
   }
 
   async updatePhoto(id: string, file_id: string) {
-    
     if (!id) {
-      throw new HttpException({
-        status: HttpStatus.UNPROCESSABLE_ENTITY,
-        errors: {
-          'id': 'User id is required'
-        }
-      }, HttpStatus.UNPROCESSABLE_ENTITY)
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            id: 'User id is required',
+          },
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
     }
 
     if (!file_id) {
-      throw new HttpException({
-        status: HttpStatus.UNPROCESSABLE_ENTITY,
-        errors: {
-          'about': 'File id is required'
-        }
-      }, HttpStatus.UNPROCESSABLE_ENTITY)
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            about: 'File id is required',
+          },
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
     }
 
     let user: User = await this.userCrudService.findOneEntity({
       where: {
-        id: id
-      }
-    })
+        id: id,
+      },
+    });
 
     if (!user) {
-      throw new HttpException({
-        status: HttpStatus.NOT_FOUND,
-        errors: {
-          'id': 'User not found'
-        }
-      }, HttpStatus.NOT_FOUND)
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          errors: {
+            id: 'User not found',
+          },
+        },
+        HttpStatus.NOT_FOUND,
+      );
     }
 
-    let file: FileEntity = await this.fileRepository.findOne(file_id)
+    const file: FileEntity = await this.fileRepository.findOne(file_id);
 
     if (!file) {
-      throw new HttpException({
-        status: HttpStatus.NOT_FOUND,
-        errors: {
-          'file_id': 'File not found'
-        }
-      }, HttpStatus.NOT_FOUND)
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          errors: {
+            file_id: 'File not found',
+          },
+        },
+        HttpStatus.NOT_FOUND,
+      );
     }
 
-    user = new User()
-    user.id = id
-    user.photo = file
+    user = new User();
+    user.id = id;
+    user.photo = file;
 
-    await this.usersRepository.update(id, user)
+    await this.usersRepository.update(id, user);
   }
 
   updateOnline(id: string, online: boolean) {
@@ -221,4 +252,9 @@ export class UsersService {
       .execute();
   }
 
+  async findOneEntity(options: FindOptions<User>) {
+    return this.usersRepository.findOne({
+      where: options.where,
+    });
+  }
 }
