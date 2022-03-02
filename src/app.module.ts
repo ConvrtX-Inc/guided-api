@@ -67,6 +67,9 @@ import { MessageModule } from './messenger/message/message.module';
 import { MessageDetailModule } from './messenger/message-detail/message-detail.module';
 import { UserProfileQuestionModule } from './user-profile-question/user-profile-question.module';
 import { UserSubscriptionModule } from './user-subscription/user-subscription.module';
+import { WaiverModule } from './waiver/waiver.module';
+import { RulesWhatToBringModule } from './rules-what-to-bring/rules-what-to-bring.module';
+import { LawsAndTaxesModule } from './laws-and-taxes/laws-and-taxes.module';
 
 @Module({
   imports: [
@@ -159,7 +162,10 @@ import { UserSubscriptionModule } from './user-subscription/user-subscription.mo
     MessageModule,
     MessageDetailModule,
     UserProfileQuestionModule,
-    UserSubscriptionModule
+    UserSubscriptionModule,
+    WaiverModule,
+    RulesWhatToBringModule,
+    LawsAndTaxesModule,
   ],
 })
 export class AppModule {}
