@@ -16,6 +16,7 @@ import { AuthResetPasswordDto } from './dtos/auth-reset-password.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthRegisterLoginDto } from './dtos/auth-register-login.dto';
 import { AuthSwitchUserTypeDto } from './dtos/switch-user-type.dto';
+import { AuthForgotConfirmDto } from './dtos/auth-forgot-confirm-password.dto';
 
 @ApiTags('Auth')
 @Controller({
@@ -43,10 +44,16 @@ export class AuthController {
     return this.service.confirmEmail(confirmEmailDto.hash);
   }
 
-  @Post('forgot/password')
+  @Post('forgot/forgot')
   @HttpCode(HttpStatus.OK)
   async forgotPassword(@Body() forgotPasswordDto: AuthForgotPasswordDto) {
     return this.service.forgotPassword(forgotPasswordDto);
+  }
+
+  @Post('forgot/confirm/otp')
+  @HttpCode(HttpStatus.OK)
+  async confirmOtp(@Body() dto: AuthForgotConfirmDto) {
+    return this.service.confirmOtp(dto.hash);
   }
 
   @Post('reset/password')
