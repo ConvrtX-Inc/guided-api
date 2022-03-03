@@ -1,13 +1,16 @@
 import {
   Column,
+  CreateDateColumn,
   DeleteDateColumn,
   Entity,
   Generated,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Allow, IsOptional } from 'class-validator';
+import { Allow, IsOptional, Validate } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
+import { IsExist } from '../utils/validators/is-exists.validator';
 
 @Entity()
 export class Transaction extends EntityHelper {
@@ -16,14 +19,18 @@ export class Transaction extends EntityHelper {
 
   @IsOptional()
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
+  @Validate(IsExist, ['User', 'id'], {
+    message: 'User not Found',
+  })
   @Column()
-  @Generated('uuid')
   user_id?: string;
 
   @IsOptional()
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
+  @Validate(IsExist, ['ActivityPackage', 'id'], {
+    message: 'Activity Package not found',
+  })
   @Column()
-  @Generated('uuid')
   activity_package_id?: string;
 
   @Allow()
@@ -64,15 +71,13 @@ export class Transaction extends EntityHelper {
   @Generated('uuid')
   status_id?: string;
 
-  @IsOptional()
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  created_date?: string;
+  @CreateDateColumn()
+  created_date: Date;
 
-  @IsOptional()
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  updated_date?: string;
+  @UpdateDateColumn()
+  updated_date: Date;
 
   @IsOptional()
   @DeleteDateColumn()
-  deletedAt: Date;
+  deleted_at: Date;
 }

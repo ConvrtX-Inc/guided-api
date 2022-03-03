@@ -1,4 +1,8 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../users/user.entity';
 import * as bcrypt from 'bcryptjs';
@@ -9,27 +13,34 @@ import * as crypto from 'crypto';
 import { AuthProvidersEnum } from './auth-providers.enum';
 import { SocialInterface } from 'src/social/interfaces/social.interface';
 import { AuthRegisterLoginDto } from './dtos/auth-register-login.dto';
-import { UsersService } from 'src/users/users.service';
+import { UsersCrudService } from '../users/users-crud.service';
 import { ForgotService } from 'src/forgot/forgot.service';
 import { MailService } from 'src/mail/mail.service';
 import { AuthSwitchUserTypeDto } from './dtos/switch-user-type.dto';
-import { UserTypeService } from 'src/user-type/userType.service';
+import { UserTypeService } from 'src/user-type/user-type.service';
+import { AuthForgotPasswordDto } from './dtos/auth-forgot-password.dto';
+import { VerifyService } from 'src/verify/verify.service';
+import { UsersService } from 'src/users/users.service';
+import { SmsService } from 'src/sms/sms.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private jwtService: JwtService,
+    private verifyService: VerifyService,
+    private usersCrudService: UsersCrudService,
     private usersService: UsersService,
     private userTypeService: UserTypeService,
     private forgotService: ForgotService,
     private mailService: MailService,
+    private smsService: SmsService,
   ) {}
 
   async validateLogin(
     loginDto: AuthEmailLoginDto,
     onlyAdmin: boolean,
   ): Promise<{ token: string; user: User }> {
-    const user = await this.usersService.findOneEntity({
+    const user = await this.usersCrudService.findOneEntity({
       where: {
         email: loginDto.email,
       },
@@ -69,6 +80,12 @@ export class AuthService {
         id: user.id,
       });
 
+      //Update is_online status for user
+      const updateIsOnline = await this.usersService.updateOnline(
+        user.id,
+        true,
+      );
+
       return { token, user: user };
     } else {
       throw new HttpException(
@@ -90,13 +107,13 @@ export class AuthService {
     let user: User;
     const socialEmail = socialData.email?.toLowerCase();
 
-    const userByEmail = await this.usersService.findOneEntity({
+    const userByEmail = await this.usersCrudService.findOneEntity({
       where: {
         email: socialEmail,
       },
     });
 
-    user = await this.usersService.findOneEntity({
+    user = await this.usersCrudService.findOneEntity({
       where: {
         socialId: socialData.id,
         provider: authProvider,
@@ -107,7 +124,7 @@ export class AuthService {
       if (socialEmail && !userByEmail) {
         user.email = socialEmail;
       }
-      await this.usersService.saveEntity(user);
+      await this.usersCrudService.saveEntity(user);
     } else if (userByEmail) {
       user = userByEmail;
     } else {
@@ -117,7 +134,7 @@ export class AuthService {
         },
       });
 
-      user = await this.usersService.saveEntity({
+      user = await this.usersCrudService.saveEntity({
         email: socialEmail,
         first_name: socialData.firstName,
         last_name: socialData.lastName,
@@ -126,7 +143,7 @@ export class AuthService {
         user_type_id: userType ? userType.id : '',
       });
 
-      user = await this.usersService.findOneEntity({
+      user = await this.usersCrudService.findOneEntity({
         where: {
           id: user.id,
         },
@@ -156,7 +173,7 @@ export class AuthService {
       },
     });
 
-    if (userType) {
+    if (!userType) {
       userType = await this.userTypeService.findOneEntity({
         where: {
           name: 'Guide',
@@ -164,7 +181,7 @@ export class AuthService {
       });
     }
 
-    const user = await this.usersService.saveEntity({
+    const user = await this.usersCrudService.saveEntity({
       ...dto,
       email: dto.email,
       user_type_id: userType ? userType.id : '',
@@ -181,7 +198,7 @@ export class AuthService {
   }
 
   async confirmEmail(hash: string): Promise<void> {
-    const user = await this.usersService.findOneEntity({
+    const user = await this.usersCrudService.findOneEntity({
       where: {
         hash,
       },
@@ -204,44 +221,92 @@ export class AuthService {
     await user.save();
   }
 
-  async forgotPassword(email: string): Promise<void> {
-    const user = await this.usersService.findOneEntity({
-      where: {
-        email,
-      },
-    });
+  async forgotPassword(dto: AuthForgotPasswordDto) {
+    let user = null;
+    if (dto.email) {
+      user = await this.usersService.findOneEntity({
+        where: {
+          email: dto.email,
+        },
+      });
+    }
+    if (!user && dto.phone_no) {
+      user = await this.usersService.findOneEntity({
+        where: {
+          phone_no: dto.phone_no,
+        },
+      });
+    }
 
     if (!user) {
       throw new HttpException(
         {
           status: HttpStatus.UNPROCESSABLE_ENTITY,
           errors: {
-            email: 'emailNotExists',
+            user: 'user does not exists',
           },
         },
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     } else {
-      const hash = crypto
-        .createHash('sha256')
-        .update(randomStringGenerator())
-        .digest('hex');
-      await this.forgotService.saveEntity({
-        hash,
-        user,
-      });
-
-      await this.mailService.forgotPassword({
-        to: email,
-        name: user.first_name,
-        data: {
-          hash,
+      let hash = (Math.floor(Math.random() * 10000) + 10000)
+        .toString()
+        .substring(1);
+      hash = await this.checkIfExistHashOrGenerate(hash);
+      const forgot = await this.forgotService.findOneEntity({
+        where: {
+          user: user,
         },
       });
+      if (forgot) {
+        forgot.hash = hash;
+        await forgot.save();
+      } else {
+        await this.forgotService.saveEntity({
+          hash,
+          user,
+        });
+      }
+      if (dto.email) {
+        return await this.mailService.forgotPassword({
+          to: dto.email,
+          name: user.first_name + ' ' + user.last_name,
+          data: {
+            hash,
+          },
+        });
+      } else {
+        return await this.smsService.send({
+          phone_number:
+            user.country_code.toString() + '' + user.phone_no.toString(),
+          message:
+            'You have requested reset password on Guided App. Please use this code to reset password:' +
+            hash,
+        });
+      }
     }
   }
 
-  async resetPassword(hash: string, password: string): Promise<void> {
+  async checkIfExistHashOrGenerate(hash) {
+    const forgot = await this.forgotService.findOneEntity({
+      where: {
+        hash: hash,
+      },
+    });
+    if (forgot) {
+      hash = (Math.floor(Math.random() * 10000) + 10000)
+        .toString()
+        .substring(1);
+    }
+    return hash;
+  }
+
+  async resetPassword(
+    hash: string,
+    password: string,
+    phone: number,
+  ): Promise<void> {
+    let user = null;
     const forgot = await this.forgotService.findOneEntity({
       where: {
         hash,
@@ -259,15 +324,14 @@ export class AuthService {
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
-
-    const user = forgot.user;
+    user = forgot.user;
+    await this.forgotService.softDelete(forgot.id);
     user.password = password;
     await user.save();
-    await this.forgotService.softDelete(forgot.id);
   }
 
   async me(user: User): Promise<User> {
-    return this.usersService.findOneEntity({
+    return this.usersCrudService.findOneEntity({
       where: {
         id: user.id,
       },
@@ -278,7 +342,7 @@ export class AuthService {
     userType: AuthSwitchUserTypeDto,
     user: User,
   ): Promise<User> {
-    const currentUser = await this.usersService.findOneEntity({
+    const currentUser = await this.usersCrudService.findOneEntity({
       where: {
         id: user.id,
       },
@@ -310,13 +374,13 @@ export class AuthService {
       );
     }
 
-    return this.usersService.getOneBase(user.id);
+    return this.usersCrudService.getOneBase(user.id);
   }
 
   async update(user: User, userDto: AuthUpdateDto): Promise<User> {
     if (userDto.password) {
       if (userDto.oldPassword) {
-        const currentUser = await this.usersService.findOneEntity({
+        const currentUser = await this.usersCrudService.findOneEntity({
           where: {
             id: user.id,
           },
@@ -351,12 +415,12 @@ export class AuthService {
       }
     }
 
-    await this.usersService.saveEntity({
+    await this.usersCrudService.saveEntity({
       id: user.id,
       ...userDto,
     });
 
-    return this.usersService.findOneEntity({
+    return this.usersCrudService.findOneEntity({
       where: {
         id: user.id,
       },
@@ -364,6 +428,36 @@ export class AuthService {
   }
 
   async softDelete(user: User): Promise<void> {
-    await this.usersService.softDelete(user.id);
+    await this.usersCrudService.softDelete(user.id);
+  }
+
+  async confirmOtp(hash: string) {
+    const forgot = await this.forgotService.findOneEntity({
+      where: {
+        hash,
+      },
+    });
+
+    if (!forgot) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            hash: `notFound`,
+          },
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
+
+    return {
+      status: HttpStatus.OK,
+      sent_data: hash,
+      response: {
+        data: {
+          details: 'Otp Confirmation Successfully',
+        },
+      },
+    };
   }
 }

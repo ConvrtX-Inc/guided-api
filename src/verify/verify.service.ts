@@ -3,10 +3,14 @@ import { InjectTwilio, TwilioClient } from 'nestjs-twilio';
 import { CheckVerificationTokenDTO } from './dto/CheckVerificationToken.dto';
 import { SendVerificationTokenDTO } from './dto/SendVerificationToken.dto';
 import { Verify } from './verify.model';
+import { UsersCrudService } from 'src/users/users-crud.service';
 
 @Injectable()
 export class VerifyService {
-  constructor(@InjectTwilio() private readonly client: TwilioClient) {}
+  constructor(
+    @InjectTwilio() private readonly client: TwilioClient,
+    private usersCrudService: UsersCrudService,
+  ) {}
 
   async sendPhoneVerificationToken(
     dto: SendVerificationTokenDTO,
@@ -21,9 +25,9 @@ export class VerifyService {
 
       const v = new Verify();
       v.id = res.sid;
-      v.phoneNumber = res.to;
+      v.phone_number = res.to;
       v.status = res.status;
-      v.expiredIn = res.sendCodeAttempts[0]['time'];
+      v.expired_in = res.sendCodeAttempts[0]['time'];
       return v;
     } catch (error) {
       throw new HttpException(
@@ -43,11 +47,22 @@ export class VerifyService {
           to: request.phone_number,
           code: request.verifyCode,
         });
+
+      const user = await this.usersCrudService.findOneEntity({
+        where: {
+          phone_no: request.phone_number,
+        },
+      });
+      if (user) {
+        user.is_verified = true;
+        await user.save();
+      }
+
       const v = new Verify();
       v.id = res.sid;
-      v.phoneNumber = res.to;
+      v.phone_number = res.to;
       v.status = res.status;
-      v.expiredIn = null;
+      v.expired_in = null;
       return v;
     } catch (error) {
       throw new HttpException(

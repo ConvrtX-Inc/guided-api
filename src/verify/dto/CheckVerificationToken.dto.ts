@@ -14,6 +14,6 @@ export class CheckVerificationTokenDTO {
   phone_number: string;
 
   @Allow()
-  @ApiProperty({ example: '888888' })
+  @ApiProperty({ example: '8888' })
   verifyCode: string;
 }

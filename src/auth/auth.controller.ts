@@ -1,14 +1,11 @@
 import {
   Body,
   Controller,
-  // Get,
   HttpCode,
   HttpStatus,
   Request,
   Post,
   UseGuards,
-  // Patch,
-  // Delete,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -16,10 +13,10 @@ import { AuthEmailLoginDto } from './dtos/auth-email-login.dto';
 import { AuthForgotPasswordDto } from './dtos/auth-forgot-password.dto';
 import { AuthConfirmEmailDto } from './dtos/auth-confirm-email.dto';
 import { AuthResetPasswordDto } from './dtos/auth-reset-password.dto';
-// import { AuthUpdateDto } from './dtos/auth-update.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthRegisterLoginDto } from './dtos/auth-register-login.dto';
 import { AuthSwitchUserTypeDto } from './dtos/switch-user-type.dto';
+import { AuthForgotConfirmDto } from './dtos/auth-forgot-confirm-password.dto';
 
 @ApiTags('Auth')
 @Controller({
@@ -35,12 +32,6 @@ export class AuthController {
     return this.service.validateLogin(loginDto, false);
   }
 
-  // @Post('admin/email/login')
-  // @HttpCode(HttpStatus.OK)
-  // public async adminLogin(@Body() loginDTO: AuthEmailLoginDto) {
-  //   return this.service.validateLogin(loginDTO, true);
-  // }
-
   @Post('email/register')
   @HttpCode(HttpStatus.CREATED)
   async register(@Body() createUserDto: AuthRegisterLoginDto) {
@@ -53,10 +44,16 @@ export class AuthController {
     return this.service.confirmEmail(confirmEmailDto.hash);
   }
 
-  @Post('forgot/password')
+  @Post('forgot/forgot')
   @HttpCode(HttpStatus.OK)
   async forgotPassword(@Body() forgotPasswordDto: AuthForgotPasswordDto) {
-    return this.service.forgotPassword(forgotPasswordDto.email);
+    return this.service.forgotPassword(forgotPasswordDto);
+  }
+
+  @Post('forgot/confirm/otp')
+  @HttpCode(HttpStatus.OK)
+  async confirmOtp(@Body() dto: AuthForgotConfirmDto) {
+    return this.service.confirmOtp(dto.hash);
   }
 
   @Post('reset/password')
@@ -65,6 +62,7 @@ export class AuthController {
     return this.service.resetPassword(
       resetPasswordDto.hash,
       resetPasswordDto.password,
+      resetPasswordDto.phone,
     );
   }
 
@@ -78,28 +76,4 @@ export class AuthController {
   ) {
     return this.service.switchUserType(userDto, request.user);
   }
-
-  // @ApiBearerAuth()
-  // @Get('me')
-  // @UseGuards(AuthGuard('jwt'))
-  // @HttpCode(HttpStatus.OK)
-  // public async me(@Request() request) {
-  //   return this.service.me(request.user);
-  // }
-  //
-  // @ApiBearerAuth()
-  // @Patch('me')
-  // @UseGuards(AuthGuard('jwt'))
-  // @HttpCode(HttpStatus.OK)
-  // public async update(@Request() request, @Body() userDto: AuthUpdateDto) {
-  //   return this.service.update(request.user, userDto);
-  // }
-  //
-  // @ApiBearerAuth()
-  // @Delete('me')
-  // @UseGuards(AuthGuard('jwt'))
-  // @HttpCode(HttpStatus.OK)
-  // public async delete(@Request() request) {
-  //   return this.service.softDelete(request.user);
-  // }
 }
