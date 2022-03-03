@@ -1,8 +1,6 @@
 import {
-  forwardRef,
   HttpException,
   HttpStatus,
-  Inject,
   Injectable,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -309,62 +307,25 @@ export class AuthService {
     phone: number,
   ): Promise<void> {
     let user = null;
-    if (phone) {
-      user = await this.usersCrudService.findOneEntity({
-        where: {
-          phone_no: phone,
-        },
-      });
-      if (!user) {
-        throw new HttpException(
-          {
-            status: HttpStatus.BAD_REQUEST,
-            errors: {
-              user: `User not found`,
-            },
-          },
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-      try {
-        const phoneNumber = '+' + user.country_code + user.phone_no;
-        await this.verifyService.CheckPhoneVerificationToken({
-          phone_number: phoneNumber,
-          verifyCode: hash,
-        });
-      } catch (e) {
-        throw new HttpException(
-          {
-            status: HttpStatus.BAD_REQUEST,
-            errors: {
-              msg: `Something went wrong`,
-            },
-          },
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-    } else {
-      const forgot = await this.forgotService.findOneEntity({
-        where: {
-          hash,
-        },
-      });
+    const forgot = await this.forgotService.findOneEntity({
+      where: {
+        hash,
+      },
+    });
 
-      if (!forgot) {
-        throw new HttpException(
-          {
-            status: HttpStatus.UNPROCESSABLE_ENTITY,
-            errors: {
-              hash: `notFound`,
-            },
+    if (!forgot) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            hash: `notFound`,
           },
-          HttpStatus.UNPROCESSABLE_ENTITY,
-        );
-      }
-      user = forgot.user;
-      await this.forgotService.softDelete(forgot.id);
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
     }
-
+    user = forgot.user;
+    await this.forgotService.softDelete(forgot.id);
     user.password = password;
     await user.save();
   }
@@ -468,5 +429,35 @@ export class AuthService {
 
   async softDelete(user: User): Promise<void> {
     await this.usersCrudService.softDelete(user.id);
+  }
+
+  async confirmOtp(hash: string) {
+    const forgot = await this.forgotService.findOneEntity({
+      where: {
+        hash,
+      },
+    });
+
+    if (!forgot) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            hash: `notFound`,
+          },
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
+
+    return {
+      status: HttpStatus.OK,
+      sent_data: hash,
+      response: {
+        data: {
+          details: 'Otp Confirmation Successfully',
+        },
+      },
+    };
   }
 }
