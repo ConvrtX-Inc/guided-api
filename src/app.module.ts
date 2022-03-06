@@ -71,6 +71,7 @@ import { WaiverModule } from './waiver/waiver.module';
 import { RulesWhatToBringModule } from './rules-what-to-bring/rules-what-to-bring.module';
 import { LawsAndTaxesModule } from './laws-and-taxes/laws-and-taxes.module';
 import { SmsModule } from './sms/sms.module';
+import { ContactUsModule } from './contact-us/contact-us.module';
 
 @Module({
   imports: [
@@ -168,6 +169,7 @@ import { SmsModule } from './sms/sms.module';
     WaiverModule,
     RulesWhatToBringModule,
     LawsAndTaxesModule,
+    ContactUsModule,
   ],
 })
 export class AppModule {}
