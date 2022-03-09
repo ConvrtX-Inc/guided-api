@@ -72,6 +72,7 @@ import { RulesWhatToBringModule } from './rules-what-to-bring/rules-what-to-brin
 import { LawsAndTaxesModule } from './laws-and-taxes/laws-and-taxes.module';
 import { SmsModule } from './sms/sms.module';
 import { ContactUsModule } from './contact-us/contact-us.module';
+import { FaqModule } from './faq/faq.module';
 
 @Module({
   imports: [
@@ -170,6 +171,7 @@ import { ContactUsModule } from './contact-us/contact-us.module';
     RulesWhatToBringModule,
     LawsAndTaxesModule,
     ContactUsModule,
+    FaqModule
   ],
 })
 export class AppModule {}
