@@ -9,4 +9,8 @@ export class ClosestActivityDto {
   @IsNotEmpty()
   @ApiProperty({ example: '19.67' })
   longitude?: string;
+
+  @IsNotEmpty()
+  @ApiProperty({ example: '20' })
+  distance?: string;
 }
