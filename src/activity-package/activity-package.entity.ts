@@ -118,7 +118,7 @@ export class ActivityPackage extends EntityHelper {
 
   @IsOptional()
   @ApiProperty({ example: 'country' })
-  @Column({ type: 'char', nullable: false, length: 10 })
+  @Column({ nullable: true })
   country?: string;
 
   @IsOptional()
