@@ -6,11 +6,6 @@ export class CreateSubscriptionDto {
   @IsNotEmpty()
   @ApiProperty({ example: 'price_1Kd5OKKn5tIlJ89hGsR5KQB3' })
   price_stripe_id: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty({ example: 'cus_LJiwZiHT6tFyug' })
-  customer_stripe_id: string;
 }
 
 export default CreateSubscriptionDto;

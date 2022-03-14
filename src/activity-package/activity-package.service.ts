@@ -1,15 +1,15 @@
-import {HttpStatus, Injectable} from '@nestjs/common';
-import {Connection, Repository} from 'typeorm';
-import {ActivityPackage} from './activity-package.entity';
-import {ActivityAvailability} from '../activity-availability/activity-availability.entity';
-import {ActivityAvailabilityHours} from '../activity-availability-hours/activity-availability-hours.entity';
-import {InjectConnection, InjectRepository} from '@nestjs/typeorm';
-import {FindOptions} from '../utils/types/find-options.type';
-import {TypeOrmCrudService} from '@nestjsx/crud-typeorm';
-import {DeepPartial} from '../utils/types/deep-partial.type';
-import {ClosestActivityDto} from './dtos/activity-package.dto';
-import {ActivityPackageDestination} from '../activity-package-destination/activity-package-destination.entity';
-import {ActivityPackageDestinationImage} from '../activity-package-destination-image/activity-package-destination-image.entity';
+import { HttpStatus, Injectable } from '@nestjs/common';
+import { Connection, Repository } from 'typeorm';
+import { ActivityPackage } from './activity-package.entity';
+import { ActivityAvailability } from '../activity-availability/activity-availability.entity';
+import { ActivityAvailabilityHours } from '../activity-availability-hours/activity-availability-hours.entity';
+import { InjectConnection, InjectRepository } from '@nestjs/typeorm';
+import { FindOptions } from '../utils/types/find-options.type';
+import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
+import { DeepPartial } from '../utils/types/deep-partial.type';
+import { ClosestActivityDto } from './dtos/activity-package.dto';
+import { ActivityPackageDestination } from '../activity-package-destination/activity-package-destination.entity';
+import { ActivityPackageDestinationImage } from '../activity-package-destination-image/activity-package-destination-image.entity';
 
 @Injectable()
 export class ActivityPackageService extends TypeOrmCrudService<ActivityPackage> {

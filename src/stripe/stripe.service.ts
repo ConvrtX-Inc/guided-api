@@ -7,7 +7,7 @@ export default class StripeService {
   private stripe: Stripe;
 
   constructor(private configService: ConfigService) {
-    this.stripe = new Stripe(configService.get('STRIPE_SECRET_KEY'), {
+    this.stripe = new Stripe(configService.get('stripe.secretKey'), {
       apiVersion: '2020-08-27',
     });
   }
@@ -24,7 +24,7 @@ export default class StripeService {
       amount,
       customer: customerId,
       payment_method: paymentMethodId,
-      currency: this.configService.get('STRIPE_CURRENCY'),
+      currency: this.configService.get('stripe.currency'),
       confirm: true,
     });
   }

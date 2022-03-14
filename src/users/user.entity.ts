@@ -70,6 +70,12 @@ export class User extends EntityHelper {
   @Column({ nullable: true })
   password: string;
 
+  @ApiProperty()
+  @IsOptional()
+  @ApiProperty({ example: '' })
+  @Column({ nullable: true })
+  stripe_customer_id?: string | null;
+
   @ApiProperty({ example: '3235534022' })
   @IsOptional()
   @Index()
@@ -196,7 +202,6 @@ export class User extends EntityHelper {
   @Column({ type: 'bool', nullable: false, default: 'FALSE' })
   is_verified?: boolean;
 
-  
   @Allow()
   @IsOptional()
   @ApiProperty({ example: true })
