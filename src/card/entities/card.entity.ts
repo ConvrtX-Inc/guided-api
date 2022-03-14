@@ -4,6 +4,7 @@ import { IsNotEmpty, IsOptional, Validate } from "class-validator";
 import { EntityHelper } from "src/utils/entity-helper";
 import { IsExist } from "src/utils/validators/is-exists.validator";
 import { Column, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import {Transform} from "class-transformer";
 
 @Entity()
 export class Card extends EntityHelper {
@@ -44,11 +45,12 @@ export class Card extends EntityHelper {
     postal_code: string;
 
     @ApiProperty({ example: '08b79d9f-6e44-4ce0-82d3-88f4663d7ef0' })
+    @Transform((value: string | null) => (value == '' ? null : value))
     @Validate(IsExist, ['Country', 'id'], {
       message: 'Country not Found',
     })
-    @Column({ nullable: false })
-    country_id: string;
+    @Column({ nullable: true })
+    country_id: string | null;
 
     @ApiProperty({ example: '5122323287789876' })
     @IsNotEmpty({ groups: [CrudValidationGroups.CREATE] })

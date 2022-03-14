@@ -32,9 +32,7 @@ export class CardService extends TypeOrmCrudService<Card> {
   }
 
   async saveEntity(data: DeepPartial<Card>[]) {
-    return this.repository.save(
-      this.repository.create(data),
-    );
+    return this.repository.save(this.repository.create(data));
   }
 
   async softDelete(id: number): Promise<void> {
@@ -51,20 +49,21 @@ export class CardService extends TypeOrmCrudService<Card> {
     queryRunner.connect();
 
     await queryRunner.startTransaction();
-    try { 
-      connect.createQueryBuilder(queryRunner)
+    try {
+      connect
+        .createQueryBuilder(queryRunner)
         .update(Card)
         .set({ is_default: false, updated_date: new Date() })
-        .where("user_id = :user_id", { user_id: user_id })
+        .where('user_id = :user_id', { user_id: user_id })
         .execute();
-  
-      connect.createQueryBuilder(queryRunner)
+
+      connect
+        .createQueryBuilder(queryRunner)
         .update(Card)
         .set({ is_default: true, updated_date: new Date() })
-        .where("id = :card_id", { card_id: card_id })
+        .where('id = :card_id', { card_id: card_id })
         .execute();
       await queryRunner.commitTransaction();
-
     } catch (err) {
       console.log(err);
       await queryRunner.rollbackTransaction();
