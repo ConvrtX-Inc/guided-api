@@ -11,6 +11,7 @@ import facebookConfig from './config/facebook.config';
 import googleConfig from './config/google.config';
 import twitterConfig from './config/twitter.config';
 import appleConfig from './config/apple.config';
+import stripeConfig from './config/stripe.config';
 import * as path from 'path';
 import { TwilioModule } from 'nestjs-twilio';
 import { MailerModule } from '@nestjs-modules/mailer';
@@ -73,6 +74,10 @@ import { LawsAndTaxesModule } from './laws-and-taxes/laws-and-taxes.module';
 import { SmsModule } from './sms/sms.module';
 import { ContactUsModule } from './contact-us/contact-us.module';
 import { FaqModule } from './faq/faq.module';
+import { StripeModule } from './stripe/stripe.module';
+import { ChargeModule } from './charge/charge.module';
+import { SubscriptionModule } from './subscription/subscription.module';
+import { CountryModule } from './country/country.module';
 
 @Module({
   imports: [
@@ -88,6 +93,7 @@ import { FaqModule } from './faq/faq.module';
         googleConfig,
         twitterConfig,
         appleConfig,
+        stripeConfig,
       ],
       envFilePath: ['.env'],
     }),
@@ -117,8 +123,13 @@ import { FaqModule } from './faq/faq.module';
       inject: [ConfigService],
       resolvers: [new HeaderResolver(['x-custom-lang'])],
     }),
+    CountryModule,
     SmsModule,
     UsersModule,
+    CardModule,
+    ChargeModule,
+    SubscriptionModule,
+    StripeModule,
     FilesModule,
     AuthModule,
     AuthFacebookModule,
@@ -159,7 +170,6 @@ import { FaqModule } from './faq/faq.module';
     ActivityNewsfeedModule,
     ActivityArticleModule,
     CustomOfferModule,
-    CardModule,
     UserReviewModule,
     ParticipantModule,
     RoomModule,
@@ -171,7 +181,7 @@ import { FaqModule } from './faq/faq.module';
     RulesWhatToBringModule,
     LawsAndTaxesModule,
     ContactUsModule,
-    FaqModule
+    FaqModule,
   ],
 })
 export class AppModule {}
