@@ -28,4 +28,8 @@ export default class StripeService {
       confirm: true,
     });
   }
+
+  async subscription(price_stripe_id: string, stripe_customer_id: any) {
+    
+  }
 }
