@@ -75,6 +75,7 @@ import { ContactUsModule } from './contact-us/contact-us.module';
 import { FaqModule } from './faq/faq.module';
 import { StripeModule } from './stripe/stripe.module';
 import { ChargeModule } from './charge/charge.module';
+import { SubscriptionModule } from './subscription/subscription.module';
 
 @Module({
   imports: [
@@ -121,7 +122,9 @@ import { ChargeModule } from './charge/charge.module';
     }),
     SmsModule,
     UsersModule,
+    CardModule,
     ChargeModule,
+    SubscriptionModule,
     StripeModule,
     FilesModule,
     AuthModule,
@@ -163,7 +166,6 @@ import { ChargeModule } from './charge/charge.module';
     ActivityNewsfeedModule,
     ActivityArticleModule,
     CustomOfferModule,
-    CardModule,
     UserReviewModule,
     ParticipantModule,
     RoomModule,

@@ -22,7 +22,13 @@ export default class SubscriptionController {
   constructor(private readonly stripeService: StripeService) {}
 
   @Post()
-  async createSubscription(@Request() request, @Body() dto: CreateSubscriptionDto) {
+  async createSubscription(
+    @Request() request,
+    @Body() dto: CreateSubscriptionDto,
+  ) {
+
+
+
     await this.stripeService.subscription(
       dto.price_stripe_id,
       request.user.stripe_customer_id,
