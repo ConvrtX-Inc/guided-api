@@ -73,6 +73,8 @@ import { LawsAndTaxesModule } from './laws-and-taxes/laws-and-taxes.module';
 import { SmsModule } from './sms/sms.module';
 import { ContactUsModule } from './contact-us/contact-us.module';
 import { FaqModule } from './faq/faq.module';
+import { StripeModule } from './stripe/stripe.module';
+import { ChargeModule } from './charge/charge.module';
 
 @Module({
   imports: [
@@ -119,6 +121,8 @@ import { FaqModule } from './faq/faq.module';
     }),
     SmsModule,
     UsersModule,
+    StripeModule,
+    ChargeModule,
     FilesModule,
     AuthModule,
     AuthFacebookModule,
@@ -171,7 +175,7 @@ import { FaqModule } from './faq/faq.module';
     RulesWhatToBringModule,
     LawsAndTaxesModule,
     ContactUsModule,
-    FaqModule
+    FaqModule,
   ],
 })
 export class AppModule {}
