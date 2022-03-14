@@ -1,9 +1,21 @@
-import { Controller, Request, UseGuards, Get, HttpCode, HttpStatus, Param, Post } from '@nestjs/common';
+import {
+  Controller,
+  Request,
+  UseGuards,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+  Body,
+} from '@nestjs/common';
 import { ActivityPackageService } from './activity-package.service';
-import { ApiBearerAuth, ApiTags, ApiOperation} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Crud, CrudController, Override } from '@nestjsx/crud';
 import { ActivityPackage } from './activity-package.entity';
+import { UserProfileQuestionDto } from '../user-profile-question/dtos/user-profile-question.dto';
+import { ClosestActivityDto } from './dtos/activity-package.dto';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
@@ -44,9 +56,9 @@ export class ActivityPackageController
   async deleteOne(@Request() request) {
     return this.service.softDelete(request.params.id);
   }
-  
+
   @ApiOperation({ summary: 'Get the activity packages of a user' })
-  @Get('byuser/:user_id')      
+  @Get('byuser/:user_id')
   public async getActivityPackageByUser(@Param('user_id') user_id: string) {
     return this.service.getActivityPackageByUser(user_id);
   }
@@ -65,9 +77,13 @@ export class ActivityPackageController
     return this.service.rejectActivityPackage(id);
   }
 
-  @ApiOperation({ summary: 'Search activity packages (name, description, and address)' })
+  @ApiOperation({
+    summary: 'Search activity packages (name, description, and address)',
+  })
   @Get('search/:searchText')
-  public async getActivityPackageBySearchText(@Param('searchText') text: string) {
+  public async getActivityPackageBySearchText(
+    @Param('searchText') text: string,
+  ) {
     return this.service.getActivityPackageBySearchText(text);
   }
 
@@ -77,4 +93,10 @@ export class ActivityPackageController
     return this.service.checkActivityAvailability(id);
   }
 
+  @ApiOperation({ summary: 'get closest activity' })
+  @Post('closest-activity')
+  @HttpCode(HttpStatus.OK)
+  public async getClosestActivity(@Body() dto: ClosestActivityDto) {
+    return this.service.getClosestActivity(dto);
+  }
 }
