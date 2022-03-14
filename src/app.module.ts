@@ -78,6 +78,7 @@ import { StripeModule } from './stripe/stripe.module';
 import { ChargeModule } from './charge/charge.module';
 import { SubscriptionModule } from './subscription/subscription.module';
 import { CountryModule } from './country/country.module';
+import { TermsAndConditionsModule } from './terms-and-conditions/terms-and-conditions.module';
 
 @Module({
   imports: [
@@ -182,6 +183,7 @@ import { CountryModule } from './country/country.module';
     LawsAndTaxesModule,
     ContactUsModule,
     FaqModule,
+    TermsAndConditionsModule,
   ],
 })
 export class AppModule {}
