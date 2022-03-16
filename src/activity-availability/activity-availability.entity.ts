@@ -1,4 +1,11 @@
-import {Column, DeleteDateColumn, Entity, Generated, PrimaryGeneratedColumn} from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Allow, IsOptional, Validate } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
@@ -29,15 +36,13 @@ export class ActivityAvailability extends EntityHelper {
   })
   availability_date?: Date;
 
-  @IsOptional()
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  created_date?: string;
+  @CreateDateColumn()
+  created_date: Date;
 
-  @IsOptional()
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  updated_date?: string;
+  @UpdateDateColumn()
+  updated_date: Date;
 
   @IsOptional()
   @DeleteDateColumn()
-  deletedAt: Date;
+  deleted_date: Date;
 }

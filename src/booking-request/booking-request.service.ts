@@ -96,7 +96,9 @@ export class BookingRequestService extends TypeOrmCrudService<BookingRequest> {
       filteredRequests = await createQueryBuilder(BookingRequest, 'booking')
         .leftJoinAndSelect('booking.status', 'status')
         .where('booking.user_id = :user_id', { user_id: user_id })
-        .andWhere('LOWER(status.status_name) = LOWER(:status_name)', { status_name: status })
+        .andWhere('LOWER(status.status_name) = LOWER(:status_name)', {
+          status_name: status,
+        })
         .getMany();
     } else {
       filteredRequests = await this.destinationsRepository.find({

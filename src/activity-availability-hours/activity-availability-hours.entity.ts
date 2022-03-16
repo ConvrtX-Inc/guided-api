@@ -1,11 +1,19 @@
 import {
   Column,
+  CreateDateColumn,
   DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Allow, IsNotEmpty, IsNumber, IsOptional, Validate } from 'class-validator';
+import {
+  Allow,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  Validate,
+} from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { CrudValidationGroups } from '@nestjsx/crud';
 import { IsExist } from '../utils/validators/is-exists.validator';
@@ -26,30 +34,27 @@ export class ActivityAvailabilityHours extends EntityHelper {
 
   @IsOptional()
   @Allow()
-  @ApiProperty({ example: '2022-12-12' })
+  @ApiProperty({ example: '2022-12-12 11:11:11' })
   @Column({
-    type: 'timestamp',
+    type: 'date',
     nullable: false,
-    default: () => 'CURRENT_TIMESTAMP',
   })
-  availability_date_hour?: string;
+  availability_date_hour?: Date;
 
   @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
   @IsNotEmpty({ groups: [CrudValidationGroups.CREATE] })
   @IsNumber()
-  @Column({type: 'integer', nullable: false})
-  @ApiProperty({ example: '1', name: 'slots', required: true})
+  @Column({ type: 'integer', nullable: false })
+  @ApiProperty({ example: '1', name: 'slots', required: true })
   slots: number;
 
-  @IsOptional()
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  created_date?: string;
+  @CreateDateColumn()
+  created_date: Date;
 
-  @IsOptional()
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  updated_date?: string;
+  @UpdateDateColumn()
+  updated_date: Date;
 
   @IsOptional()
   @DeleteDateColumn()
-  deletedAt: Date;
+  deleted_date: Date;
 }
