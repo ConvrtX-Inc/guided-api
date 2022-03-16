@@ -1,9 +1,19 @@
-import { Controller, Request, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { ActivityAvailabilityService } from './activity-availability.service';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Crud, CrudController, Override } from '@nestjsx/crud';
 import { ActivityAvailability } from './activity-availability.entity';
+import { SlotAvailabilityDto } from './dtos/availability-slot.dto';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
@@ -47,5 +57,21 @@ export class ActivityAvailabilityController
   @Override()
   async deleteOne(@Request() request) {
     return this.service.softDelete(request.params.id);
+  }
+
+  @ApiOperation({ summary: 'Create Slot Availability' })
+  @Post('create-slot-availability')
+  @HttpCode(HttpStatus.OK)
+  public async createSlotAvailability(@Body() dto: SlotAvailabilityDto) {
+    return this.service.createSlotAvailability(dto);
+  }
+  @ApiOperation({ summary: 'Update Slot Availability' })
+  @Post('update-slot-availability/:id')
+  @HttpCode(HttpStatus.OK)
+  public async updateSlotAvailability(
+    @Body() dto: SlotAvailabilityDto,
+    @Param('id') id: string,
+  ) {
+    return this.service.updateSlotAvailability(dto, id);
   }
 }

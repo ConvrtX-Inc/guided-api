@@ -12,6 +12,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import {stringifiedJson} from "aws-sdk/clients/customerprofiles";
 
 @Entity()
 export class ActivityAdvertisement extends EntityHelper {
@@ -43,6 +44,11 @@ export class ActivityAdvertisement extends EntityHelper {
   @IsNotEmpty({ groups: [CrudValidationGroups.CREATE] })
   @Column({ nullable: true })
   address: string;
+
+  @IsOptional()
+  @ApiProperty({ example: '{activities: walking}' })
+  @Column('simple-json')
+  activities?: stringifiedJson;
 
   @ApiProperty({ example: 'street' })
   @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
