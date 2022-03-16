@@ -71,6 +71,12 @@ export class Transaction extends EntityHelper {
   @Generated('uuid')
   status_id?: string;
 
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: false })
+  @Column({ type: 'bool', nullable: true, default: false })
+  is_post?: boolean;
+
   @CreateDateColumn()
   created_date: Date;
 
