@@ -36,10 +36,11 @@ export class ActivityAvailabilityHours extends EntityHelper {
   @Allow()
   @ApiProperty({ example: '2022-12-12 11:11:11' })
   @Column({
-    type: 'date',
+    type: 'timestamp',
     nullable: false,
+    default: () => 'CURRENT_TIMESTAMP',
   })
-  availability_date_hour?: Date;
+  availability_date_hour?: string | number | Date;
 
   @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
   @IsNotEmpty({ groups: [CrudValidationGroups.CREATE] })
