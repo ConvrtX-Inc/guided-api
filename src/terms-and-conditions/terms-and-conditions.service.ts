@@ -44,4 +44,12 @@ export class TermsAndConditionService extends TypeOrmCrudService<TermsAndConditi
   async hardDelete(id) {
     await this.TermsAndConditionsRepository.delete(id);
   }
+
+  async getTermsByType(type: string) {
+    return this.TermsAndConditionsRepository.find({
+      where: {
+        type: type,
+      },
+    });
+  }
 }

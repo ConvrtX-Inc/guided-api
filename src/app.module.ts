@@ -79,6 +79,7 @@ import { ChargeModule } from './charge/charge.module';
 import { SubscriptionModule } from './subscription/subscription.module';
 import { CountryModule } from './country/country.module';
 import { TermsAndConditionsModule } from './terms-and-conditions/terms-and-conditions.module';
+import { UsersTermsAndConditionsModule } from './users-terms-and-conditions/users-terms-and-conditions.module';
 
 @Module({
   imports: [
@@ -184,6 +185,7 @@ import { TermsAndConditionsModule } from './terms-and-conditions/terms-and-condi
     ContactUsModule,
     FaqModule,
     TermsAndConditionsModule,
+    UsersTermsAndConditionsModule,
   ],
 })
 export class AppModule {}

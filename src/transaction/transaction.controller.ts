@@ -1,9 +1,10 @@
-import { Controller, Request, UseGuards, Get, Param } from '@nestjs/common';
+import { Controller, Request, UseGuards, Get, Param, Post, Body } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
 import { ApiBearerAuth, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Crud, CrudController, Override } from '@nestjsx/crud';
 import { Transaction } from './transaction.entity';
+import { TransactionUserAndStatusDto } from './dtos/transaction-user-status.dto';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
@@ -47,5 +48,11 @@ export class TransactionController implements CrudController<Transaction> {
   @Get('byguide/:user_id')      
   public async getTransactionsByGuide(@Param('user_id') user_id: string) {
     return this.service.getTransactionsByGuide(user_id);
+  }
+
+  @ApiOperation({ summary: 'Get the transactions by tour_guide_id and status' })
+  @Post('byguide/transaction')      
+  public async getTransactionsByUserAndStatus(@Body() transactionUserAndStatusDto: TransactionUserAndStatusDto) {
+    return this.service.getTransactionsByUserAndStatus(transactionUserAndStatusDto);
   }
 }
