@@ -5,7 +5,6 @@ import { FindOptions } from '../utils/types/find-options.type';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { DeepPartial } from '../utils/types/deep-partial.type';
 import { TermsAndCondition } from './terms-and-condition.entity';
-import { description } from 'aws-sdk/clients/frauddetector';
 
 @Injectable()
 export class TermsAndConditionService extends TypeOrmCrudService<TermsAndCondition> {
@@ -46,8 +45,11 @@ export class TermsAndConditionService extends TypeOrmCrudService<TermsAndConditi
     await this.TermsAndConditionsRepository.delete(id);
   }
 
-  async getCancellationPolicy(id: string) {
-    return await this.TermsAndConditionsRepository.findOne(id);
+  async getTermsByType(type: string) {
+    return this.TermsAndConditionsRepository.find({
+      where: {
+        type: type,
+      },
+    });
   }
-
 }
