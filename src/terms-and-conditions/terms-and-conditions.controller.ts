@@ -1,6 +1,8 @@
 import {
   Controller,
   UseGuards,
+  Get,
+  Param,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
@@ -40,4 +42,11 @@ export class TermsAndConditionsController implements CrudController<TermsAndCond
   get base(): CrudController<TermsAndCondition> {
     return this;
   }
+
+  @Get('/cancellation-policy/:id')
+  async cancellationPolicy(@Param('id') id: string){
+    return this.service.getCancellationPolicy(id);
+  }
+  
+
 }
