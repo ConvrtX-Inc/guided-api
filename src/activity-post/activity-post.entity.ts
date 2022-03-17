@@ -32,7 +32,21 @@ export class ActivityPost extends EntityHelper {
     nullable: false,
   })
   category_type?: number;
-  
+
+  @IsOptional()
+  @ApiProperty({ example: 'Title' })
+  @Column({ nullable: true, length: 100 })
+  title?: string;
+
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: 1})
+  @Column({ 
+    type: 'int',
+    nullable: false,
+  })
+  views?: number;
+
   @Allow()
   @IsOptional()
   @ApiProperty({ example: false })
