@@ -8,6 +8,7 @@ import { DeepPartial } from '../utils/types/deep-partial.type';
 import { TransactionUserAndStatusDto } from './dtos/transaction-user-status.dto';
 import { StatusService } from 'src/statuses/status.service';
 import { Status } from 'src/statuses/status.entity';
+import { TransactionGuideAndStatusDto } from './dtos/transaction-guide-status.dto';
 
 @Injectable()
 export class TransactionService extends TypeOrmCrudService<Transaction> {
@@ -52,6 +53,20 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
     });
   }
 
+  async getTransactionsByGuideAndStatus(transactionGuideAndStatusDto: TransactionGuideAndStatusDto) {
+    const status = await getRepository(Status)
+      .createQueryBuilder('status')
+      .where('status.status_name = :status_name', { status_name: transactionGuideAndStatusDto.status.replace(/\b\w/g, (l) => l.toUpperCase()) })
+      .getOne();
+
+    return this.destinationsRepository.find({
+      where: {
+        tour_guide_id: transactionGuideAndStatusDto.tour_guide_id,
+        status_id: status.id
+      },
+    });
+  }
+
   async getTransactionsByUserAndStatus(transactionUserAndStatusDto: TransactionUserAndStatusDto) {
     const status = await getRepository(Status)
       .createQueryBuilder('status')
@@ -60,7 +75,7 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
 
     return this.destinationsRepository.find({
       where: {
-        tour_guide_id: transactionUserAndStatusDto.tour_guide_id,
+        user_id: transactionUserAndStatusDto.user_id,
         status_id: status.id
       },
     });
