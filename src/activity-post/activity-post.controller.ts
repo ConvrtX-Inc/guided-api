@@ -4,7 +4,8 @@ import {
   Post,
   Param,
   HttpCode,
-  HttpStatus
+  HttpStatus,
+  Get
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
@@ -21,7 +22,7 @@ import { ActivityPostService } from './activity-post.service';
     type: ActivityPost,
   },
   routes: {
-    exclude: ['getManyBase', 'replaceOneBase', 'createManyBase'],
+    exclude: ['replaceOneBase', 'createManyBase'],
   },
   query: {
     maxLimit: 50,
