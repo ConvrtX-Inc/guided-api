@@ -127,4 +127,8 @@ export class BookingRequestService extends TypeOrmCrudService<BookingRequest> {
 
     return status_id;
   }
+
+  findBookingsRequest(month: string) {
+    return Promise.resolve(undefined);
+  }
 }

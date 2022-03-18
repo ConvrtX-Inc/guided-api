@@ -18,6 +18,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { Crud, CrudController, Override, ParsedBody } from '@nestjsx/crud';
 import { BookingRequest } from './booking-request.entity';
+import {FindBookingDto} from "./booking.dto";
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
@@ -88,6 +89,13 @@ export class BookingRequestController
   @HttpCode(HttpStatus.OK)
   async rejectRequest(@Param('id') id: string) {
     return this.service.rejectRequest(id);
+  }
+
+  @ApiOperation({ summary: 'find booking request' })
+  @Post('reject-request')
+  @HttpCode(HttpStatus.OK)
+  async findBookingsRequest(dto: FindBookingDto) {
+    return this.service.findBookingsRequest(month);
   }
 
   @ApiOperation({ summary: 'Filter booking request by status' })
