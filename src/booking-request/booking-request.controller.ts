@@ -95,7 +95,7 @@ export class BookingRequestController
   @Post('reject-request')
   @HttpCode(HttpStatus.OK)
   async findBookingsRequest(dto: FindBookingDto) {
-    return this.service.findBookingsRequest(month);
+    return this.service.findBookingsRequest(dto);
   }
 
   @ApiOperation({ summary: 'Filter booking request by status' })

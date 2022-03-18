@@ -1,13 +1,14 @@
-import { Injectable } from '@nestjs/common';
-import { createQueryBuilder, Repository } from 'typeorm';
+import {HttpStatus, Injectable} from '@nestjs/common';
+import { Connection, createQueryBuilder, Repository } from 'typeorm';
 import { BookingRequest } from './booking-request.entity';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectConnection, InjectRepository } from '@nestjs/typeorm';
 import { FindOptions } from '../utils/types/find-options.type';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { DeepPartial } from '../utils/types/deep-partial.type';
 import { response } from 'src/utils/response-helper';
 import { BookingRequestStatus } from './booking-request-status';
 import { Status } from 'src/statuses/status.entity';
+import { FindBookingDto } from './booking.dto';
 
 @Injectable()
 export class BookingRequestService extends TypeOrmCrudService<BookingRequest> {
@@ -16,6 +17,7 @@ export class BookingRequestService extends TypeOrmCrudService<BookingRequest> {
     private destinationsRepository: Repository<BookingRequest>,
     @InjectRepository(Status)
     private statusRepository: Repository<Status>,
+    @InjectConnection() private readonly connection: Connection,
   ) {
     super(destinationsRepository);
   }
@@ -128,7 +130,28 @@ export class BookingRequestService extends TypeOrmCrudService<BookingRequest> {
     return status_id;
   }
 
-  findBookingsRequest(month: string) {
-    return Promise.resolve(undefined);
+  async findBookingsRequest(dto: FindBookingDto) {
+    try {
+      const response = await this.connection.query(
+        `SELECT * FROM booking_request WHERE CAST ( booking_date_start AS DATE ) BETWEEN ${dto.first_date} AND ${dto.second_date}`,
+      );
+      return {
+        status: HttpStatus.OK,
+        response: {
+          data: {
+            details: response,
+          },
+        },
+      };
+    } catch (e) {
+      return {
+        status: HttpStatus.BAD_REQUEST,
+        response: {
+          data: {
+            details: 'Something went wrong:' + e.message,
+          },
+        },
+      };
+    }
   }
 }
