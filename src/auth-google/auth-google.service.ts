@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { OAuth2Client } from 'google-auth-library';
 import { SocialInterface } from '../social/interfaces/social.interface';
@@ -18,18 +18,30 @@ export class AuthGoogleService {
   async getProfileByToken(
     loginDto: AuthGoogleLoginDto,
   ): Promise<SocialInterface> {
-    const ticket = await this.google.verifyIdToken({
-      idToken: loginDto.idToken,
-      audience: [this.configService.get('google.clientId')],
-    });
+    try {
+      const ticket = await this.google.verifyIdToken({
+        idToken: loginDto.idToken,
+        audience: [this.configService.get('google.clientId')],
+      });
 
-    const data = ticket.getPayload();
+      const data = ticket.getPayload();
 
-    return {
-      id: data.sub,
-      email: data.email,
-      firstName: data.given_name,
-      lastName: data.family_name,
-    };
+      return {
+        id: data.sub,
+        email: data.email,
+        firstName: data.given_name,
+        lastName: data.family_name,
+      };
+    } catch (e) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            details: 'Something went wrong! Please check this error:' + e,
+          },
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
   }
 }
