@@ -1,4 +1,11 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpException,
+  HttpStatus,
+  Post,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from 'src/auth/auth.service';
 import { AuthGoogleService } from './auth-google.service';
@@ -19,7 +26,18 @@ export class AuthGoogleController {
   @HttpCode(HttpStatus.OK)
   async login(@Body() loginDto: AuthGoogleLoginDto) {
     const socialData = await this.authGoogleService.getProfileByToken(loginDto);
-
-    return this.authService.validateSocialLogin('google', socialData);
+    if (socialData.id != '') {
+      return this.authService.validateSocialLogin('google', socialData);
+    } else {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            details: 'Something went wrong!' ,
+          },
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
   }
 }

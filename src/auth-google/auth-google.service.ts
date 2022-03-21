@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { OAuth2Client } from 'google-auth-library';
 import { SocialInterface } from '../social/interfaces/social.interface';
 import { AuthGoogleLoginDto } from './dtos/auth-google-login.dto';
+import jwt_decode from 'jwt-decode';
 
 @Injectable()
 export class AuthGoogleService {
@@ -19,12 +20,13 @@ export class AuthGoogleService {
     loginDto: AuthGoogleLoginDto,
   ): Promise<SocialInterface> {
     try {
-      const ticket = await this.google.verifyIdToken({
-        idToken: loginDto.idToken,
-        audience: [this.configService.get('google.clientId')],
-      });
-
-      const data = ticket.getPayload();
+      let data = {
+        sub: '',
+        email: '',
+        given_name: '',
+        family_name: '',
+      };
+      data = await jwt_decode(loginDto.idToken);
 
       return {
         id: data.sub,
@@ -37,7 +39,7 @@ export class AuthGoogleService {
         {
           status: HttpStatus.UNPROCESSABLE_ENTITY,
           errors: {
-            details: 'Something went wrong! Please check this error:' + e,
+            details: 'Something went wrong!' + e,
           },
         },
         HttpStatus.UNPROCESSABLE_ENTITY,
