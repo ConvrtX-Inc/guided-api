@@ -80,4 +80,18 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
       },
     });
   }
+
+ async updateToRefunded(transaction_id: string) {
+  const status = await getRepository(Status)
+  .createQueryBuilder('status')
+  .where({ status_name: "Refunded" })
+  .getOne();
+
+  let transaction = new Transaction();
+  transaction.id = transaction_id;
+  transaction.status_id = status.id;
+  return this.destinationsRepository.update(transaction_id, transaction);
+}
+
+
 }

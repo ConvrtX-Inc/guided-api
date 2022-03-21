@@ -1,4 +1,4 @@
-import { Controller, Request, UseGuards, Get, Param, Post, Body } from '@nestjs/common';
+import { Controller, Request, UseGuards, Get, Param, Post, Body, Patch } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
 import { ApiBearerAuth, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
@@ -34,7 +34,7 @@ import { TransactionGuideAndStatusDto } from './dtos/transaction-guide-status.dt
   version: '1',
 })
 export class TransactionController implements CrudController<Transaction> {
-  constructor(public service: TransactionService) {}
+  constructor(public service: TransactionService) { }
 
   get base(): CrudController<Transaction> {
     return this;
@@ -46,20 +46,26 @@ export class TransactionController implements CrudController<Transaction> {
   }
 
   @ApiOperation({ summary: 'Get the transactions of a guide/partners.' })
-  @Get('byguide/:user_id')      
+  @Get('byguide/:user_id')
   public async getTransactionsByGuide(@Param('user_id') user_id: string) {
     return this.service.getTransactionsByGuide(user_id);
   }
 
   @ApiOperation({ summary: 'Get the transactions by user_id and status' })
-  @Post('byuser/transaction')      
+  @Post('byuser/transaction')
   public async getTransactionsByUserAndStatus(@Body() transactionUserAndStatusDto: TransactionUserAndStatusDto) {
     return this.service.getTransactionsByUserAndStatus(transactionUserAndStatusDto);
   }
 
   @ApiOperation({ summary: 'Get the transactions by tour_guide_id and status' })
-  @Post('byguide/transaction')      
+  @Post('byguide/transaction')
   public async getTransactionsByGuideAndStatus(@Body() transactionGuideAndStatusDto: TransactionGuideAndStatusDto) {
     return this.service.getTransactionsByGuideAndStatus(transactionGuideAndStatusDto);
+  }
+
+  @ApiOperation({ summary: 'Update the status id to refunded' })
+  @Patch('updateToRefunded/:transaction_id')
+  public async updateToRefunded(@Param('transaction_id') transaction_id: string) {
+    return this.service.updateToRefunded(transaction_id);
   }
 }

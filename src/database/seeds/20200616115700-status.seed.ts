@@ -22,6 +22,9 @@ export default class CreateStatus implements Seeder {
           {
             status_name: 'Inactive',
           },
+          {
+            status_name: 'Refunded',
+          },
         ])
         .execute();
     }
@@ -129,5 +132,27 @@ export default class CreateStatus implements Seeder {
       .values([{ status_name: 'Completed' }])
       .execute();
   }
+
+  const countRefunded = await connection
+    .createQueryBuilder()
+    .select()
+    .from(Status, 'Status')
+    .where('"Status"."status_name" = :status_name', {
+      status_name: 'Refunded',
+    })
+    .getCount();
+
+  if (countRefunded === 0) {
+    await connection
+      .createQueryBuilder()
+      .insert()
+      .into(Status)
+      .values([{ status_name: 'Refunded' }])
+      .execute();
+  }
+
+
+
+
   }
 }

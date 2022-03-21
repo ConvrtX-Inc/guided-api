@@ -40,24 +40,24 @@ export class ActivityArticleService extends TypeOrmCrudService<ActivityArticle> 
     await this.activityArticleRepository.softDelete(id);
   }
 
-  async approvedArticle(id: string) {    
+  async approvedArticle(id: string) {
     const post = await this.activityArticleRepository.findOne({
       where: { id: id },
     });
     if (post) {
-      post.is_published = true;      
+      post.is_published = true;
       await post.save();
     }
   }
 
-  async rejectArticle(id: string) {    
+  async rejectArticle(id: string) {
     const post = await this.activityArticleRepository.findOne({
       where: { id: id },
     });
     if (post) {
-      post.is_published = false;      
+      post.is_published = false;
       await post.save();
     }
   }
- 
+
 }
