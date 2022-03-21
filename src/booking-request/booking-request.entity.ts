@@ -1,8 +1,17 @@
-import {Column, DeleteDateColumn, Entity, Generated, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {
+  Column, CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  Generated,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn, UpdateDateColumn,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Allow, IsOptional } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { Status } from 'src/statuses/status.entity';
+import { Transform } from 'class-transformer';
 
 @Entity()
 export class BookingRequest extends EntityHelper {
@@ -11,12 +20,14 @@ export class BookingRequest extends EntityHelper {
 
   @IsOptional()
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
+  @Transform((value: string | null) => (value == '' ? null : value))
   @Column()
   @Generated('uuid')
   user_id?: string;
 
   @IsOptional()
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
+  @Transform((value: string | null) => (value == '' ? null : value))
   @Column()
   @Generated('uuid')
   from_user_id?: string;
@@ -28,12 +39,14 @@ export class BookingRequest extends EntityHelper {
 
   @IsOptional()
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
+  @Transform((value: string | null) => (value == '' ? null : value))
   @Column()
   @Generated('uuid')
   activity_package_id?: string;
 
   @IsOptional()
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
+  @Transform((value: string | null) => (value == '' ? null : value))
   @Column()
   @Generated('uuid')
   status_id?: string;
@@ -65,16 +78,13 @@ export class BookingRequest extends EntityHelper {
   @Column({ type: 'bool', nullable: true, default: false })
   is_approved?: boolean;
 
-  @IsOptional()
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  created_date?: string;
+  @CreateDateColumn()
+  created_date: Date;
 
-  @IsOptional()
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  updated_date?: string;
-
+  @UpdateDateColumn()
+  updated_date: Date;
 
   @IsOptional()
   @DeleteDateColumn()
-  deletedAt: Date;
+  deleted_date: Date;
 }

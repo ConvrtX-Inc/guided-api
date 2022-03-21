@@ -80,6 +80,7 @@ import { SubscriptionModule } from './subscription/subscription.module';
 import { CountryModule } from './country/country.module';
 import { TermsAndConditionsModule } from './terms-and-conditions/terms-and-conditions.module';
 import { ActivityEventImageModule } from './activity-event-image/activity-event-image.module';
+import { UsersTermsAndConditionsModule } from './users-terms-and-conditions/users-terms-and-conditions.module';
 
 @Module({
   imports: [
@@ -186,6 +187,7 @@ import { ActivityEventImageModule } from './activity-event-image/activity-event-
     FaqModule,
     TermsAndConditionsModule,
     ActivityEventImageModule,
+    UsersTermsAndConditionsModule,
   ],
 })
 export class AppModule {}
