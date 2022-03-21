@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { execSync } from 'child_process';
+import { ActivityPost } from 'src/activity-post/activity-post.entity';
 import { Guideline } from 'src/guidelines/entities/guideline.entity';
 import { Transaction } from 'src/transaction/transaction.entity';
 import { User } from 'src/users/user.entity';
@@ -14,6 +15,9 @@ export class DashboardRelatedService {
 
     @InjectRepository(Guideline)
     private repoGuide: Repository<Guideline>,
+
+    @InjectRepository(ActivityPost)
+    private repoActivityPost: Repository<ActivityPost>,
 
     @InjectRepository(Transaction)
     private repoTransaction: Repository<Transaction>,
@@ -52,12 +56,12 @@ export class DashboardRelatedService {
       let rawdata = fs.readFileSync('gdata.json');
       let student = JSON.parse(rawdata);
 
-      return { downloads: student['maxInstalls'] };
+      return { downloads: student['installs'] };
     } catch {}
   }
 
   recentPosts() {
-    return this.repoGuide
+    return this.repoActivityPost
       .createQueryBuilder()
       .orderBy('created_date', 'DESC')
       .limit(10)
