@@ -5,11 +5,13 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  Body,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { Crud, CrudController, Override } from '@nestjsx/crud';
 import { ActivityAdvertisementService } from './activity-advertisement.service';
+import { AdvertisementUserAndStatusDto } from './dtos/advertisement-user-status.dto';
 import { ActivityAdvertisement } from './entities/activity-advertisement.entity';
 
 @ApiBearerAuth()
@@ -56,5 +58,11 @@ export class ActivityAdvertisementController
   @HttpCode(HttpStatus.OK)
   public async rejectActivityAdvertisement(@Param('id') id: string) {
     return this.service.rejectActivityAdvertisement(id);
+  }
+
+  @ApiOperation({ summary: 'Get activity advertisment by user_id and status' })
+  @Post('byuser/post')
+  public async getAdvertisementsByUserAndStatus(@Body() advertisementUserAndStatusDto: AdvertisementUserAndStatusDto) {
+    return this.service.getadvertisementsByUserAndStatus(advertisementUserAndStatusDto);
   }
 }
