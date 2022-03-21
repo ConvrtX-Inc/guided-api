@@ -36,7 +36,7 @@ export class ActivityAdvertisement extends EntityHelper {
   @ApiProperty({ example: 'USA' })
   @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
   @IsNotEmpty({ groups: [CrudValidationGroups.CREATE] })
-  @Column({ nullable: false, type: 'char', length: 10 })
+  @Column({ nullable: true })
   country: string;
 
   @ApiProperty({ example: 'address' })
