@@ -14,6 +14,7 @@ import { EntityHelper } from 'src/utils/entity-helper';
 import { IsExist } from '../utils/validators/is-exists.validator';
 import { Transform } from 'class-transformer';
 import * as base64_arraybuffer from 'base64-arraybuffer-converter';
+import { stringifiedJson } from 'aws-sdk/clients/customerprofiles';
 
 @Entity()
 export class ActivityPackage extends EntityHelper {
@@ -74,6 +75,9 @@ export class ActivityPackage extends EntityHelper {
     nullable: true,
   })
   cover_img?: Buffer | null | string;
+  destination: any;
+  distance: string;
+  time_to_travel: null | string;
 
   @BeforeUpdate()
   @BeforeInsert()
@@ -114,7 +118,7 @@ export class ActivityPackage extends EntityHelper {
 
   @IsOptional()
   @ApiProperty({ example: 'country' })
-  @Column({ type: 'char', nullable: false, length: 10 })
+  @Column({ nullable: true })
   country?: string;
 
   @IsOptional()
@@ -125,7 +129,7 @@ export class ActivityPackage extends EntityHelper {
   @IsOptional()
   @ApiProperty({ example: '{services: cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae}' })
   @Column('simple-json')
-  services?: { services: string };
+  services?: stringifiedJson;
 
   @IsOptional()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

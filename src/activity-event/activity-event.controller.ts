@@ -1,9 +1,10 @@
-import { Controller, Request, UseGuards, Post, HttpCode, HttpStatus, Param } from '@nestjs/common';
+import { Controller, Request, UseGuards, Post, HttpCode, HttpStatus, Param, Body } from '@nestjs/common';
 import { ActivityEventService } from './activity-event.service';
 import { ApiBearerAuth, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Crud, CrudController, Override } from '@nestjsx/crud';
 import { ActivityEvent } from './activity-event.entity';
+import { EventUserAndStatusDto } from './dtos/event-user-status.dto';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
@@ -56,4 +57,10 @@ export class ActivityEventController implements CrudController<ActivityEvent> {
   public async rejectEvent(@Param('id') id: string) {
     return this.service.rejectEvent(id);
   }  
+
+  @ApiOperation({ summary: 'Get activity events by user_id and status' })
+  @Post('byuser/post')
+  public async getEventsByUserAndStatus(@Body() eventUserAndStatusDto: EventUserAndStatusDto) {
+    return this.service.getEventsByUserAndStatus(eventUserAndStatusDto);
+  }
 }
