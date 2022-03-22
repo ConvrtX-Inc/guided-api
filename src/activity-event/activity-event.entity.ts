@@ -41,21 +41,21 @@ export class ActivityEvent extends EntityHelper {
   @ApiProperty({
     example: '{free_service: cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae}',
   })
-  @Column('simple-json')
+  @Column({ type: 'simple-json', nullable: true })
   free_service?: string;
 
   @IsOptional()
   @ApiProperty({
     example: '{main_activities: cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae}',
   })
-  @Column('simple-json')
+  @Column({ type: 'simple-json', nullable: true })
   main_activities?: string;
 
   @IsOptional()
   @ApiProperty({
     example: '{sub_activities: cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae}',
   })
-  @Column('simple-json')
+  @Column({ type: 'simple-json', nullable: true })
   sub_activities?: string;
 
   @IsOptional()
