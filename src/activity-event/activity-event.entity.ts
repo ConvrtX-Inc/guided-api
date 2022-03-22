@@ -1,4 +1,10 @@
-import {Column, DeleteDateColumn, Entity, Generated, PrimaryGeneratedColumn} from 'typeorm';
+import {
+  Column,
+  DeleteDateColumn,
+  Entity,
+  Generated,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, Allow, Validate } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
@@ -32,8 +38,33 @@ export class ActivityEvent extends EntityHelper {
   title?: string;
 
   @IsOptional()
+  @ApiProperty({
+    example: '{free_service: cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae}',
+  })
+  @Column('simple-json')
+  free_service?: string;
+
+  @IsOptional()
+  @ApiProperty({
+    example: '{main_activities: cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae}',
+  })
+  @Column('simple-json')
+  main_activities?: string;
+
+  @IsOptional()
+  @ApiProperty({
+    example: '{sub_activities: cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae}',
+  })
+  @Column('simple-json')
+  sub_activities?: string;
+
+  @IsOptional()
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  date?: string;
+
+  @IsOptional()
   @ApiProperty({ example: 'Country' })
-  @Column({ type: 'char', nullable: false, length: 10 })
+  @Column({ nullable: true })
   country?: string;
 
   @IsOptional()
