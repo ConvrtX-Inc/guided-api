@@ -7,13 +7,24 @@ import {
     UpdateDateColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional } from 'class-validator';
+import { IsOptional, Validate } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
+import { Transform } from 'class-transformer';
+import { IsExist } from 'src/utils/validators/is-exists.validator';
 
 @Entity()
 export class TermsAndCondition extends EntityHelper {
     @PrimaryGeneratedColumn('uuid')
     id: string;
+
+    @IsOptional()
+    @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
+    @Transform((value: string | null) => (value == '' ? null : value))
+    @Validate(IsExist, ['User', 'id'], {
+      message: 'User not Found',
+    })
+    @Column({ type: 'uuid', nullable: true })
+    tour_guide_id?: string | null;
 
     @IsOptional()
     @ApiProperty({ example: 'waiver' })

@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptions } from '../utils/types/find-options.type';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { DeepPartial } from '../utils/types/deep-partial.type';
+import { EventUserAndStatusDto } from './dtos/event-user-status.dto';
 
 @Injectable()
 export class ActivityEventService extends TypeOrmCrudService<ActivityEvent> {
@@ -53,4 +54,13 @@ export class ActivityEventService extends TypeOrmCrudService<ActivityEvent> {
       await post.save();
     }
   }  
+
+  async getEventsByUserAndStatus(eventUserAndStatusDto: EventUserAndStatusDto) {
+    return this.activityRepository.find({
+      where: {
+        user_id: eventUserAndStatusDto.user_id,
+        is_published: eventUserAndStatusDto.is_published
+      },
+    });
+  }
 }

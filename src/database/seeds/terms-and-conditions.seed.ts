@@ -9,7 +9,7 @@ export default class CreateTermsAndConditions implements Seeder {
       .createQueryBuilder()
       .select()
       .from(TermsAndCondition, 'TermsAndCondition')
-      .where('"TermsAndCondition"."type" = :type', { type: 'terms and conditions' })
+      .where('"TermsAndCondition"."type" = :type', { type: 'termsandconditions' })
       .getCount();
 
     if (countTermsAndCondition === 0) {
@@ -19,7 +19,8 @@ export default class CreateTermsAndConditions implements Seeder {
         .into(TermsAndCondition)
         .values([
           plainToClass(TermsAndCondition, {
-            type: 'terms and conditions',
+            tour_guide_id: '',
+            type: 'termsandconditions',
             description: `1. INTRODUCTION
             1.1 These terms of use explain how you may use this app and website (the “GuidED
             Platform”). References in these terms to the GuidED Platform includes the following
@@ -504,7 +505,7 @@ export default class CreateTermsAndConditions implements Seeder {
       .createQueryBuilder()
       .select()
       .from(TermsAndCondition, 'TermsAndCondition')
-      .where('"TermsAndCondition"."type" = :type', { type: 'traveler release and waiver form' })
+      .where('"TermsAndCondition"."type" = :type', { type: 'travelerreleaseandwaiverform' })
       .getCount();
 
     if (countTravelerReleaseAndWaiverForm === 0) {
@@ -514,7 +515,8 @@ export default class CreateTermsAndConditions implements Seeder {
         .into(TermsAndCondition)
         .values([
           plainToClass(TermsAndCondition, {
-            type: 'traveler release and waiver form',
+            tour_guide_id: '',
+            type: 'travelerreleaseandwaiverform',
             description: `Last update: August 28, 2021
             RELEASE OF LIABILITY, WAIVER OF CLAIMS AND ASSUMPTION OF RISK AGREEMENT
             BY SIGNING THIS DOCUMENT, YOU WILL WAIVE CERTAIN LEGAL RIGHTS, INCLUDING THE
@@ -644,7 +646,7 @@ export default class CreateTermsAndConditions implements Seeder {
       .createQueryBuilder()
       .select()
       .from(TermsAndCondition, 'TermsAndCondition')
-      .where('"TermsAndCondition"."type" = :type', { type: 'cancellation policy' })
+      .where('"TermsAndCondition"."type" = :type', { type: 'cancellationpolicy' })
       .getCount();
 
     if (countCancellationPolicy === 0) {
@@ -654,7 +656,8 @@ export default class CreateTermsAndConditions implements Seeder {
         .into(TermsAndCondition)
         .values([
           plainToClass(TermsAndCondition, {
-            type: 'cancellation policy',
+            tour_guide_id: '',
+            type: 'cancellationpolicy',
             description: `This Cancellation Policy is made pursuant to the GuidED Terms & Conditions (“Terms of Use
               Agreement”), which govern the use of GuidED, including any content, functionality and
               services offered on or through GuidED, and to any mobile, tablet and other smart device
@@ -778,7 +781,7 @@ export default class CreateTermsAndConditions implements Seeder {
       .createQueryBuilder()
       .select()
       .from(TermsAndCondition, 'TermsAndCondition')
-      .where('"TermsAndCondition"."type" = :type', { type: 'payment and payout terms' })
+      .where('"TermsAndCondition"."type" = :type', { type: 'paymentandpayoutterms' })
       .getCount();
 
     if (countPaymentAndPayoutTerms === 0) {
@@ -788,7 +791,8 @@ export default class CreateTermsAndConditions implements Seeder {
         .into(TermsAndCondition)
         .values([
           plainToClass(TermsAndCondition, {
-            type: 'payment and payout terms',
+            tour_guide_id: '',
+            type: 'paymentandpayoutterms',
             description: `Last update: August 31, 2021
             These Payment and Payout Terms are made pursuant to the GuidED Terms &
             Conditions (“Terms of Service”), which govern the use of GuidED, including any
@@ -941,7 +945,7 @@ export default class CreateTermsAndConditions implements Seeder {
       .createQueryBuilder()
       .select()
       .from(TermsAndCondition, 'TermsAndCondition')
-      .where('"TermsAndCondition"."type" = :type', { type: 'local laws and taxes' })
+      .where('"TermsAndCondition"."type" = :type', { type: 'locallawsandtaxes' })
       .getCount();
 
     if (countLocalLawsAndTaxes === 0) {
@@ -951,7 +955,8 @@ export default class CreateTermsAndConditions implements Seeder {
         .into(TermsAndCondition)
         .values([
           plainToClass(TermsAndCondition, {
-            type: 'local laws and taxes',
+            tour_guide_id: '',
+            type: 'locallawsandtaxes',
             description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet in lectus in maximus. Sed congue fermentum enim, in venenatis leo iaculis sed. Pellentesque egestas felis tellus, sed vehicula metus elementum non. Nulla efficitur cursus justo sagittis condimentum. Integer blandit ut mauris vitae consequat. Vestibulum massa tortor, ornare eu tellus sit amet, blandit ornare nulla. Vivamus egestas maximus purus, ac finibus tellus. Curabitur lacus nulla, dictum in turpis ut, iaculis tincidunt diam.
 
             Aenean at risus lacus. Ut a neque ac elit rutrum fermentum et facilisis tortor. Quisque eu nisi et ante rhoncus feugiat. Praesent pharetra iaculis sapien, sed dictum orci porttitor vel. Nullam euismod sodales tincidunt. Suspendisse malesuada sodales nulla a suscipit. Aliquam erat volutpat. Etiam sit amet sagittis dui, ut auctor massa. Phasellus porttitor dui ut nisi luctus porttitor. Aliquam bibendum quam lorem, id imperdiet urna vestibulum in. Sed vulputate molestie sapien, nec lacinia elit eleifend nec. Vestibulum nec convallis leo, sed aliquam urna. Praesent maximus nisi non lorem blandit ultricies. Duis at convallis purus. In egestas facilisis elit, vitae interdum lorem lacinia nec. Proin vel lectus sed orci porta tristique vehicula nec sapien.
