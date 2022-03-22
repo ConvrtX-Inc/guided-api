@@ -1,5 +1,4 @@
 var gplay = require('google-play-scraper');
-
 const fs = require('fs');
 
 const file = fs.createWriteStream('gdata.json');
