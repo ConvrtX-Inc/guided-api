@@ -22,7 +22,7 @@ import { ActivityEventImage } from './entities/activity-event-image.entity';
     type: ActivityEventImage,
   },
   routes: {
-    exclude: ['replaceOneBase', 'createManyBase'],
+    exclude: ['replaceOneBase'],
   },
   query: {
     maxLimit: 50,
