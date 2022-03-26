@@ -16,7 +16,7 @@ import { Currency } from './currency.entity';
     exclude: ['replaceOneBase', 'createManyBase', 'deleteOneBase'],
   },
   query: {
-    maxLimit: 50,
+    //maxLimit: 50,
     alwaysPaginate: false,
   },
   params: {
