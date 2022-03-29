@@ -58,13 +58,13 @@ export class ActivityOutfitterService extends TypeOrmCrudService<ActivityOutfitt
 
   async getOutfitterList() {
     return this.outfitterRepository.createQueryBuilder('outfitter')
-    .leftJoinAndMapMany('outfitter.outfitterImage', ActivityOutfitterImage, 'outfitterImage', 'outfitter.id = outfitterImage.activity_outfitter_id')
+    .leftJoinAndMapMany('outfitter.outfitterimage', ActivityOutfitterImage, 'outfitterimage', 'outfitter.id = outfitterimage.activity_outfitter_id::uuid')
     .leftJoinAndMapOne('outfitter.post', ActivityPost, 'post', 'outfitter.id = post.post_id')
     .leftJoinAndMapOne('post.publisher', User, 'publisher', 'publisher.id = post.user_id')
-    .leftJoinAndMapOne('outfitter.author', User, 'author', 'author.id = outfitter.user_id')
+    .leftJoinAndMapOne('outfitter.author', User, 'author', 'author.id = outfitter.user_id::uuid')
     .select([
       'outfitter',
-      'outfitterImage',
+      'outfitterimage',
       'post',
       'author.id', 'author.first_name', 'author.last_name', 'author.phone_no',
       'publisher.id', 'publisher.first_name', 'publisher.last_name', 'publisher.phone_no'
