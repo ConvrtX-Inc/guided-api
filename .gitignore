@@ -40,6 +40,4 @@ lerna-debug.log*
 /files
 /ormconfig.json
 package-lock.json
-.env
-yarn.lock
 src/database/migrations/1647660945734-Convrtx.ts
