@@ -60,5 +60,13 @@ export class ActivityPostController implements CrudController<ActivityPost> {
   public async rejectPost(@Param('post_id') post_id: string) {
     return this.service.rejectPost(post_id);
   }
+
+  @ApiOperation({ summary: 'Get posts by user id.' })
+  @Post('get-posts/:user_id')
+  @HttpCode(HttpStatus.OK)
+  public async getPosts(@Param('user_id') user_id: string){
+    return this.service.getPosts(user_id);
+  }
+
 }
   
