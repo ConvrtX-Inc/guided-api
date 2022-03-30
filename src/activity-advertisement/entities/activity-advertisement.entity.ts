@@ -13,6 +13,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import {stringifiedJson} from "aws-sdk/clients/customerprofiles";
+import { Transform } from 'class-transformer';
 
 @Entity()
 export class ActivityAdvertisement extends EntityHelper {
@@ -92,6 +93,15 @@ export class ActivityAdvertisement extends EntityHelper {
   @IsNumber()
   @Column({ nullable: false, type: 'money' })
   price: number;
+
+  @IsOptional()
+  @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
+  @Transform((value: string | null) => (value == '' ? null : value))
+  @Validate(IsExist, ['Status', 'id'], {
+    message: 'Status not Found',
+  })
+  @Column({ nullable: true })
+  status_id?: string | null;
 
   @IsOptional()
   @ApiProperty({ example: false })
