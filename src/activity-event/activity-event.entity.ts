@@ -57,6 +57,15 @@ export class ActivityEvent extends EntityHelper {
   @Column({ type: 'decimal', precision: 12, scale: 2, default: 0 })
   price?: string;
 
+  @IsOptional()
+  @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
+  @Transform((value: string | null) => (value == '' ? null : value))
+  @Validate(IsExist, ['Status', 'id'], {
+    message: 'Status not Found',
+  })
+  @Column({ nullable: true })
+  status_id?: string | null;
+
   @Allow()
   @IsOptional()
   @ApiProperty({ example: false })
