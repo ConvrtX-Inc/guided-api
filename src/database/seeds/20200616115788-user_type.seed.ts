@@ -83,5 +83,21 @@ export default class CreateUserType implements Seeder {
         .values([{ name: 'Traveller' }])
         .execute();
     }
+
+    const countSubAdmin = await connection
+      .createQueryBuilder()
+      .select()
+      .from(UserType, 'UserType')
+      .where('"UserType"."name" = :name', { name: 'SubAdmin' })
+      .getCount();
+
+    if (countSubAdmin === 0) {
+      await connection
+        .createQueryBuilder()
+        .insert()
+        .into(UserType)
+        .values([{ name: 'SubAdmin' }])
+        .execute();
+    }
   }
 }

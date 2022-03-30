@@ -1,22 +1,21 @@
 import { Controller, Request, UseGuards } from '@nestjs/common';
-import { CurrencyService } from './currency.service';
+import { ActivityPostCategoryService } from './activity-post-category.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Crud, CrudController, Override } from '@nestjsx/crud';
-import { Currency } from './currency.entity';
+import { ActivityPostCategory } from './activity-post-category.entity';
 
-@ApiBearerAuth()
-@UseGuards(AuthGuard('jwt'))
-@ApiTags('Currencies')
+
+@ApiTags('Activity Post Category')
 @Crud({
   model: {
-    type: Currency,
+    type: ActivityPostCategory,
   },
   routes: {
-    exclude: ['replaceOneBase', 'createManyBase', 'deleteOneBase'],
+    exclude: ['replaceOneBase', 'createManyBase'],
   },
   query: {
-    //maxLimit: 50,
+    maxLimit: 50,
     alwaysPaginate: false,
   },
   params: {
@@ -28,13 +27,13 @@ import { Currency } from './currency.entity';
   },
 })
 @Controller({
-  path: 'currencies',
+  path: 'activity-post-category',
   version: '1',
 })
-export class CurrencyController implements CrudController<Currency> {
-  constructor(public service: CurrencyService) {}
+export class ActivityPostCategoryController implements CrudController<ActivityPostCategory> {
+  constructor(public service: ActivityPostCategoryService) {}
 
-  get base(): CrudController<Currency> {
+  get base(): CrudController<ActivityPostCategory> {
     return this;
   }
 
