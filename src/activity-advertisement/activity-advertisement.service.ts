@@ -5,11 +5,15 @@ import { FindOptions } from '../utils/types/find-options.type';
 import { DeepPartial, Repository } from 'typeorm';
 import { ActivityAdvertisement } from './entities/activity-advertisement.entity';
 import { AdvertisementUserAndStatusDto } from './dtos/advertisement-user-status.dto';
+import { BookingRequestStatus } from 'src/booking-request/booking-request-status';
+import { StatusService } from 'src/statuses/status.service';
 
 @Injectable()
 export class ActivityAdvertisementService extends TypeOrmCrudService<ActivityAdvertisement>{
-  constructor(@InjectRepository(ActivityAdvertisement)
-  private advertisementRepository: Repository<ActivityAdvertisement>,
+  constructor(
+    @InjectRepository(ActivityAdvertisement)
+    private advertisementRepository: Repository<ActivityAdvertisement>,
+    private statusService: StatusService,
   ) {
     super(advertisementRepository);
   }
@@ -38,7 +42,11 @@ export class ActivityAdvertisementService extends TypeOrmCrudService<ActivityAdv
     const post = await this.advertisementRepository.findOne({
       where: { id: id },
     });
+    const status = await this.statusService.findOne({
+      status_name: BookingRequestStatus.approved,
+    });
     if (post) {
+      post.status_id = status.id;
       post.is_published = true;
       await post.save();
     }
@@ -48,7 +56,11 @@ export class ActivityAdvertisementService extends TypeOrmCrudService<ActivityAdv
     const post = await this.advertisementRepository.findOne({
       where: { id: id },
     });
+    const status = await this.statusService.findOne({
+      status_name: BookingRequestStatus.rejected,
+    });
     if (post) {
+      post.status_id = status.id;
       post.is_published = false;
       await post.save();
     }
@@ -58,7 +70,7 @@ export class ActivityAdvertisementService extends TypeOrmCrudService<ActivityAdv
     return this.advertisementRepository.find({
       where: {
         user_id: advertisementUserAndStatusDto.user_id,
-        is_published: advertisementUserAndStatusDto.is_published
+        status_id: advertisementUserAndStatusDto.status_id
       },
     });
   }

@@ -128,7 +128,7 @@ export class ActivityPackage extends EntityHelper {
 
   @IsOptional()
   @ApiProperty({ example: '{services: cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae}' })
-  @Column('simple-json')
+  @Column({type: 'simple-json',  nullable: true})
   services?: stringifiedJson;
 
   @IsOptional()
