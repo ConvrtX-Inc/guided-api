@@ -40,6 +40,7 @@ import { ActivityAvailabilityModule } from './activity-availability/activity-ava
 import { ActivityAvailabilityHoursModule } from './activity-availability-hours/activity-availability-hours.module';
 import { ActivityPackageFormsModule } from './activity-package-forms/activity-package-forms.module';
 import { ActivityEventModule } from './activity-event/activity-event.module';
+import { ActivityPostCategoryModule } from './activity-post-category/activity-post-category.module';
 import { UserTypeModule } from './user-type/user-type.module';
 import { StatusModule } from './statuses/status.module';
 import { CertificateModule } from './certificate/certificate.module';
@@ -80,6 +81,7 @@ import { SubscriptionModule } from './subscription/subscription.module';
 import { CountryModule } from './country/country.module';
 import { TermsAndConditionsModule } from './terms-and-conditions/terms-and-conditions.module';
 import { ActivityEventImageModule } from './activity-event-image/activity-event-image.module';
+import { UserActivityPostSummaryModule } from './user-activity-post-summary/user-activity-post-summary.module';
 import { UsersTermsAndConditionsModule } from './users-terms-and-conditions/users-terms-and-conditions.module';
 
 @Module({
@@ -153,6 +155,7 @@ import { UsersTermsAndConditionsModule } from './users-terms-and-conditions/user
     ActivityAvailabilityHoursModule,
     ActivityPackageFormsModule,
     ActivityEventModule,
+    ActivityPostCategoryModule,
     UserTypeModule,
     StatusModule,
     CertificateModule,
@@ -187,6 +190,7 @@ import { UsersTermsAndConditionsModule } from './users-terms-and-conditions/user
     FaqModule,
     TermsAndConditionsModule,
     ActivityEventImageModule,
+    UserActivityPostSummaryModule,
     UsersTermsAndConditionsModule,
   ],
 })

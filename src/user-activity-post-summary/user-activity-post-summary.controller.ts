@@ -1,22 +1,21 @@
 import { Controller, Request, UseGuards } from '@nestjs/common';
-import { CurrencyService } from './currency.service';
+import { UserActivityPostSummaryService } from './user-activity-post-summary.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Crud, CrudController, Override } from '@nestjsx/crud';
-import { Currency } from './currency.entity';
+import { UserActivityPostSummary } from './user-activity-post-summary.entity';
 
 @ApiBearerAuth()
-@UseGuards(AuthGuard('jwt'))
-@ApiTags('Currencies')
+@ApiTags('User Activity Post Summary')
 @Crud({
   model: {
-    type: Currency,
+    type: UserActivityPostSummary,
   },
   routes: {
-    exclude: ['replaceOneBase', 'createManyBase', 'deleteOneBase'],
+    exclude: ['replaceOneBase', 'createManyBase'],
   },
   query: {
-    //maxLimit: 50,
+    maxLimit: 50,
     alwaysPaginate: false,
   },
   params: {
@@ -28,13 +27,13 @@ import { Currency } from './currency.entity';
   },
 })
 @Controller({
-  path: 'currencies',
+  path: 'user-types',
   version: '1',
 })
-export class CurrencyController implements CrudController<Currency> {
-  constructor(public service: CurrencyService) {}
+export class UserActivityPostSummaryController implements CrudController<UserActivityPostSummary> {
+  constructor(public service: UserActivityPostSummaryService) {}
 
-  get base(): CrudController<Currency> {
+  get base(): CrudController<UserActivityPostSummary> {
     return this;
   }
 
