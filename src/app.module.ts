@@ -83,6 +83,8 @@ import { TermsAndConditionsModule } from './terms-and-conditions/terms-and-condi
 import { ActivityEventImageModule } from './activity-event-image/activity-event-image.module';
 import { UserActivityPostSummaryModule } from './user-activity-post-summary/user-activity-post-summary.module';
 import { UsersTermsAndConditionsModule } from './users-terms-and-conditions/users-terms-and-conditions.module';
+import { ActivityArticleImageModule } from './activity-article-image/activity-article-image.module';
+import { ActivityNewsfeedImageModule } from './activity-newsfeed-image/activity-newsfeed-image.module';
 
 @Module({
   imports: [
@@ -192,6 +194,8 @@ import { UsersTermsAndConditionsModule } from './users-terms-and-conditions/user
     ActivityEventImageModule,
     UserActivityPostSummaryModule,
     UsersTermsAndConditionsModule,
+    ActivityArticleImageModule,
+    ActivityNewsfeedImageModule,
   ],
 })
 export class AppModule {}

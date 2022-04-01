@@ -1,4 +1,4 @@
-import { Column, Entity, Generated, PrimaryGeneratedColumn} from 'typeorm';
+import { Column, Entity, Generated, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Allow, IsOptional, Validate } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
@@ -10,7 +10,7 @@ export class ActivityArticle extends EntityHelper {
   id: string;
 
   @IsOptional()
-  @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
+  @ApiProperty({ example: 'a5f2a47d-aedd-4dd2-bcc8-873561836de8' })
   @Transform((value: string | null) => (value == '' ? null : value))
   @Validate(IsExist, ['User', 'id'], {
     message: 'User not Found',
@@ -24,7 +24,18 @@ export class ActivityArticle extends EntityHelper {
     message: 'Badge not found',
   })
   @Column()
-  badge_id?: string;
+  main_badge_id?: string;
+
+  @IsOptional()
+  @ApiProperty({
+    example: '{sub_badge_ids: cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae}',
+  })
+  @Transform((value: string | null) => (value == '' ? null : value))
+  @Column({
+    type: 'simple-json',
+    nullable: true,
+  })
+  sub_badge_ids?: { sub_badge_ids: string };
 
   @IsOptional()
   @ApiProperty({ example: 'Title' })
@@ -46,8 +57,14 @@ export class ActivityArticle extends EntityHelper {
   @IsOptional()
   @ApiProperty({ example: false })
   @Column({ type: 'bool', nullable: true, default: false })
+  premium_user?: boolean;
+
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: false })
+  @Column({ type: 'bool', nullable: true, default: false })
   is_published?: boolean;
-  
+
   @IsOptional()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_date?: string;
@@ -55,5 +72,4 @@ export class ActivityArticle extends EntityHelper {
   @IsOptional()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updated_date?: string;
-
 }
