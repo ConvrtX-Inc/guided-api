@@ -115,6 +115,24 @@ export class User extends EntityHelper {
   @Column({ type: 'bool', nullable: false, default: 'FALSE' })
   is_first_aid_trained?: boolean;
 
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: false })
+  @Column({ type: 'bool', nullable: true, default: false })
+  is_subadmin_guide?: boolean;
+
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: false })
+  @Column({ type: 'bool', nullable: true, default: false })
+  is_subadmin_nonprofit?: boolean;
+
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: false })
+  @Column({ type: 'bool', nullable: true, default: false })  
+  is_subadmin_others?: boolean;
+
   @IsOptional()
   @ApiProperty({ example: 'about' })
   @Column({
