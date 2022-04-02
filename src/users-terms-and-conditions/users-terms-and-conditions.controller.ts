@@ -21,8 +21,8 @@ import { UsersTermsAndCondition } from './users-terms-and-condition.entity';
     exclude: ['replaceOneBase', 'createManyBase'],
   },
   query: {
-    maxLimit: 10,
-    alwaysPaginate: true,
+    maxLimit: 50,
+    alwaysPaginate: false,
   },
   params: {
     id: {
