@@ -5,7 +5,8 @@ import { AuthGuard } from '@nestjs/passport';
 import { Crud, CrudController, Override } from '@nestjsx/crud';
 import { UserType } from './user-type.entity';
 
-
+@ApiBearerAuth()
+@UseGuards(AuthGuard('jwt'))
 @ApiTags('User types')
 @Crud({
   model: {
