@@ -16,8 +16,8 @@ import { AuthGuard } from '@nestjs/passport';
     exclude: ['replaceOneBase', 'createManyBase'],
   },
   query: {
-    maxLimit: 10,
-    alwaysPaginate: true,
+    maxLimit: 50,
+    alwaysPaginate: false,
   },
   params: {
     id: {
