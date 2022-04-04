@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, UseGuards, Param } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DashboardRelatedService } from './dashboard-related.service';
@@ -48,6 +48,12 @@ export class DashboardRelatedController {
     return this.dashboardService.recentPosts();
   }
 
+  @Get('/recent-post/:user_id')
+  @ApiOperation({ summary: 'Get top 10 recent posts by user id' })
+  getRecentPostByUserID(@Param('user_id') user_id: string) {
+    return this.dashboardService.recentPostsByUserID(user_id);
+  }
+
   //get recent guides --done
   @Get('/recent-guides')
   @ApiOperation({ summary: 'Get top 10 recent guides' })
@@ -60,5 +66,17 @@ export class DashboardRelatedController {
   @ApiOperation({ summary: 'Get most active users' })
   getMostActive() {
     return this.dashboardService.mostActiveUsers();
+  }
+
+  @Get('/user-activity-post-summary/:user_id')
+  @ApiOperation({ summary: 'Get the user activity post summary' })
+  getUserActivityPostSummary(@Param('user_id') user_id: string) {
+    return this.dashboardService.getUserActivityPostSummary(user_id);
+  }
+
+  @Get('/user-recent-post/:user_id')
+  @ApiOperation({ summary: 'Get the user activity post summary' })
+  getUserRecentPost(@Param('user_id') user_id: string) {
+    return this.dashboardService.getUserRecentPost(user_id);
   }
 }

@@ -115,6 +115,24 @@ export class User extends EntityHelper {
   @Column({ type: 'bool', nullable: false, default: 'FALSE' })
   is_first_aid_trained?: boolean;
 
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: false })
+  @Column({ type: 'bool', nullable: true, default: false })
+  is_subadmin_guide?: boolean;
+
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: false })
+  @Column({ type: 'bool', nullable: true, default: false })
+  is_subadmin_nonprofit?: boolean;
+
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: false })
+  @Column({ type: 'bool', nullable: true, default: false })  
+  is_subadmin_others?: boolean;
+
   @IsOptional()
   @ApiProperty({ example: 'about' })
   @Column({
@@ -146,6 +164,15 @@ export class User extends EntityHelper {
   })
   user_type_id?: string | null;
 
+  @IsOptional()
+  @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
+  @Column({ nullable: true })
+  @Transform((value: string | null) => (value == '' ? null : value))
+  @Validate(IsExist, ['Badge', 'id'], {
+    message: 'Badge not Found',
+  })
+  badge_id?: string | null;
+
   public previousPassword: string;
   userType: UserType;
 
@@ -170,7 +197,7 @@ export class User extends EntityHelper {
   @Column({ nullable: true })
   socialId: string | null;
 
-  @ApiProperty({ type: () => FileEntity })
+  @ApiProperty({ example: 'fileEntity' })
   @IsOptional()
   @Validate(IsExist, ['FileEntity', 'id'], {
     message: 'imageNotExists',
@@ -180,7 +207,7 @@ export class User extends EntityHelper {
   })
   photo?: FileEntity | null;
 
-  @ApiProperty({ type: Status })
+  @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
   @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
   @Validate(IsExist, ['Status', 'id'], {
     message: 'statusNotExists',
