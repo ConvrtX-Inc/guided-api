@@ -62,6 +62,7 @@ import { ActivityNewsfeedModule } from './activity-newsfeed/activity-newsfeed.mo
 import { ActivityArticleModule } from './activity-article/activity-article.module';
 import { CustomOfferModule } from './custom-offer/custom-offer.module';
 import { CardModule } from './card/card.module';
+import { BankAccountModule } from './bank-account/bank-account.module';
 import { UserReviewModule } from './user-review/user-review.module';
 import { ParticipantModule } from './messenger/participant/participant.module';
 import { RoomModule } from './messenger/room/room.module';
@@ -192,10 +193,11 @@ import { ActivityNewsfeedImageModule } from './activity-newsfeed-image/activity-
     FaqModule,
     TermsAndConditionsModule,
     ActivityEventImageModule,
+    BankAccountModule,
     UserActivityPostSummaryModule,
     UsersTermsAndConditionsModule,
     ActivityArticleImageModule,
-    ActivityNewsfeedImageModule,
+    ActivityNewsfeedImageModule,    
   ],
 })
 export class AppModule {}
