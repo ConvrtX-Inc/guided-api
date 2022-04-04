@@ -164,6 +164,15 @@ export class User extends EntityHelper {
   })
   user_type_id?: string | null;
 
+  @IsOptional()
+  @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
+  @Column({ nullable: true })
+  @Transform((value: string | null) => (value == '' ? null : value))
+  @Validate(IsExist, ['Badge', 'id'], {
+    message: 'Badge not Found',
+  })
+  badge_id?: string | null;
+
   public previousPassword: string;
   userType: UserType;
 
@@ -188,7 +197,7 @@ export class User extends EntityHelper {
   @Column({ nullable: true })
   socialId: string | null;
 
-  @ApiProperty({ type: () => FileEntity })
+  @ApiProperty({ example: 'fileEntity' })
   @IsOptional()
   @Validate(IsExist, ['FileEntity', 'id'], {
     message: 'imageNotExists',
@@ -198,7 +207,7 @@ export class User extends EntityHelper {
   })
   photo?: FileEntity | null;
 
-  @ApiProperty({ type: Status })
+  @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
   @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
   @Validate(IsExist, ['Status', 'id'], {
     message: 'statusNotExists',
