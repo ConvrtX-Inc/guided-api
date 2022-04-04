@@ -30,7 +30,7 @@ export class DashboardRelatedService {
     @InjectRepository(Transaction)
     private repoTransaction: Repository<Transaction>,
 
-    @InjectRepository(ActivityPost)
+    @InjectRepository(UserActivityPostSummary)
     private repoUserActivityPostSummary: Repository<UserActivityPostSummary>,
 
     @InjectRepository(ActivityPackage)
@@ -136,7 +136,7 @@ export class DashboardRelatedService {
     return usersfromTransaction;
   }
 
-  getUserActivityPostSummary(user_id: string) {
+  getUserActivityPostSummary(user_id: string) {    
     return this.repoUserActivityPostSummary
       .createQueryBuilder()
       .where('user_id = :user_id', {user_id: user_id})            
