@@ -13,7 +13,7 @@ import { Country } from './country.entity';
     exclude: ['replaceOneBase', 'createManyBase'],
   },
   query: {
-    maxLimit: 50,
+    maxLimit: 245,
     alwaysPaginate: false,
   },
   params: {
