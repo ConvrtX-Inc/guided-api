@@ -52,15 +52,15 @@ export class TransactionController implements CrudController<Transaction> {
   }
 
   @ApiOperation({ summary: 'Get the transactions by user_id and status' })
-  @Post('byuser/transaction')
-  public async getTransactionsByUserAndStatus(@Body() transactionUserAndStatusDto: TransactionUserAndStatusDto) {
-    return this.service.getTransactionsByUserAndStatus(transactionUserAndStatusDto);
+  @Get('byuser/transaction/:user_id/:status')
+  public async getTransactionsByUserAndStatus(@Param('user_id') user_id: string, @Param('status') status: string) {
+    return this.service.getTransactionsByUserAndStatus(user_id, status);
   }
 
   @ApiOperation({ summary: 'Get the transactions by tour_guide_id and status' })
-  @Post('byguide/transaction')
-  public async getTransactionsByGuideAndStatus(@Body() transactionGuideAndStatusDto: TransactionGuideAndStatusDto) {
-    return this.service.getTransactionsByGuideAndStatus(transactionGuideAndStatusDto);
+  @Get('byguide/transaction/:tour_guide_id/:status')
+  public async getTransactionsByGuideAndStatus(@Param('tour_guide_id') tour_guide_id: string, @Param('status') status: string) {
+    return this.service.getTransactionsByGuideAndStatus(tour_guide_id, status);
   }
 
   @ApiOperation({ summary: 'Update the status id to refunded' })
