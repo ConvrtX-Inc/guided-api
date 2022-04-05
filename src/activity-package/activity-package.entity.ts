@@ -170,6 +170,13 @@ export class ActivityPackage extends EntityHelper {
   @Column({ type: 'bool', nullable: true, default: false })
   is_published?: boolean;
 
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: false })
+  @Column({ type: 'bool', nullable: true, default: false })
+  is_post?: boolean;
+
+
   @IsOptional()
   @DeleteDateColumn()
   deletedAt: Date;

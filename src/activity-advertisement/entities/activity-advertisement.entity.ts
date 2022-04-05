@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { CrudValidationGroups } from '@nestjsx/crud';
-import { IsNotEmpty, IsNumber, IsOptional, Validate } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, Validate, Allow } from 'class-validator';
 import { EntityHelper } from '../../utils/entity-helper';
 import { IsExist } from '../../utils/validators/is-exists.validator';
 import {
@@ -107,6 +107,12 @@ export class ActivityAdvertisement extends EntityHelper {
   @ApiProperty({ example: false })
   @Column({ type: 'bool', nullable: true, default: false })
   is_published?: boolean;
+
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: false })
+  @Column({ type: 'bool', nullable: true, default: false })
+  is_post?: boolean;
 
   @CreateDateColumn()
   created_date: Date;

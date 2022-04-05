@@ -103,6 +103,12 @@ export class ActivityEvent extends EntityHelper {
   @Column({ type: 'bool', nullable: true, default: false })
   is_published?: boolean;
 
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: false })
+  @Column({ type: 'bool', nullable: true, default: false })
+  is_post?: boolean;
+
   @IsOptional()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_date?: string;
