@@ -24,9 +24,9 @@ export class ActivityNewsFeedImage extends EntityHelper {
   @IsOptional()
   @ApiProperty({ example: 'eae25276-3af3-432c-9c1b-7b7548513015' })
   @Transform((value: string | null) => (value == '' ? null : value))
-  @Validate(IsExist, ['ActivityNewsFeed', 'id'], {
-    message: 'Activity newsfeed not found',
-  })
+  //@Validate(IsExist, ['ActivityNewsFeed', 'id'], {
+  //  message: 'Activity newsfeed not found',
+  //})
   @Column({ nullable: true })
   activity_newsfeed_id: string | null;
 
