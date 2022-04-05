@@ -207,6 +207,19 @@ export class User extends EntityHelper {
   })
   photo?: FileEntity | null;
 
+  @Allow()
+  @IsOptional({
+    groups: [CrudValidationGroups.UPDATE, CrudValidationGroups.CREATE],
+  })
+  @ApiProperty({ example: 'byte64image' })
+  @Transform((value: Buffer | null | string) => (value == null ? '' : value))
+  @Column({
+    name: 'profile_photo',
+    type: 'bytea',
+    nullable: true,
+  })
+  profile_photo?: Buffer | null | string;
+
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
   @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
   @Validate(IsExist, ['Status', 'id'], {
