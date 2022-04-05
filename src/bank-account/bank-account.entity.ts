@@ -33,6 +33,11 @@ export class BankAccount extends EntityHelper {
   @Column({ length: 20, nullable: false })
   account_no: string;
 
+  @ApiProperty({ example: 'ABCDEFG1234' })
+  @IsNotEmpty({ groups: [CrudValidationGroups.CREATE] })
+  @Column({ length: 100, nullable: false })
+  bank_routing_number : string;
+
   @ApiProperty({ example: '08b79d9f-6e44-4ce0-82d3-88f4663d7ef0' })
   @Validate(IsExist, ['Country', 'id'], {
     message: 'Country not Found',
