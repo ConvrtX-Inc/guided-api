@@ -36,16 +36,21 @@ export class User extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ApiProperty({ example: 'John' })
+  @ApiProperty({ example: 'John Doe' })
   @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
   @IsNotEmpty({ groups: [CrudValidationGroups.CREATE] })
+  @Index()
+  @Column({ nullable: true })
+  full_name: string | null;
+
+  @ApiProperty({ example: 'John' })
+  @IsOptional()
   @Index()
   @Column({ nullable: true })
   first_name: string | null;
 
   @ApiProperty({ example: 'Doe' })
-  @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
-  @IsNotEmpty({ groups: [CrudValidationGroups.CREATE] })
+  @IsOptional()
   @Index()
   @Column({ nullable: true })
   last_name: string | null;
@@ -130,7 +135,7 @@ export class User extends EntityHelper {
   @Allow()
   @IsOptional()
   @ApiProperty({ example: false })
-  @Column({ type: 'bool', nullable: true, default: false })  
+  @Column({ type: 'bool', nullable: true, default: false })
   is_subadmin_others?: boolean;
 
   @IsOptional()
@@ -206,6 +211,19 @@ export class User extends EntityHelper {
     eager: true,
   })
   photo?: FileEntity | null;
+
+  @Allow()
+  @IsOptional({
+    groups: [CrudValidationGroups.UPDATE, CrudValidationGroups.CREATE],
+  })
+  @ApiProperty({ example: 'byte64image' })
+  @Transform((value: Buffer | null | string) => (value == null ? '' : value))
+  @Column({
+    name: 'profile_photo',
+    type: 'bytea',
+    nullable: true,
+  })
+  profile_photo?: Buffer | null | string;
 
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
   @IsOptional({ groups: [CrudValidationGroups.UPDATE] })

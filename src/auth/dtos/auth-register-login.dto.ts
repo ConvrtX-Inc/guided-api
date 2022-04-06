@@ -26,10 +26,14 @@ export class AuthRegisterLoginDto {
 
   @ApiProperty({ example: 'John' })
   @IsNotEmpty()
+  full_name: string;
+
+  @ApiProperty({ example: 'John' })
+  @IsOptional()
   first_name: string;
 
   @ApiProperty({ example: 'Doe' })
-  @IsNotEmpty()
+  @IsOptional()
   last_name: string;
 
   @Allow()
