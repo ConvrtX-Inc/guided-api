@@ -27,7 +27,7 @@ import { UserActivityPostSummary } from './user-activity-post-summary.entity';
   },
 })
 @Controller({
-  path: 'user-types',
+  path: 'user-activity-post-summary',
   version: '1',
 })
 export class UserActivityPostSummaryController implements CrudController<UserActivityPostSummary> {
