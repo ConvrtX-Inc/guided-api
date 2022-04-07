@@ -58,14 +58,14 @@ export class BookingRequest extends EntityHelper {
   status?: Status;
 
   @IsOptional()
-  @ApiProperty({ example: '11/10/21' })
+  @ApiProperty({ example: '2022-01-01 11:11:11' })
   @Column({ type: 'timestamp' })
-  booking_date_start?: string;
+  booking_date_start?: Date;
 
   @IsOptional()
-  @ApiProperty({ example: '11/20/21' })
+  @ApiProperty({ example: '2022-12-12 11:11:11' })
   @Column({ type: 'timestamp' })
-  booking_date_end?: string;
+  booking_date_end?: Date;
 
   @IsOptional()
   @ApiProperty({ example: 5 })
