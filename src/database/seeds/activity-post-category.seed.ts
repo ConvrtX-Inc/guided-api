@@ -2,7 +2,7 @@ import { Factory, Seeder } from 'typeorm-seeding';
 import { Connection } from 'typeorm';
 import { ActivityPostCategory } from '../../activity-post-category/activity-post-category.entity';
 
-export default class CreateCountry implements Seeder {
+export default class CreateActivityPostCategory implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<void> {
     const count = await connection
       .createQueryBuilder()
