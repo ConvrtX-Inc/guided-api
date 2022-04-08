@@ -18,6 +18,7 @@ import { AuthForgotPasswordDto } from './dtos/auth-forgot-password.dto';
 import { VerifyService } from 'src/verify/verify.service';
 import { UsersService } from 'src/users/users.service';
 import { SmsService } from 'src/sms/sms.service';
+import { UserType } from '../user-type/user-type.entity';
 
 @Injectable()
 export class AuthService {
@@ -72,6 +73,18 @@ export class AuthService {
     );
 
     if (isValidPassword) {
+      user['user_type_name'] = '';
+      if (typeof user.user_type_id !== 'undefined' && user.user_type_id) {
+        const userType = await this.userTypeService.findOneEntity({
+          where: {
+            id: user.user_type_id,
+          },
+        });
+        if (userType) {
+          user['user_type_name'] = userType.name;
+        }
+      }
+
       const token = await this.jwtService.sign({
         id: user.id,
       });

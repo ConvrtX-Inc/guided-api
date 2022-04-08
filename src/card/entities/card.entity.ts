@@ -62,6 +62,16 @@ export class Card extends EntityHelper {
     @Column({ length: 100, nullable: false })
     name_on_card: string;
 
+    @ApiProperty({ example: 'visa' })
+    @IsNotEmpty({ groups: [CrudValidationGroups.CREATE] })
+    @Column({ length: 100, nullable: false })
+    card_type: string;
+
+    @IsOptional()
+    @ApiProperty({ example: 'gold' })    
+    @Column({ length: 100, nullable: true })
+    card_color: string;    
+
     @IsOptional()
     @ApiProperty({ example: '10/22/24' })
     @IsNotEmpty({ groups: [CrudValidationGroups.CREATE] })

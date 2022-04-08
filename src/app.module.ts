@@ -43,6 +43,7 @@ import { ActivityEventModule } from './activity-event/activity-event.module';
 import { ActivityPostCategoryModule } from './activity-post-category/activity-post-category.module';
 import { UserTypeModule } from './user-type/user-type.module';
 import { StatusModule } from './statuses/status.module';
+import { FreeServicesModule } from './free-services/free-services.module';
 import { CertificateModule } from './certificate/certificate.module';
 import { BookingRequestModule } from './booking-request/booking-request.module';
 import { NotificationModule } from './notification/notification.module';
@@ -161,6 +162,7 @@ import { ActivityNewsfeedImageModule } from './activity-newsfeed-image/activity-
     ActivityPostCategoryModule,
     UserTypeModule,
     StatusModule,
+    FreeServicesModule,
     CertificateModule,
     BookingRequestModule,
     NotificationModule,
