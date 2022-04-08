@@ -59,6 +59,12 @@ export class ActivityArticleImage extends EntityHelper {
     } catch (e) {}
   }
 
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: false })
+  @Column({ type: 'bool', nullable: true, default: false })
+  default_img?: boolean;
+
   @CreateDateColumn()
   created_date: Date;
 
