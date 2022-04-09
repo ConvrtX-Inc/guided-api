@@ -65,7 +65,7 @@ import { CustomOfferModule } from './custom-offer/custom-offer.module';
 import { CardModule } from './card/card.module';
 import { BankAccountModule } from './bank-account/bank-account.module';
 import { UserReviewModule } from './user-review/user-review.module';
-//import { ChatModule } from './messenger/chat/chat.module';
+import { ChatModule } from './messenger/chat/chat.module';
 import { ParticipantModule } from './messenger/participant/participant.module';
 import { RoomModule } from './messenger/room/room.module';
 import { MessageModule } from './messenger/message/message.module';
@@ -184,7 +184,7 @@ import { ActivityNewsfeedImageModule } from './activity-newsfeed-image/activity-
     CustomOfferModule,
     UserReviewModule,
     ParticipantModule,
-    //ChatModule,
+    ChatModule,
     RoomModule,
     MessageModule,
     MessageDetailModule,
