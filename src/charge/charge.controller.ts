@@ -13,6 +13,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { request } from 'http';
 import CreatePaymentDto from './dtos/create-payment.dto';
 import * as dateMath from 'date-arithmetic'
+import CreatePaymentIntentDto from './dtos/create-payment-intent.dto';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
@@ -42,4 +43,15 @@ export default class ChargeController {
     const totalPayment = days * this.pricePerDay;
     return totalPayment;
   }
+
+
+  @Post('create-payment-intent')
+  async createPaymentIntentId(@Request() request, @Body() paymentDetails: CreatePaymentIntentDto) {
+    return await this.stripeService.createPaymentIntent(
+      paymentDetails.amount,
+      request
+    );
+  }
+
+  
 }
