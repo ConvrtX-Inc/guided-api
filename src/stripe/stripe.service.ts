@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { UsersService } from 'src/users/users.service';
 import Stripe from 'stripe';
 
 @Injectable()
 export default class StripeService {
   private stripe: Stripe;
 
-  constructor(private configService: ConfigService) {
+  constructor(private configService: ConfigService, private usersService :UsersService) {
     this.stripe = new Stripe(configService.get('stripe.secretKey'), {
       apiVersion: '2020-08-27',
     });
@@ -70,4 +71,27 @@ export default class StripeService {
       },
     });
   }
+
+  async createPaymentIntent(amount: number,request) {
+    const user = await this.usersService.findOneEntity({
+      where: {
+        id: request.user.id,
+      },
+    });
+    
+    if(!user.stripe_customer_id) {
+      const name =  user.full_name == '' ?  user.first_name +' '+  user.last_name :  user.full_name;
+      const customer = await this.createCustomer(
+        name,user.email
+      );
+      user.stripe_customer_id = customer.id;
+      await user.save();
+    }
+    return await this.stripe.paymentIntents.create({
+      amount,
+      customer: user.stripe_customer_id,
+      currency: this.configService.get('stripe.currency')
+    });
+  }
+
 }
