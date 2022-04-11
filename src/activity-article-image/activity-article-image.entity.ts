@@ -12,9 +12,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { ActivityArticle } from 'src/activity-article/activity-article.entity';
 
 @Entity()
 export class ActivityArticleImage extends EntityHelper {
@@ -59,6 +62,12 @@ export class ActivityArticleImage extends EntityHelper {
     } catch (e) {}
   }
 
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: false })
+  @Column({ type: 'bool', nullable: true, default: false })
+  default_img?: boolean;
+
   @CreateDateColumn()
   created_date: Date;
 
@@ -67,4 +76,8 @@ export class ActivityArticleImage extends EntityHelper {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  //Test, many to one to activity-article
+  @ManyToOne(() => ActivityArticle, (article) => article.articleImage)
+  article: ActivityArticle;
 }

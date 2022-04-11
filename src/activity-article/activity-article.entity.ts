@@ -1,9 +1,16 @@
-import { Column, Entity, Generated, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Generated,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Allow, IsOptional, Validate } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { IsExist } from '../utils/validators/is-exists.validator';
 import { Transform } from 'class-transformer';
+import { ActivityArticleImage } from 'src/activity-article-image/activity-article-image.entity';
 @Entity()
 export class ActivityArticle extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
@@ -78,4 +85,7 @@ export class ActivityArticle extends EntityHelper {
   @IsOptional()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updated_date?: string;
+
+  @OneToMany(() => ActivityArticleImage, (articleImg) => articleImg.article)
+  articleImage: ActivityArticleImage[];
 }
