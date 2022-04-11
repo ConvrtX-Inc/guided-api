@@ -11,7 +11,7 @@ import { ActivityArticle } from './activity-article.entity';
 export class ActivityArticleService extends TypeOrmCrudService<ActivityArticle> {
   constructor(
     @InjectRepository(ActivityArticle)
-    private activityArticleRepository: Repository<ActivityArticle>
+    private activityArticleRepository: Repository<ActivityArticle>,
   ) {
     super(activityArticleRepository);
   }
@@ -23,7 +23,9 @@ export class ActivityArticleService extends TypeOrmCrudService<ActivityArticle> 
   }
 
   async findManyEntities(options: FindOptions<ActivityArticle>) {
+    console.log(options.where);
     return this.activityArticleRepository.find({
+      relations: ['articleImage'],
       where: options.where,
     });
   }
@@ -33,7 +35,9 @@ export class ActivityArticleService extends TypeOrmCrudService<ActivityArticle> 
   }
 
   async saveEntity(data: DeepPartial<ActivityArticle>[]) {
-    return this.activityArticleRepository.save(this.activityArticleRepository.create(data));
+    return this.activityArticleRepository.save(
+      this.activityArticleRepository.create(data),
+    );
   }
 
   async softDelete(id: number): Promise<void> {
@@ -60,4 +64,9 @@ export class ActivityArticleService extends TypeOrmCrudService<ActivityArticle> 
     }
   }
 
+  async getArticlesWithImage() {
+    return await this.activityArticleRepository.find({
+      relations: ['articleImage'],
+    });
+  }
 }

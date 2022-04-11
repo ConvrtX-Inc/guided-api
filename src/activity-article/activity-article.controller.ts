@@ -5,6 +5,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  Get,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
@@ -60,5 +61,12 @@ export class ActivityArticleController
   @HttpCode(HttpStatus.OK)
   public async rejectArticle(@Param('id') id: string) {
     return this.service.rejectArticle(id);
+  }
+
+  @ApiOperation({ summary: 'Get articles with image.' })
+  @Get('article-with-image')
+  @HttpCode(HttpStatus.OK)
+  public async getArticlesWithImage() {
+    return this.service.getArticlesWithImage();
   }
 }

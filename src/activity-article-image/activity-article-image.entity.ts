@@ -12,9 +12,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { ActivityArticle } from 'src/activity-article/activity-article.entity';
 
 @Entity()
 export class ActivityArticleImage extends EntityHelper {
@@ -73,4 +76,8 @@ export class ActivityArticleImage extends EntityHelper {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  //Test, many to one to activity-article
+  @ManyToOne(() => ActivityArticle, (article) => article.articleImage)
+  article: ActivityArticle;
 }

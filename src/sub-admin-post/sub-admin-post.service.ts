@@ -36,6 +36,7 @@ export class SubAdminPostService {
         'articleimage.activity_article_id::text=article.id::text',
       )
       .where('articleimage.default_img = true')
+      .andWhere('activity.category_type in (4,2)') //filter article and newsfeed
       .getRawMany();
 
     const query_newsfeed = await this.repoActivityPost
@@ -54,6 +55,7 @@ export class SubAdminPostService {
         'newsfeedimage.activity_newsfeed_id::text=newsfeed.id::text',
       )
       .where('newsfeedimage.default_img = true')
+      .andWhere('activity.category_type in (4,2)') //filter article and newsfeed
       .innerJoin(
         'badge',
         'badge',
