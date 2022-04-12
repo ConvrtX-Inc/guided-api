@@ -252,6 +252,15 @@ export class UsersService {
       .execute();
   }
 
+  updateAvailability(id: string, is_online: boolean) {
+    return this.usersRepository
+      .createQueryBuilder()
+      .update()
+      .set({ is_online: is_online })
+      .where('id = :id', { id: id })
+      .execute();
+  }
+
   async findOneEntity(options: FindOptions<User>) {
     return this.usersRepository.findOne({
       where: options.where,
