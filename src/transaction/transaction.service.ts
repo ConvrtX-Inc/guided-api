@@ -8,6 +8,7 @@ import { DeepPartial } from '../utils/types/deep-partial.type';
 import { Status } from 'src/statuses/status.entity';
 import { User } from 'src/users/user.entity';
 import { ActivityPackage } from 'src/activity-package/activity-package.entity';
+import { stat } from 'fs';
 
 @Injectable()
 export class TransactionService extends TypeOrmCrudService<Transaction> {
@@ -66,7 +67,6 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
         .createQueryBuilder('status')
         .where('status.status_name = :status_name', { status_name: status.replace(/\b\w/g, (l) => l.toUpperCase()) })
         .getOne();
-
       transactions = await this.destinationsRepository.find({
         where: {
           tour_guide_id: tour_guide_id,
@@ -80,15 +80,16 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
         .createQueryBuilder('user')
         .where({ id: tour_guide_id })
         .getOne();
-
       transactions[i]['activity_package'] = await getRepository(ActivityPackage)
         .createQueryBuilder('activitypackage')
         .where({ id: transactions[i].activity_package_id })
         .getOne();
-
+      transactions[i]['status'] = await getRepository(Status)
+      .createQueryBuilder('status')
+      .where({ id: transactions[i].status_id })
+      .getOne();
       returnResponse.push(transactions[i])
     }
-
     return returnResponse;
   }
 
@@ -106,7 +107,6 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
         .createQueryBuilder('status')
         .where('status.status_name = :status_name', { status_name: status.replace(/\b\w/g, (l) => l.toUpperCase()) })
         .getOne();
-
       transactions = await this.destinationsRepository.find({
         where: {
           user_id: user_id,
@@ -120,15 +120,16 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
         .createQueryBuilder('user')
         .where({ id: user_id })
         .getOne();
-
       transactions[i]['activity_package'] = await getRepository(ActivityPackage)
         .createQueryBuilder('activitypackage')
         .where({ id: transactions[i].activity_package_id })
         .getOne();
-
+        transactions[i]['status'] = await getRepository(Status)
+        .createQueryBuilder('status')
+        .where({ id: transactions[i].status_id })
+        .getOne();
       returnResponse.push(transactions[i])
     }
-
     return returnResponse;
   }
 
