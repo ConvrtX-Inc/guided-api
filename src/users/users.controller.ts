@@ -131,4 +131,18 @@ export class UsersController implements CrudController<User> {
   async updateAsGuide(@Request() req) {
     return this.userService.updateAsGuide(req.body.id, req.body.is_guide)
   }
+
+  @Patch('/set-availability')
+  @ApiOperation({ summary: 'Update one User\'s about online status' })
+  @ApiBody({
+    schema: {
+      properties: {
+        'id': { type: 'string' },
+        'is_online': { type: 'boolean' }
+      }
+    }
+  })
+  async updateAvailability(@Request() req) {
+    return this.userService.updateAvailability(req.body.id, req.body.is_online)
+  }
 }
