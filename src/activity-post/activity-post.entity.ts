@@ -38,6 +38,55 @@ export class ActivityPost extends EntityHelper {
   @Column({ nullable: true, length: 100 })
   title?: string;
 
+  @IsOptional()
+  @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
+  @Transform((value: string | null) => (value == '' ? null : value))
+  @Column({ type: 'uuid', nullable: true })
+  @Generated('uuid')
+  main_badge_id?: string | null;
+
+  @IsOptional()
+  @ApiProperty({ example: '2022-03-01' })
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  post_date?: string;
+
+  @IsOptional()
+  @ApiProperty({ example: 'Description' })
+  @Column({
+    type: 'text',
+  })
+  description?: string;
+
+  @IsOptional()
+  @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
+  @Transform((value: string | null) => (value == '' ? null : value))
+  @Validate(IsExist, ['User', 'id'], {
+    message: 'User not Found',
+  })
+  @Column({nullable: true, type: 'uuid'})
+  contact_user_id?: string | null;
+
+  @IsOptional()
+  @ApiProperty({ example: 'John Doe' })
+  @Column({ nullable: true, length: 100 })
+  contact_person?: string;
+
+  @IsOptional()
+  @ApiProperty({ example: '12345678' })
+  @Column({ nullable: true, length: 100 })
+  contact_number?: string;
+
+  @IsOptional()
+  @ApiProperty({ example: 'test@gmail.com' })
+  @Column({ nullable: true, length: 100 })
+  contact_email?: string;
+
+  @IsOptional()
+  @ApiProperty({ example: 'www.site.com' })
+  @Column({ nullable: true, length: 100 })
+  contact_website?: string;
+
+
   @Allow()
   @IsOptional()
   @ApiProperty({ example: 1})
