@@ -1,10 +1,10 @@
-import { Controller, Param, Patch, Request, UseGuards } from '@nestjs/common'
-import { Crud, CrudController, Override } from '@nestjsx/crud'
-import { User } from './user.entity'
-import { UsersService } from './users.service'
-import { AuthGuard } from '@nestjs/passport'
-import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger'
-import { UsersCrudService } from './users-crud.service'
+import { Controller, Param, Patch, Request, UseGuards } from '@nestjs/common';
+import { Crud, CrudController, Override } from '@nestjsx/crud';
+import { User } from './user.entity';
+import { UsersService } from './users.service';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { UsersCrudService } from './users-crud.service';
 
 @ApiBearerAuth()
 // @Roles(RoleEnum.admin)
@@ -20,7 +20,8 @@ import { UsersCrudService } from './users-crud.service'
   },
   query: {
     maxLimit: 50,
-    alwaysPaginate: false,
+    limit: 5,
+    alwaysPaginate: true,
     join: {
       status: {
         eager: false,
@@ -46,76 +47,79 @@ import { UsersCrudService } from './users-crud.service'
   version: '1',
 })
 export class UsersController implements CrudController<User> {
-  constructor(public service: UsersCrudService, public userService: UsersService) { }
+  constructor(
+    public service: UsersCrudService,
+    public userService: UsersService,
+  ) {}
 
   get base(): CrudController<User> {
-    return this
+    return this;
   }
 
   @Override('getOneBase')
   async getOneAndDoStuff(@Request() req) {
-    return this.service.getOneBase(req.params.id)
+    return this.service.getOneBase(req.params.id);
   }
 
   @Override()
   async deleteOne(@Request() request) {
-    return this.service.softDelete(request.params.id)
+    return this.service.softDelete(request.params.id);
   }
 
   @Patch('/newpassword/:id')
-  @ApiOperation({ summary: 'Update one User\'s password' })
+  @ApiOperation({ summary: "Update one User's password" })
   @ApiBody({
     schema: {
       properties: {
-        'password': { type: 'string' }
-      }
-    }
+        password: { type: 'string' },
+      },
+    },
   })
   async updatePassword(@Param('id') id: string, @Request() req) {
     req.body.id = id;
-    return this.userService.update(id, req.body)
+    return this.userService.update(id, req.body);
   }
 
   @Patch('/update-phone-no')
-  @ApiOperation({ summary: 'Update one User\'s phone no' })
+  @ApiOperation({ summary: "Update one User's phone no" })
   @ApiBody({
     schema: {
       properties: {
-        'id': { type: 'string' },
-        'phone_no': { type: 'number' }
-      }
-    }
+        id: { type: 'string' },
+        phone_no: { type: 'number' },
+      },
+    },
   })
   async updatePhoneNo(@Request() req) {
-    return this.userService.updatePhoneNo(req.body.id, req.body.phone_no)
+    return this.userService.updatePhoneNo(req.body.id, req.body.phone_no);
   }
 
   @Patch('/update-about')
-  @ApiOperation({ summary: 'Update one User\'s about text' })
+  @ApiOperation({ summary: "Update one User's about text" })
   @ApiBody({
     schema: {
       properties: {
-        'id': { type: 'string' },
-        'about': { type: 'string' }
-      }
-    }
+        id: { type: 'string' },
+        about: { type: 'string' },
+      },
+    },
   })
   async updateAbout(@Request() req) {
-    return this.userService.updateAbout(req.body.id, req.body.about)
+    return this.userService.updateAbout(req.body.id, req.body.about);
   }
 
   @Patch('/update-photo')
-  @ApiOperation({ summary: 'Update one User\'s photo' })
+  @ApiOperation({ summary: "Update one User's photo" })
   @ApiBody({
     schema: {
       properties: {
-        'id': { type: 'string' },
-        'file_id': { type: 'string' }
-      }
-    }
+        id: { type: 'string' },
+        file_id: { type: 'string' },
+      },
+    },
   })
   async updatePhoto(@Request() req) {
-    return this.userService.updatePhoto(req.body.id, req.body.file_id)
+    return this.userService.updatePhoto(req.body.id, req.body.file_id);
   }
 
   @Patch('/update-guide')
@@ -123,26 +127,26 @@ export class UsersController implements CrudController<User> {
   @ApiBody({
     schema: {
       properties: {
-        'id': { type: 'string' },
-        'is_guide': { type: 'boolean' }
-      }
-    }
+        id: { type: 'string' },
+        is_guide: { type: 'boolean' },
+      },
+    },
   })
   async updateAsGuide(@Request() req) {
-    return this.userService.updateAsGuide(req.body.id, req.body.is_guide)
+    return this.userService.updateAsGuide(req.body.id, req.body.is_guide);
   }
 
   @Patch('/set-availability')
-  @ApiOperation({ summary: 'Update one User\'s about online status' })
+  @ApiOperation({ summary: "Update one User's about online status" })
   @ApiBody({
     schema: {
       properties: {
-        'id': { type: 'string' },
-        'is_online': { type: 'boolean' }
-      }
-    }
+        id: { type: 'string' },
+        is_online: { type: 'boolean' },
+      },
+    },
   })
   async updateAvailability(@Request() req) {
-    return this.userService.updateAvailability(req.body.id, req.body.is_online)
+    return await this.userService.updateAvailability(req.body.id, req.body.is_online);
   }
 }
