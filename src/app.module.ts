@@ -89,6 +89,7 @@ import { UsersTermsAndConditionsModule } from './users-terms-and-conditions/user
 import { ActivityArticleImageModule } from './activity-article-image/activity-article-image.module';
 import { ActivityNewsfeedImageModule } from './activity-newsfeed-image/activity-newsfeed-image.module';
 import { SubAdminPostModule } from './sub-admin-post/sub-admin-post.module';
+import { PaymentIntentModule } from './payment-intent/payment-intent.module';
 
 @Module({
   imports: [
@@ -204,6 +205,7 @@ import { SubAdminPostModule } from './sub-admin-post/sub-admin-post.module';
     ActivityArticleImageModule,
     ActivityNewsfeedImageModule,
     SubAdminPostModule,
+    PaymentIntentModule,
   ],
 })
 export class AppModule {}
