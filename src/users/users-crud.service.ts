@@ -1,11 +1,12 @@
-import { Injectable } from '@nestjs/common'
-import { TypeOrmCrudService } from '@nestjsx/crud-typeorm'
-import { User } from './user.entity'
-import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
-import { FindOptions } from '../utils/types/find-options.type'
-import { DeepPartial } from '../utils/types/deep-partial.type'
-import { UserTypeService } from '../user-type/user-type.service'
+import { Injectable } from '@nestjs/common';
+import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
+import { User } from './user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { FindOptions } from '../utils/types/find-options.type';
+import { DeepPartial } from '../utils/types/deep-partial.type';
+import { UserTypeService } from '../user-type/user-type.service';
+import { IPaginationOptions } from 'src/utils/types/pagination-options';
 
 @Injectable()
 export class UsersCrudService extends TypeOrmCrudService<User> {
@@ -14,19 +15,19 @@ export class UsersCrudService extends TypeOrmCrudService<User> {
     private usersRepository: Repository<User>,
     private userTypeService: UserTypeService,
   ) {
-    super(usersRepository)
+    super(usersRepository);
   }
 
   async findOneEntity(options: FindOptions<User>) {
     return this.usersRepository.findOne({
       where: options.where,
-    })
+    });
   }
 
   async findManyEntities(options: FindOptions<User>) {
     return this.usersRepository.find({
       where: options.where,
-    })
+    });
   }
 
   async getOneBase(id: string) {
@@ -34,13 +35,13 @@ export class UsersCrudService extends TypeOrmCrudService<User> {
       where: {
         id: id,
       },
-    })
+    });
 
     user.userType = await this.userTypeService.findOneEntity({
       where: {
         id: user.user_type_id,
       },
-    })
+    });
     return user;
   }
 
@@ -49,6 +50,13 @@ export class UsersCrudService extends TypeOrmCrudService<User> {
   }
 
   async softDelete(id: string): Promise<void> {
-    await this.usersRepository.softDelete(id)
+    await this.usersRepository.softDelete(id);
+  }
+
+  async findManyWithPagination(paginationOptions: IPaginationOptions) {
+    return this.usersRepository.find({
+      skip: (paginationOptions.page - 1) * paginationOptions.limit,
+      take: paginationOptions.limit,
+    });
   }
 }
