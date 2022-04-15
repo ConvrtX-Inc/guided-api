@@ -59,6 +59,7 @@ export class ActivityEvent extends EntityHelper {
   sub_activities?: string;
 
   @IsOptional()
+  @ApiProperty({ example: '2022-03-01' })
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   date?: string;
 
