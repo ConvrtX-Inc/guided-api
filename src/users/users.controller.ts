@@ -1,10 +1,23 @@
-import { Controller, Param, Patch, Request, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  DefaultValuePipe,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Query,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { Crud, CrudController, Override } from '@nestjsx/crud';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UsersCrudService } from './users-crud.service';
+import { infinityPagination } from 'src/utils/infinity-pagination';
 
 @ApiBearerAuth()
 // @Roles(RoleEnum.admin)
@@ -56,6 +69,24 @@ export class UsersController implements CrudController<User> {
     return this;
   }
 
+  @Get()
+  @HttpCode(HttpStatus.OK)
+  async findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
+  ) {
+    if (limit > 50) {
+      limit = 50;
+    }
+
+    return infinityPagination(
+      await this.service.findManyWithPagination({
+        page,
+        limit,
+      }),
+      { page, limit },
+    );
+  }
   @Override('getOneBase')
   async getOneAndDoStuff(@Request() req) {
     return this.service.getOneBase(req.params.id);
@@ -147,6 +178,9 @@ export class UsersController implements CrudController<User> {
     },
   })
   async updateAvailability(@Request() req) {
-    return await this.userService.updateAvailability(req.body.id, req.body.is_online);
+    return await this.userService.updateAvailability(
+      req.body.id,
+      req.body.is_online,
+    );
   }
 }
