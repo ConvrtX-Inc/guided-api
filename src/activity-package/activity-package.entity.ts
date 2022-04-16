@@ -67,6 +67,12 @@ export class ActivityPackage extends EntityHelper {
 
   @Allow()
   @IsOptional()
+  @ApiProperty({ example: false })
+  @Column({ type: 'bool', nullable: true, default: false })
+  premium_user?: boolean;
+
+  @Allow()
+  @IsOptional()
   @ApiProperty({ example: 'byte64image' })
   @Transform((value: Buffer | null | string) => (value == null ? '' : value))
   @Column({
@@ -98,6 +104,11 @@ export class ActivityPackage extends EntityHelper {
     } catch (e) {}
   }
 
+  @IsOptional()
+  @ApiProperty({ example: '2022-03-01' })
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  activity_date?: string;
+
   @Allow()
   @IsOptional()
   @ApiProperty({ example: 1000 })
@@ -128,7 +139,7 @@ export class ActivityPackage extends EntityHelper {
 
   @IsOptional()
   @ApiProperty({ example: '{services: cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae}' })
-  @Column({type: 'simple-json',  nullable: true})
+  @Column({ type: 'simple-json', nullable: true })
   services?: stringifiedJson;
 
   @IsOptional()
@@ -185,7 +196,6 @@ export class ActivityPackage extends EntityHelper {
   @ApiProperty({ example: false })
   @Column({ type: 'bool', nullable: true, default: false })
   is_post?: boolean;
-
 
   @IsOptional()
   @DeleteDateColumn()

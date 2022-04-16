@@ -90,6 +90,7 @@ import { ActivityArticleImageModule } from './activity-article-image/activity-ar
 import { ActivityNewsfeedImageModule } from './activity-newsfeed-image/activity-newsfeed-image.module';
 import { SubAdminPostModule } from './sub-admin-post/sub-admin-post.module';
 import { PaymentIntentModule } from './payment-intent/payment-intent.module';
+import { ActivityEventFormsModule } from './activity-event-forms/activity-event-forms.module';
 
 @Module({
   imports: [
@@ -206,6 +207,7 @@ import { PaymentIntentModule } from './payment-intent/payment-intent.module';
     ActivityNewsfeedImageModule,
     SubAdminPostModule,
     PaymentIntentModule,
+    ActivityEventFormsModule,
   ],
 })
 export class AppModule {}
