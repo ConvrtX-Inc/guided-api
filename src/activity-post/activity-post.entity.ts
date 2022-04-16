@@ -53,7 +53,7 @@ export class ActivityPost extends EntityHelper {
   @IsOptional()
   @ApiProperty({ example: 'Description' })
   @Column({
-    type: 'text',
+    nullable: true,type: 'text'
   })
   description?: string;
 
