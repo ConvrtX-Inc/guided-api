@@ -147,6 +147,16 @@ export class ActivityPackage extends EntityHelper {
   @IsOptional()
   @ApiProperty({ example: '12.0' })
   @Column({ type: 'decimal', precision: 12, scale: 2, default: 0 })
+  max_price?: string;
+
+  @IsOptional()
+  @ApiProperty({ example: '12.0' })
+  @Column({ type: 'decimal', precision: 12, scale: 2, default: 0 })
+  package_total_cost?: string;
+
+  @IsOptional()
+  @ApiProperty({ example: '12.0' })
+  @Column({ type: 'decimal', precision: 12, scale: 2, default: 0 })
   extra_cost_per_person?: string;
 
   @IsOptional()

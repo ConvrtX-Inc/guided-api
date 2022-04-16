@@ -1,4 +1,10 @@
-import {Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn} from 'typeorm';
+import {
+  Column,
+  DeleteDateColumn,
+  Entity,
+  Generated,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Allow, IsOptional } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
@@ -6,6 +12,12 @@ import { EntityHelper } from 'src/utils/entity-helper';
 export class ActivityPackageForms extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @IsOptional()
+  @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
+  @Column()
+  @Generated('uuid')
+  post_id?: string; //id is dynamic based on the category type table
 
   @IsOptional()
   @Allow()
