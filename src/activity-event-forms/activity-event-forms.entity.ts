@@ -17,7 +17,7 @@ import {
     @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
     @Column()
     @Generated('uuid')
-    post_id?: string; //id is dynamic based on the category type table
+    activity_event_id?: string; //id is dynamic based on the category type table
   
     @IsOptional()
     @Allow()

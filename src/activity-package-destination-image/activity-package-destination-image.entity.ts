@@ -23,9 +23,9 @@ export class ActivityPackageDestinationImage extends EntityHelper {
   @IsOptional()
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
   @Transform((value: string | null) => (value == '' ? null : value))
-  @Validate(IsExist, ['ActivityPackageDestination', 'id'], {
-    message: 'Activity Package destination not found',
-  })
+  //@Validate(IsExist, ['ActivityPackageDestination', 'id'], {
+  //  message: 'Activity Package destination not found',
+  //})
   @Column({ nullable: true, type: 'uuid' })
   activity_package_destination_id?: string | null;
 
@@ -39,6 +39,12 @@ export class ActivityPackageDestinationImage extends EntityHelper {
     nullable: true,
   })
   snapshot_img?: Buffer | null | string;
+
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: false })
+  @Column({ type: 'bool', nullable: true, default: false })
+  default_img?: boolean;
 
   @BeforeUpdate()
   @BeforeInsert()
