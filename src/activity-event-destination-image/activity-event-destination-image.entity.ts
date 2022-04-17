@@ -15,7 +15,7 @@ import * as base64_arraybuffer from 'base64-arraybuffer-converter';
 import { Transform } from 'class-transformer';
 
 @Entity()
-export class ActivityPackageDestinationImage extends EntityHelper {
+export class ActivityEventDestinationImage extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -23,11 +23,8 @@ export class ActivityPackageDestinationImage extends EntityHelper {
   @IsOptional()
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
   @Transform((value: string | null) => (value == '' ? null : value))
-  //@Validate(IsExist, ['ActivityPackageDestination', 'id'], {
-  //  message: 'Activity Package destination not found',
-  //})
   @Column({ nullable: true, type: 'uuid' })
-  activity_package_destination_id?: string | null;
+  activity_event_destination_id?: string | null;
 
   @Allow()
   @IsOptional()
