@@ -83,7 +83,6 @@ import { ChargeModule } from './charge/charge.module';
 import { SubscriptionModule } from './subscription/subscription.module';
 import { CountryModule } from './country/country.module';
 import { TermsAndConditionsModule } from './terms-and-conditions/terms-and-conditions.module';
-import { ActivityEventImageModule } from './activity-event-image/activity-event-image.module';
 import { UserActivityPostSummaryModule } from './user-activity-post-summary/user-activity-post-summary.module';
 import { UsersTermsAndConditionsModule } from './users-terms-and-conditions/users-terms-and-conditions.module';
 import { ActivityArticleImageModule } from './activity-article-image/activity-article-image.module';
@@ -91,6 +90,8 @@ import { ActivityNewsfeedImageModule } from './activity-newsfeed-image/activity-
 import { SubAdminPostModule } from './sub-admin-post/sub-admin-post.module';
 import { PaymentIntentModule } from './payment-intent/payment-intent.module';
 import { ActivityEventFormsModule } from './activity-event-forms/activity-event-forms.module';
+import { ActivityEventDestinationModule } from './activity-event-destination/activity-event-destination.module';
+import { ActivityEventDestinationImageModule } from './activity-event-destination-image/activity-event-destination-image.module';
 
 @Module({
   imports: [
@@ -199,7 +200,6 @@ import { ActivityEventFormsModule } from './activity-event-forms/activity-event-
     ContactUsModule,
     FaqModule,
     TermsAndConditionsModule,
-    ActivityEventImageModule,
     BankAccountModule,
     UserActivityPostSummaryModule,
     UsersTermsAndConditionsModule,
@@ -208,6 +208,8 @@ import { ActivityEventFormsModule } from './activity-event-forms/activity-event-
     SubAdminPostModule,
     PaymentIntentModule,
     ActivityEventFormsModule,
+    ActivityEventDestinationModule,
+    ActivityEventDestinationImageModule,
   ],
 })
 export class AppModule {}
