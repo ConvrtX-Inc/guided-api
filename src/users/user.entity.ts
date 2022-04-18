@@ -30,6 +30,7 @@ import { EntityHelper } from '../utils/entity-helper';
 import { AuthProvidersEnum } from '../auth/auth-providers.enum';
 import { CrudValidationGroups } from '@nestjsx/crud';
 import { UserType } from '../user-type/user-type.entity';
+import * as base64_arraybuffer from 'base64-arraybuffer-converter';
 
 @Entity()
 export class User extends EntityHelper {
@@ -224,6 +225,25 @@ export class User extends EntityHelper {
     nullable: true,
   })
   profile_photo?: Buffer | null | string;
+  @BeforeUpdate()
+  @BeforeInsert()
+  public encodeImage() {
+    this.profile_photo = this.profile_photo
+      ? base64_arraybuffer.base64_2_ab(this.profile_photo)
+      : '';
+  }
+
+  @AfterLoad()
+  public async decodeImage() {
+    try {
+      if (typeof this.profile_photo !== null && this.profile_photo != undefined) {
+        this.profile_photo = await base64_arraybuffer.ab_2_base64(
+          new Uint8Array(base64_arraybuffer.base64_2_ab(this.profile_photo)),
+        );
+      }
+    } catch (e) {}
+  }
+
 
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
   @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
