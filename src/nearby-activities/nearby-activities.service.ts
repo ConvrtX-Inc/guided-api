@@ -79,7 +79,7 @@ export class NearbyActivitiesService {
   }
 
   async nearbyPopularGuidesList(lat: number, lng: number, distance: number, searchText: string = '') {
-    return this.userRepo
+    const users = await this.userRepo
       .createQueryBuilder('user')
       .leftJoinAndMapMany('user.activity', ActivityPackage, 'activity', 'user.id = activity.user_id')
       .leftJoinAndMapMany('activity.badge', Badge, 'badge', 'badge.id = activity.main_badge_id')
@@ -103,6 +103,28 @@ export class NearbyActivitiesService {
       .orderBy('reviews', 'DESC')
       .addOrderBy('distance', 'ASC')
       .getRawMany();
+
+
+    for (const i in users) {
+      const badge = await getRepository(Badge)
+        .createQueryBuilder('badge')
+        .where({ id: users[i].activity_main_badge_id })
+        .getOne();
+      if (badge !== null) {
+        users[i]['badge_img_icon'] = badge.img_icon;
+      }
+
+      const activity = await getRepository(ActivityPackage)
+        .createQueryBuilder('activity')
+        .where({ id: users[i].activity_id })
+        .getOne();
+
+      if (activity !== null) {
+        users[i]['activity_cover_img'] = activity.cover_img;
+      }
+    }
+
+    return users;
   }
 
   async nearbyPopularGuidesDetail(lat: number, lng: number, distance: number, id: string) {

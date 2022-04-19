@@ -36,12 +36,13 @@ export class UsersCrudService extends TypeOrmCrudService<User> {
         id: id,
       },
     });
-
-    user.userType = await this.userTypeService.findOneEntity({
-      where: {
-        id: user.user_type_id,
-      },
-    });
+    if (user.user_type_id) {
+      user.userType = await this.userTypeService.findOneEntity({
+        where: {
+          id: user.user_type_id,
+        },
+      });
+    }
     return user;
   }
 

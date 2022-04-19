@@ -81,10 +81,6 @@ export class ActivityPackage extends EntityHelper {
     nullable: true,
   })
   cover_img?: Buffer | null | string;
-  destination: any;
-  distance: string;
-  time_to_travel: null | string;
-
   @BeforeUpdate()
   @BeforeInsert()
   public encodeImage() {
@@ -103,6 +99,10 @@ export class ActivityPackage extends EntityHelper {
       }
     } catch (e) {}
   }
+
+  destination: any;
+  distance: string;
+  time_to_travel: null | string;
 
   @IsOptional()
   @ApiProperty({ example: '2022-03-01' })

@@ -42,7 +42,6 @@ export class Badge extends EntityHelper {
     nullable: true,
   })
   img_icon?: Buffer | null | string;
-
   @BeforeUpdate()
   @BeforeInsert()
   public encodeImage() {
