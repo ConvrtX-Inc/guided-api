@@ -92,6 +92,7 @@ import { PaymentIntentModule } from './payment-intent/payment-intent.module';
 import { ActivityEventFormsModule } from './activity-event-forms/activity-event-forms.module';
 import { ActivityEventDestinationModule } from './activity-event-destination/activity-event-destination.module';
 import { ActivityEventDestinationImageModule } from './activity-event-destination-image/activity-event-destination-image.module';
+import { ActivityEventImageModule } from './activity-event-image/activity-event-image.module';
 
 @Module({
   imports: [
@@ -210,6 +211,7 @@ import { ActivityEventDestinationImageModule } from './activity-event-destinatio
     ActivityEventFormsModule,
     ActivityEventDestinationModule,
     ActivityEventDestinationImageModule,
+    ActivityEventImageModule,
   ],
 })
 export class AppModule {}

@@ -1,4 +1,10 @@
-import {Column, DeleteDateColumn, Entity, Generated, PrimaryGeneratedColumn} from 'typeorm';
+import {
+  Column,
+  DeleteDateColumn,
+  Entity,
+  Generated,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, Validate } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
@@ -23,9 +29,7 @@ export class ActivityPackageDestination extends EntityHelper {
 
   @IsOptional()
   @ApiProperty({ example: 'Place Description' })
-  @Column({
-    type: 'text',
-  })
+  @Column({ nullable: true, type: 'text' })
   place_description?: string;
 
   @IsOptional()

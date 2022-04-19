@@ -45,6 +45,17 @@ export class ActivityPost extends EntityHelper {
   @Generated('uuid')
   main_badge_id?: string | null;
 
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: 'byte64image' })
+  @Transform((value: Buffer | null | string) => (value == null ? '' : value))
+  @Column({
+    name: 'snapshot_img',
+    type: 'bytea',
+    nullable: true,
+  })
+  snapshot_img?: Buffer | null | string;
+
   @IsOptional()
   @ApiProperty({ example: '2022-03-01' })
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
