@@ -16,6 +16,7 @@ export class SubAdminPostController {
   @Get('/guide-view-post')
   @ApiOperation({ summary: 'Guide / Influencers - View Post' })
   getGuidesViewPost() {
-    return this.subadminService.getGuidesViewPost();
+    //return this.subadminService.getGuidesViewPost();
+    return this.subadminService.getPosts();
   }
 }

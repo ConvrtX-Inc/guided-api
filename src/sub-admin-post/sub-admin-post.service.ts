@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ActivityArticleImage } from 'src/activity-article-image/activity-article-image.entity';
 import { ActivityArticle } from 'src/activity-article/activity-article.entity';
 import { ActivityPost } from 'src/activity-post/activity-post.entity';
-import { Repository } from 'typeorm';
+import { getConnection, Repository } from 'typeorm';
 
 @Injectable()
 export class SubAdminPostService {
@@ -64,5 +64,10 @@ export class SubAdminPostService {
       .getRawMany();
 
     return query_article.concat(query_newsfeed);
+  }
+
+  async getPosts(){
+    return await getConnection().query('SELECT * FROM activity_post'+
+    ' ORDER BY id ASC');
   }
 }
