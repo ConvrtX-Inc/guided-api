@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { SubAdminPostService } from './sub-admin-post.service';
@@ -13,10 +13,17 @@ import { SubAdminPostService } from './sub-admin-post.service';
 export class SubAdminPostController {
   constructor(private subadminService: SubAdminPostService) {}
 
-  @Get('/guide-view-post')
+  @Get('/activity-post/:user_id')
+  @ApiOperation({ summary: 'Get Activity Post' })
+  getActivityWithBadge(@Param('user_id') user_id: string) {
+    //return this.subadminService.getGuidesViewPost();
+    return this.subadminService.getActivityWithBadge(user_id);
+  }
+
+  /*@Get('/guide-view-post')
   @ApiOperation({ summary: 'Guide / Influencers - View Post' })
   getGuidesViewPost() {
     //return this.subadminService.getGuidesViewPost();
     return this.subadminService.getPosts();
-  }
+  }*/
 }

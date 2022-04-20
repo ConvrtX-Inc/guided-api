@@ -66,8 +66,16 @@ export class SubAdminPostService {
     return query_article.concat(query_newsfeed);
   }
 
-  async getPosts(){
-    return await getConnection().query('SELECT * FROM activity_post'+
-    ' ORDER BY id ASC');
+  async getPosts() {
+    return await getConnection().query(
+      'SELECT * FROM activity_post' + ' ORDER BY id ASC',
+    );
+  }
+
+  async getActivityWithBadge(user_id: string) {
+    return await this.repoActivityPost.find({
+      where: { user_id: user_id },
+      relations: ['activityBadge'],
+    });
   }
 }

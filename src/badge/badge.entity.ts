@@ -5,6 +5,7 @@ import {
   Column,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
@@ -12,6 +13,7 @@ import { Allow, IsOptional } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
 import * as base64_arraybuffer from 'base64-arraybuffer-converter';
 import { Transform } from 'class-transformer';
+import { ActivityPost } from 'src/activity-post/activity-post.entity';
 
 @Entity()
 export class Badge extends EntityHelper {
@@ -76,4 +78,7 @@ export class Badge extends EntityHelper {
   @IsOptional()
   @DeleteDateColumn()
   deletedAt: Date;
+
+  @OneToMany(() => ActivityPost, (post) => post.activityBadge)
+  activityPost: ActivityPost[];
 }

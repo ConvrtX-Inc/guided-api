@@ -1,9 +1,21 @@
-import { Column, DeleteDateColumn, Entity, Generated, PrimaryGeneratedColumn} from 'typeorm';
+import {
+  AfterLoad,
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  DeleteDateColumn,
+  Entity,
+  Generated,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Allow, IsOptional, Validate } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { IsExist } from '../utils/validators/is-exists.validator';
 import { Transform } from 'class-transformer';
+import { Badge } from 'src/badge/badge.entity';
+import * as base64_arraybuffer from 'base64-arraybuffer-converter';
 @Entity()
 export class ActivityPost extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
@@ -15,7 +27,7 @@ export class ActivityPost extends EntityHelper {
   @Validate(IsExist, ['User', 'id'], {
     message: 'User not Found',
   })
-  @Column({nullable: true, type: 'uuid'})
+  @Column({ nullable: true, type: 'uuid' })
   user_id?: string | null;
 
   @IsOptional()
@@ -55,6 +67,24 @@ export class ActivityPost extends EntityHelper {
     nullable: true,
   })
   snapshot_img?: Buffer | null | string;
+  @BeforeUpdate()
+  @BeforeInsert()
+  public encodeImage() {
+    this.snapshot_img = this.snapshot_img
+      ? base64_arraybuffer.base64_2_ab(this.snapshot_img)
+      : '';
+  }
+
+  @AfterLoad()
+  public async decodeImage() {
+    try {
+      if (typeof this.snapshot_img !== null && this.snapshot_img != undefined) {
+        this.snapshot_img = await base64_arraybuffer.ab_2_base64(
+          new Uint8Array(base64_arraybuffer.base64_2_ab(this.snapshot_img)),
+        );
+      }
+    } catch (e) {}
+  }
 
   @IsOptional()
   @ApiProperty({ example: '2022-03-01' })
@@ -64,7 +94,8 @@ export class ActivityPost extends EntityHelper {
   @IsOptional()
   @ApiProperty({ example: 'Description' })
   @Column({
-    nullable: true,type: 'text'
+    nullable: true,
+    type: 'text',
   })
   description?: string;
 
@@ -74,7 +105,7 @@ export class ActivityPost extends EntityHelper {
   @Validate(IsExist, ['User', 'id'], {
     message: 'User not Found',
   })
-  @Column({nullable: true, type: 'uuid'})
+  @Column({ nullable: true, type: 'uuid' })
   contact_user_id?: string | null;
 
   @IsOptional()
@@ -97,11 +128,10 @@ export class ActivityPost extends EntityHelper {
   @Column({ nullable: true, length: 100 })
   contact_website?: string;
 
-
   @Allow()
   @IsOptional()
-  @ApiProperty({ example: 1})
-  @Column({ 
+  @ApiProperty({ example: 1 })
+  @Column({
     type: 'int',
     nullable: false,
   })
@@ -112,7 +142,13 @@ export class ActivityPost extends EntityHelper {
   @ApiProperty({ example: false })
   @Column({ type: 'bool', nullable: true, default: false })
   is_published?: boolean;
-  
+
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: 'd1681a31-7b03-4abe-a11e-ff2e5acd8495' })
+  @Column({ nullable: true, type: 'uuid' })
+  activityBadgeId?: string;
+
   @IsOptional()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_date?: string;
@@ -121,4 +157,7 @@ export class ActivityPost extends EntityHelper {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updated_date?: string;
 
+  //
+  @ManyToOne(() => Badge, (badge) => badge.activityPost)
+  activityBadge: Badge;
 }
