@@ -74,6 +74,32 @@ export class SubAdminPostService {
 
   async getActivityWithBadge(user_id: string) {
     return await this.repoActivityPost.find({
+      order: { created_date: 'DESC' },
+      where: { user_id: user_id },
+      relations: ['activityBadge'],
+    });
+    /*const query = await this.repoActivityPost
+      .createQueryBuilder('post')
+      .select('post.title,post.snapshot_img,b.img_icon')
+      .innerJoin('badge', 'b', 'b.id::text=post.main_badge_id::text')
+      .where('post.user_id = :user_id', { user_id: user_id })
+      .orderBy('post.created_date', 'DESC')
+      .getRawMany();
+
+    return query;*/
+  }
+
+  async getRecentPosts(user_id: string) {
+    /*return this.repoActivityPost
+      .createQueryBuilder()
+      .select('title,snapshot_img')
+      .where('user_id = :user_id', { user_id: user_id })
+      .limit(4)
+      .orderBy('created_date', 'DESC')
+      .getRawMany();*/
+    return await this.repoActivityPost.find({
+      take: 4,
+      order: { created_date: 'DESC' },
       where: { user_id: user_id },
       relations: ['activityBadge'],
     });

@@ -19,6 +19,11 @@ export class SubAdminPostController {
     //return this.subadminService.getGuidesViewPost();
     return this.subadminService.getActivityWithBadge(user_id);
   }
+  @Get('/activity-recent-post/:user_id')
+  @ApiOperation({ summary: 'Get Recent Posts' })
+  getRecentPosts(@Param('user_id') user_id: string) {
+    return this.subadminService.getRecentPosts(user_id);
+  }
 
   /*@Get('/guide-view-post')
   @ApiOperation({ summary: 'Guide / Influencers - View Post' })
