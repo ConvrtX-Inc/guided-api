@@ -145,6 +145,12 @@ export class ActivityPost extends EntityHelper {
 
   @Allow()
   @IsOptional()
+  @ApiProperty({ example: false })
+  @Column({ type: 'bool', nullable: true, default: false })
+  premium_user?: boolean;
+
+  @Allow()
+  @IsOptional()
   @ApiProperty({ example: 'd1681a31-7b03-4abe-a11e-ff2e5acd8495' })
   @Column({ nullable: true, type: 'uuid' })
   activityBadgeId?: string;
