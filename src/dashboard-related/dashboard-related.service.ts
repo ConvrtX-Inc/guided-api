@@ -44,12 +44,12 @@ export class DashboardRelatedService {
 
     @InjectRepository(ActivityArticle)
     private repoActivityArticle: Repository<ActivityArticle>,
-        
+
     @InjectRepository(ActivityAdvertisement)
     private repoActivityAdvertisement: Repository<ActivityAdvertisement>,
 
     @InjectRepository(ActivityOutfitter)
-    private repoActivityOutfitter: Repository<ActivityOutfitter>,    
+    private repoActivityOutfitter: Repository<ActivityOutfitter>,
   ) {}
 
   countAllUsers() {
@@ -97,11 +97,10 @@ export class DashboardRelatedService {
       .getRawMany();
   }
 
-  
   recentPostsByUserID(user_id: string) {
     return this.repoActivityPost
       .createQueryBuilder()
-      .where('user_id = :user_id', {user_id: user_id})
+      .where('user_id = :user_id', { user_id: user_id })
       .orderBy('created_date', 'DESC')
       .limit(10)
       .getRawMany();
@@ -136,105 +135,197 @@ export class DashboardRelatedService {
     return usersfromTransaction;
   }
 
-  getUserActivityPostSummary(user_id: string) {    
-    return this.repoUserActivityPostSummary
+  async getUserActivityPostSummary(user_id: string) {
+    const articleCnt = await this.repoActivityArticle
       .createQueryBuilder()
-      .where('user_id = :user_id', {user_id: user_id})            
+      .select('Count(id)')
+      .where('user_id = :user_id', { user_id: user_id })
+      .getRawOne();
+    const nfeedCnt = await this.repoActivityNewsfeed
+      .createQueryBuilder()
+      .select('Count(id)')
+      .where('user_id = :user_id', { user_id: user_id })
+      .getRawOne();
+    const activityCnt = await this.repoActivityPackage
+      .createQueryBuilder()
+      .select('Count(id)')
+      .where('user_id = :user_id', { user_id: user_id })
+      .getRawOne();
+    const eventCnt = await this.repoActivityEvent
+      .createQueryBuilder()
+      .select('Count(id)')
+      .where('user_id = :user_id', { user_id: user_id })
+      .getRawOne();
+    const outCnt = await this.repoActivityOutfitter
+      .createQueryBuilder()
+      .select('Count(id)')
+      .where('user_id = :user_id', { user_id: user_id })
+      .getRawOne();
+    const adsCnt = await this.repoActivityAdvertisement
+      .createQueryBuilder()
+      .select('Count(id)')
+      .where('user_id = :user_id', { user_id: user_id })
+      .getRawOne();
+
+    const userSummaryData = await this.repoUserActivityPostSummary.findOne({
+      user_id: user_id,
+    });
+
+    /*userSummaryData.article_count = articleCnt['count'];
+    userSummaryData.activity_package_count = activityCnt['count'];
+    userSummaryData.event_count = eventCnt['count'];
+    userSummaryData.newsfeed_count = nfeedCnt['count'];
+    userSummaryData.outfitter_count = outCnt['count'];
+    userSummaryData.advertisement_count = adsCnt['count'];
+
+    await this.repoUserActivityPostSummary.save(userSummaryData);*/
+
+    if (!userSummaryData) {
+      await this.repoUserActivityPostSummary
+        .createQueryBuilder()
+        .insert()
+        .values({
+          user_id: user_id,
+          advertisement_count: 0,
+          advertisement_views: 0,
+          activity_package_count: 0,
+          activity_package_views: 0,
+          newsfeed_count: 0,
+          newsfeed_views: 0,
+          outfitter_count: 0,
+          outfitter_views: 0,
+          article_count: 0,
+          article_views: 0,
+          event_count: 0,
+          event_views: 0,
+        })
+        .execute();
+    } else {
+      await this.repoUserActivityPostSummary
+        .createQueryBuilder()
+        .update()
+        .set({
+          article_count: articleCnt['count'],
+          newsfeed_count: nfeedCnt['count'],
+          activity_package_count: activityCnt['count'],
+          event_count: eventCnt['count'],
+          outfitter_count: outCnt['count'],
+          advertisement_count: adsCnt['count'],
+        })
+        .where('user_id = :user_id', { user_id: user_id })
+        .execute();
+    }
+
+    return await this.repoUserActivityPostSummary
+      .createQueryBuilder()
+      .where('user_id = :user_id', { user_id: user_id })
       .getRawMany();
   }
 
-  async getUserRecentPost(user_id: string)
-  {
+  async getUserRecentPost(user_id: string) {
     let data = [];
     data = await this.repoActivityPost
       .createQueryBuilder()
-      .where('user_id = :user_id', {user_id})
+      .where('user_id = :user_id', { user_id })
       .orderBy('created_date', 'DESC')
       .limit(10)
       .getRawMany();
-    
+
     for (const post of data) {
-        switch (post.category_type) {
-          case CategoryPost.cpActivityPackage: {
-            const query = this.repoActivityPackage.createQueryBuilder('package')
-                          .select('package.id, package.name, dimage.snapshot_img')
-                          .innerJoin(
-                            'activity_package_destination',
-                            'destination',
-                            "destination.activity_package_id::text = package.id::text")
-                          .innerJoin(
-                            'activity_package_destination_image',
-                            'dimage',
-                            "dimage.activity_package_destination_id::text = destination.id::text")
-                          .where("package.id = '" +  post.id + "'");
-            const res  = query.getRawOne(); 
-            data['activity_package_destination'] = res;
-          }           
-          case CategoryPost.cpNewsFeed: {
-            const query = this.repoActivityNewsfeed.createQueryBuilder('newsfeed')
-                          .select('newsfeed.id, newsfeed.title, dimage.snapshot_img')                          
-                          .innerJoin(
-                            'activity_newsfeed_image',
-                            'dimage',
-                            "dimage.activity_newsfeed_id::text = newsfeed.id::text")
-                          .where("newsfeed.id = '" +  post.id + "'");
-            const res  = query.getRawOne(); 
-            data['activity_newsfeed'] = res;
-          }       
-          case CategoryPost.cpEvent: {
-            const query = this.repoActivityEvent.createQueryBuilder('event')
-                          .select('event.id, event.title, dimage.snapshot_img')                          
-                          .innerJoin(
-                            'activity_event_image',
-                            'dimage',
-                            "dimage.activity_event_id::text = event.id::text")
-                          .where("event.id = '" +  post.id + "'");
-            const res  = query.getRawOne(); 
-            data['activity_event'] = res;
-          }       
-          case CategoryPost.cpArticle: {
-            const query = this.repoActivityArticle.createQueryBuilder('article')
-                          .select('article.id, article.title, dimage.snapshot_img')                          
-                          .innerJoin(
-                            'activity_article_image',
-                            'dimage',
-                            "dimage.activity_article_id::text = article.id::text")
-                          .where("article.id = '" +  post.id + "'");
-            const res  =  query.getRawOne(); 
-            data['activity_article'] = res;
-          }   
-          case CategoryPost.cpAdvertisement: {
-            const query = this.repoActivityAdvertisement.createQueryBuilder('advertisement')
-                          .select('advertisement.id, advertisement.title, dimage.snapshot_img')                          
-                          .innerJoin(
-                            'activity_advertisement_image',
-                            'dimage',
-                            "dimage.activity_advertisement_id::text = advertisement.id::text")
-                          .where("advertisement.id = '" +  post.id + "'");
-            const res  = query.getRawOne(); 
-            data['activity_advertisement'] = res;
-          }   
-          case CategoryPost.cpOutfitter: {
-            const query = this.repoActivityOutfitter.createQueryBuilder('outfitter')
-                          .select('outfitter.id, outfitter.title, dimage.snapshot_img')                          
-                          .innerJoin(
-                            'activity_outfitter_image',
-                            'dimage',
-                            "dimage.activity_outfitter_id::text = outfitter.id::text")
-                          .where("outfitter.id = '" +  post.id + "'");
-            const res  = query.getRawOne(); 
-            data['activity_outfitter'] = res;
-          }   
-        } //switch      
+      switch (post.category_type) {
+        case CategoryPost.cpActivityPackage: {
+          const query = this.repoActivityPackage
+            .createQueryBuilder('package')
+            .select('package.id, package.name, dimage.snapshot_img')
+            .innerJoin(
+              'activity_package_destination',
+              'destination',
+              'destination.activity_package_id::text = package.id::text',
+            )
+            .innerJoin(
+              'activity_package_destination_image',
+              'dimage',
+              'dimage.activity_package_destination_id::text = destination.id::text',
+            )
+            .where("package.id = '" + post.id + "'");
+          const res = query.getRawOne();
+          data['activity_package_destination'] = res;
+        }
+        case CategoryPost.cpNewsFeed: {
+          const query = this.repoActivityNewsfeed
+            .createQueryBuilder('newsfeed')
+            .select('newsfeed.id, newsfeed.title, dimage.snapshot_img')
+            .innerJoin(
+              'activity_newsfeed_image',
+              'dimage',
+              'dimage.activity_newsfeed_id::text = newsfeed.id::text',
+            )
+            .where("newsfeed.id = '" + post.id + "'");
+          const res = query.getRawOne();
+          data['activity_newsfeed'] = res;
+        }
+        case CategoryPost.cpEvent: {
+          const query = this.repoActivityEvent
+            .createQueryBuilder('event')
+            .select('event.id, event.title, dimage.snapshot_img')
+            .innerJoin(
+              'activity_event_image',
+              'dimage',
+              'dimage.activity_event_id::text = event.id::text',
+            )
+            .where("event.id = '" + post.id + "'");
+          const res = query.getRawOne();
+          data['activity_event'] = res;
+        }
+        case CategoryPost.cpArticle: {
+          const query = this.repoActivityArticle
+            .createQueryBuilder('article')
+            .select('article.id, article.title, dimage.snapshot_img')
+            .innerJoin(
+              'activity_article_image',
+              'dimage',
+              'dimage.activity_article_id::text = article.id::text',
+            )
+            .where("article.id = '" + post.id + "'");
+          const res = query.getRawOne();
+          data['activity_article'] = res;
+        }
+        case CategoryPost.cpAdvertisement: {
+          const query = this.repoActivityAdvertisement
+            .createQueryBuilder('advertisement')
+            .select(
+              'advertisement.id, advertisement.title, dimage.snapshot_img',
+            )
+            .innerJoin(
+              'activity_advertisement_image',
+              'dimage',
+              'dimage.activity_advertisement_id::text = advertisement.id::text',
+            )
+            .where("advertisement.id = '" + post.id + "'");
+          const res = query.getRawOne();
+          data['activity_advertisement'] = res;
+        }
+        case CategoryPost.cpOutfitter: {
+          const query = this.repoActivityOutfitter
+            .createQueryBuilder('outfitter')
+            .select('outfitter.id, outfitter.title, dimage.snapshot_img')
+            .innerJoin(
+              'activity_outfitter_image',
+              'dimage',
+              'dimage.activity_outfitter_id::text = outfitter.id::text',
+            )
+            .where("outfitter.id = '" + post.id + "'");
+          const res = query.getRawOne();
+          data['activity_outfitter'] = res;
+        }
+      } //switch
     }
-    
+
     return {
       status: HttpStatus.OK,
       response: {
-        data: data        
+        data: data,
       },
     };
-    
-  } 
-
+  }
 }
