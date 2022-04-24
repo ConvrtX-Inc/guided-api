@@ -6,53 +6,43 @@ import { Transform } from 'class-transformer';
 import { IsExist } from 'src/utils/validators/is-exists.validator';
 
 @Entity()
-export class UserProfileImage extends EntityHelper {
+export class TransactionPayment extends EntityHelper {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
     @IsOptional()
     @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
     @Transform((value: string | null) => (value == '' ? null : value))
-    @Validate(IsExist, ['User', 'id'], {
-      message: 'User not Found',
+    @Validate(IsExist, ['Transaction', 'id'], {
+        message: 'Transaction not Found',
     })
     @Column({ type: 'uuid', nullable: true })
-    user_id?: string | null;
+    transaction_id?: string | null;
 
     @IsOptional()
-    @ApiProperty({ example: 'firebase_url_1' })
+    @ApiProperty({ example: 'amount' })
     @Column({ nullable: true, type: 'text' })
-    image_firebase_url_1?: string;
+    amount?: string;
 
     @IsOptional()
-    @ApiProperty({ example: 'firebase_url_2' })
+    @ApiProperty({ example: 'trasaction_number' })
     @Column({ nullable: true, type: 'text' })
-    image_firebase_url_2?: string;
+    transaction_number?: string;
 
     @IsOptional()
-    @ApiProperty({ example: 'firebase_url_3' })
+    @ApiProperty({ example: 'payment_method' })
     @Column({ nullable: true, type: 'text' })
-    image_firebase_url_3?: string;
+    payment_method?: string;
 
     @IsOptional()
-    @ApiProperty({ example: 'firebase_url_4' })
+    @ApiProperty({ example: 'service_name' })
     @Column({ nullable: true, type: 'text' })
-    image_firebase_url_4?: string;
-
-    @IsOptional()
-    @ApiProperty({ example: 'firebase_url_5' })
-    @Column({ nullable: true, type: 'text' })
-    image_firebase_url_5?: string;
-
-    @IsOptional()
-    @ApiProperty({ example: 'firebase_url_6' })
-    @Column({ nullable: true, type: 'text' })
-    image_firebase_url_6?: string;
+    service_name?: string;
 
     @IsOptional()
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     created_date?: string;
-  
+
     @IsOptional()
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     updated_date?: string;

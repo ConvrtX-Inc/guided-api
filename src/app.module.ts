@@ -94,6 +94,7 @@ import { ActivityEventDestinationModule } from './activity-event-destination/act
 import { ActivityEventDestinationImageModule } from './activity-event-destination-image/activity-event-destination-image.module';
 import { ActivityEventImageModule } from './activity-event-image/activity-event-image.module';
 import { UserProfileImagesModule } from './user-profile-images/user-profile-images.module';
+import { TransactionPaymentModule } from './transaction-payment/transaction-payment.module';
 
 @Module({
   imports: [
@@ -214,6 +215,7 @@ import { UserProfileImagesModule } from './user-profile-images/user-profile-imag
     ActivityEventDestinationImageModule,
     ActivityEventImageModule,
     UserProfileImagesModule,
+    TransactionPaymentModule,
   ],
 })
 export class AppModule {}
