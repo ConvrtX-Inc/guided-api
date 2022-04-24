@@ -203,6 +203,14 @@ export class User extends EntityHelper {
   @Column({ nullable: true })
   socialId: string | null;
 
+  @IsOptional()
+  @ApiProperty({ example: 'profile_photo_firebase_url' })
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
+  profile_photo_firebase_url: string | null;
+
   @ApiProperty({ example: 'fileEntity' })
   @IsOptional()
   @Validate(IsExist, ['FileEntity', 'id'], {
