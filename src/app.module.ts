@@ -93,6 +93,7 @@ import { ActivityEventFormsModule } from './activity-event-forms/activity-event-
 import { ActivityEventDestinationModule } from './activity-event-destination/activity-event-destination.module';
 import { ActivityEventDestinationImageModule } from './activity-event-destination-image/activity-event-destination-image.module';
 import { ActivityEventImageModule } from './activity-event-image/activity-event-image.module';
+import { UserProfileImagesModule } from './user-profile-images/user-profile-images.module';
 
 @Module({
   imports: [
@@ -212,6 +213,7 @@ import { ActivityEventImageModule } from './activity-event-image/activity-event-
     ActivityEventDestinationModule,
     ActivityEventDestinationImageModule,
     ActivityEventImageModule,
+    UserProfileImagesModule,
   ],
 })
 export class AppModule {}
