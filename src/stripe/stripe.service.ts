@@ -7,6 +7,8 @@ import CreateStripeAccountDto from '../stripe-accounts/dtos/create-stripe-accoun
 import CreateTransferDto from '../stripe-transfer/dtos/create-transfer.dto';
 import ConnectBankAccountDto from '../stripe-accounts/dtos/connect-bank-account.dto';
 import ConfirmTransferDto from '../stripe-transfer/dtos/confirm-transfer.dto';
+import { InjectConnection } from '@nestjs/typeorm';
+import { Connection } from 'typeorm';
 
 @Injectable()
 export default class StripeService {
@@ -15,6 +17,7 @@ export default class StripeService {
   constructor(
     private configService: ConfigService,
     private usersService: UsersService,
+    @InjectConnection() private readonly connection: Connection,
   ) {
     this.stripe = new Stripe(configService.get('stripe.secretKey'), {
       apiVersion: '2020-08-27',
@@ -154,6 +157,29 @@ export default class StripeService {
       await user.save();
     }
 
+    const card = await this.connection.query(
+      `SELECT * FROM card WHERE user_id = '${user.id}' AND is_default = true ORDER BY created_date DESC LIMIT 1`,
+    );
+
+    if (card.length == 0) {
+      return {
+        status: HttpStatus.BAD_REQUEST,
+        response: {
+          data: {
+            details: 'Please add default card for user first.',
+          },
+        },
+      };
+    }
+
+    const paymentId = await this.createPaymentMethod(
+      'card',
+      card[0].card_no,
+      card[0].expiry_date,
+      card[0].cvc,
+    );
+    await this.attachPaymentMethod(paymentId.id, user.stripe_customer_id);
+    await this.customerUpdate(paymentId.id, user.stripe_customer_id);
     const ephemeralKey = await this.stripe.ephemeralKeys.create(
       { customer: user.stripe_customer_id },
       { apiVersion: '2020-08-27' },
@@ -169,6 +195,10 @@ export default class StripeService {
       transfer_data: {
         destination: dto.account,
       },
+    });
+    await this.confirmTransfer({
+      payment_intent_id: paymentIntent.id,
+      payment_method_id: paymentId.id,
     });
     return {
       paymentIntent: paymentIntent.client_secret,
@@ -269,6 +299,7 @@ export default class StripeService {
   async confirmTransfer(dto: ConfirmTransferDto) {
     return await this.stripe.paymentIntents.confirm(dto.payment_intent_id, {
       payment_method: dto.payment_method_id,
+      return_url: 'https://admin-guided-dev.herokuapp.com',
     });
   }
 }
