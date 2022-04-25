@@ -50,7 +50,7 @@ export default class StripeService {
         );
       }
 
-      if (!user.stripe_customer_id) {
+      if (!user.stripe_account_id) {
         const account = await this.stripe.accounts.create({
           type: 'custom',
           country: dto.country,
