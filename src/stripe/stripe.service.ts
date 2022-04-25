@@ -104,10 +104,10 @@ export default class StripeService {
         });
         await this.onBoardAccountLink(account.id);
 
-        user.stripe_customer_id = account.id;
+        user.stripe_account_id = account.id;
         await user.save();
       }
-      return user.stripe_customer_id;
+      return user.stripe_account_id;
     } catch (error) {
       throw new HttpException(
         {
