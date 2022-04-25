@@ -6,6 +6,7 @@ import * as ip from 'ip';
 import CreateStripeAccountDto from '../stripe-accounts/dtos/create-stripe-account.dto';
 import CreateTransferDto from '../stripe-transfer/dtos/create-transfer.dto';
 import ConnectBankAccountDto from '../stripe-accounts/dtos/connect-bank-account.dto';
+import ConfirmTransferDto from '../stripe-transfer/dtos/confirm-transfer.dto';
 
 @Injectable()
 export default class StripeService {
@@ -48,7 +49,7 @@ export default class StripeService {
 
       if (!user.stripe_customer_id) {
         const account = await this.stripe.accounts.create({
-          type: 'express',
+          type: 'custom',
           country: dto.country,
           email: dto.email,
           business_type: 'individual',
@@ -61,6 +62,9 @@ export default class StripeService {
               state: dto.state,
               country: dto.country,
             },
+            name: dto.company_name,
+            owners_provided: true,
+            phone: dto.phone,
           },
           individual: {
             address: {
@@ -71,6 +75,24 @@ export default class StripeService {
               state: dto.state,
               country: dto.country,
             },
+          },
+          tos_acceptance: {
+            date: Math.floor(+new Date() / 1000),
+            ip: ip.address(),
+          },
+          business_profile: {
+            name: dto.company_name,
+            product_description: dto.product_description,
+            support_address: {
+              city: dto.city,
+              line1: dto.line1,
+              line2: dto.line2,
+              postal_code: dto.postal_code,
+              state: dto.state,
+              country: dto.country,
+            },
+            support_email: dto.email,
+            support_phone: dto.phone,
           },
           capabilities: {
             card_payments: { requested: true },
@@ -104,14 +126,55 @@ export default class StripeService {
     });
   }
   async transferAccount(dto: CreateTransferDto) {
-    return await this.stripe.paymentIntents.create({
-      amount: dto.total_service_amount,
-      currency: 'USD',
+    const user = await this.usersService.findOneEntity({
+      where: {
+        email: dto.payee_email,
+      },
+    });
+
+    if (!user) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            user: 'User not found with email:' + dto.payee_email,
+          },
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
+
+    if (!user.stripe_customer_id) {
+      const name =
+        user.full_name == ''
+          ? user.first_name + ' ' + user.last_name
+          : user.full_name;
+      const customer = await this.createCustomer(name, user.email);
+      user.stripe_customer_id = customer.id;
+      await user.save();
+    }
+
+    const ephemeralKey = await this.stripe.ephemeralKeys.create(
+      { customer: user.stripe_customer_id },
+      { apiVersion: '2020-08-27' },
+    );
+    const paymentIntent = await this.stripe.paymentIntents.create({
+      amount: dto.total_service_amount * 100,
+      currency: this.configService.get('stripe.currency'),
+      customer: user.stripe_customer_id,
+      automatic_payment_methods: {
+        enabled: true,
+      },
+      application_fee_amount: dto.transfer_money * 100,
       transfer_data: {
-        amount: dto.transfer_money,
         destination: dto.account,
       },
     });
+    return {
+      paymentIntent: paymentIntent.client_secret,
+      ephemeralKey: ephemeralKey.secret,
+      customer: user.id,
+    };
   }
   async onBoardAccountLink(account: string) {
     return await this.stripe.accountLinks.create({
@@ -200,6 +263,12 @@ export default class StripeService {
       amount,
       customer: user.stripe_customer_id,
       currency: this.configService.get('stripe.currency'),
+    });
+  }
+
+  async confirmTransfer(dto: ConfirmTransferDto) {
+    return await this.stripe.paymentIntents.confirm(dto.payment_intent_id, {
+      payment_method: dto.payment_method_id,
     });
   }
 }

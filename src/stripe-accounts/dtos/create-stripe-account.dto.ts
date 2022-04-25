@@ -22,6 +22,11 @@ export class CreateStripeAccountDto {
   @MaxLength(2)
   country: string;
 
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({ example: '' })
+  company_name: string;
+
   @ApiProperty({ example: '' })
   line1: string;
   @ApiProperty({ example: '' })
@@ -40,9 +45,13 @@ export class CreateStripeAccountDto {
   @ApiProperty({ example: '' })
   maiden_name: string;
 
-  @ApiProperty({ example: '' })
+  @ApiProperty({ example: '+12018790896' })
   @IsNotEmpty()
   phone: string;
+
+  @ApiProperty({ example: 'Provide tour services' })
+  @IsNotEmpty()
+  product_description: string;
 }
 
 export default CreateStripeAccountDto;

@@ -3,6 +3,7 @@ import StripeService from '../stripe/stripe.service';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import CreateTransferDto from './dtos/create-transfer.dto';
+import ConfirmTransferDto from "./dtos/confirm-transfer.dto";
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
@@ -20,5 +21,12 @@ export default class StripeTransferController {
   })
   async transferToAccount(@Request() request, @Body() dto: CreateTransferDto) {
     return this.stripeService.transferAccount(dto);
+  }
+  @Post('confirm-transfer')
+  @ApiOperation({
+    description: 'This is to confirm the transfer',
+  })
+  async confirmTransfer(@Request() request, @Body() dto: ConfirmTransferDto) {
+    return this.stripeService.confirmTransfer(dto);
   }
 }

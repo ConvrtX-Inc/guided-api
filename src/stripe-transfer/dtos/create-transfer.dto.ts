@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsEmail } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateTransferDto {
@@ -14,6 +14,11 @@ export class CreateTransferDto {
   @IsNotEmpty()
   @ApiProperty({ example: 100 })
   transfer_money: number;
+
+  @IsNotEmpty()
+  @IsEmail()
+  @ApiProperty({ example: 'test@mailinator.com' })
+  payee_email: number;
 }
 
 export default CreateTransferDto;
