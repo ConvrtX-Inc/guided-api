@@ -707,7 +707,7 @@
   integrity sha512-m+ymUL+JA16K798oNXzePXeAl2PVpulNMDrCm91tIyvK+QIV3oGz/V3mcuZLhg5g0KRcTcCWkbIF7zcaJ4hR3g==
   dependencies:
     socket.io "4.4.1"
-    tslib "2.3.1"    
+    tslib "2.3.1"
 
 "@nestjs/schematics@8.0.3", "@nestjs/schematics@^8.0.3":
   version "8.0.3"
@@ -4417,7 +4417,7 @@ interpret@^1.0.0:
 
 ip@^1.1.5:
   version "1.1.5"
-  resolved "https://registry.npmjs.org/ip/-/ip-1.1.5.tgz"
+  resolved "https://registry.yarnpkg.com/ip/-/ip-1.1.5.tgz#bdded70114290828c0a039e72ef25f5aaec4354a"
   integrity sha1-vd7XARQpCCjAoDnnLvJfWq7ENUo=
 
 ipaddr.js@1.9.1:
@@ -7365,7 +7365,6 @@ socket.io@4.4.1, socket.io@^4.4.1:
     engine.io "~6.1.0"
     socket.io-adapter "~2.3.3"
     socket.io-parser "~4.0.4"
-
 
 socks-proxy-agent@5, socks-proxy-agent@^5.0.0:
   version "5.0.1"
