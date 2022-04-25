@@ -95,6 +95,8 @@ import { ActivityEventDestinationImageModule } from './activity-event-destinatio
 import { ActivityEventImageModule } from './activity-event-image/activity-event-image.module';
 import { UserProfileImagesModule } from './user-profile-images/user-profile-images.module';
 import { TransactionPaymentModule } from './transaction-payment/transaction-payment.module';
+import { StripeAccountsModule } from './stripe-accounts/stripe-accounts.module';
+import { StripeTransferModule } from './stripe-transfer/stripe-transfer.module';
 
 @Module({
   imports: [
@@ -145,6 +147,8 @@ import { TransactionPaymentModule } from './transaction-payment/transaction-paym
     UsersModule,
     CardModule,
     ChargeModule,
+    StripeAccountsModule,
+    StripeTransferModule,
     SubscriptionModule,
     StripeModule,
     FilesModule,
