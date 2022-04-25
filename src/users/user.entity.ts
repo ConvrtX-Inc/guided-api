@@ -82,6 +82,12 @@ export class User extends EntityHelper {
   @Column({ nullable: true })
   stripe_customer_id?: string | null;
 
+  @ApiProperty()
+  @IsOptional()
+  @ApiProperty({ example: '' })
+  @Column({ nullable: true })
+  stripe_account_id?: string | null;
+
   @ApiProperty({ example: '3235534022' })
   @IsOptional()
   @Index()
