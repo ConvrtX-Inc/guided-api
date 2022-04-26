@@ -43,6 +43,11 @@ export class BookingRequest extends EntityHelper {
   @Column()
   @Generated('uuid')
   activity_package_id?: string;
+  
+  @IsOptional()
+  @ApiProperty({ example: 'profile_photo_firebase_url' })
+  @Column({ nullable: true, type: 'text' })
+  profile_photo_firebase_url?: string;
 
   @IsOptional()
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
