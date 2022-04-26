@@ -115,6 +115,11 @@ export class RoomService extends TypeOrmCrudService<Room> {
         userMsgDetail.message_id = msgdetail.ParentID;     
         userMsgDetail.message = msgdetail.Text;
         userMsgDetail.is_sent = true;
+
+        userMsgDetail.sender_id = msgdetail.SenderID;
+        userMsgDetail.receiver_id = msgdetail.ReceiverID;
+        userMsgDetail.message_id = room_id;
+
         await userMsgDetail.save(); 
       }
       else{
@@ -127,5 +132,6 @@ export class RoomService extends TypeOrmCrudService<Room> {
       }
                   
     }
+    
   }
 }

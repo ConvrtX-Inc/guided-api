@@ -175,7 +175,7 @@ export default class StripeService {
     });
 
     return {
-      paymentIntent: paymentIntent.client_secret,
+      paymentIntent: paymentIntent.id,
       ephemeralKey: ephemeralKey.secret,
       customer: user.id,
     };
