@@ -49,6 +49,11 @@ export class ActivityPackage extends EntityHelper {
   sub_badge_ids?: { sub_badge_ids: string };
 
   @IsOptional()
+  @ApiProperty({ example: '2022-03-01' })
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  date?: string;
+
+  @IsOptional()
   @ApiProperty({ example: 'Description' })
   @Column({ nullable: true, length: 200 })
   package_note?: string;
