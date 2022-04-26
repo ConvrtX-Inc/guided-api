@@ -10,13 +10,17 @@ export class MessageDetailClass {
   private status: number;
   private dateCreate: Date;
   private parentid: string;
+  private sender_id : string;
+  private receiver_id:string;
    
-  public constructor(userid: string, msg: string, status: number, dateCreate: Date, parent_id: string) {
+  public constructor(userid: string, msg: string, status: number, dateCreate: Date, parent_id: string,sender_id: string,receiver_id: string) {
     this.userid = userid;
     this.text = msg;
     this.status = status;
     this.dateCreate = dateCreate;   
     this.parentid = parent_id; 
+    this.sender_id = sender_id;
+    this.receiver_id = receiver_id;
   }
 
   get UserID(): string {
@@ -38,6 +42,15 @@ export class MessageDetailClass {
   get ParentID(): string {
     return this.parentid;
   }
+
+  get SenderID(): string {
+    return this.sender_id;
+  }
+   
+  get ReceiverID(): string {
+    return this.receiver_id;
+  }
+   
    
 }
   

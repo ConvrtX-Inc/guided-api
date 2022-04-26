@@ -84,6 +84,12 @@ export class ActivityEvent extends EntityHelper {
   })
   description?: string;
 
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: false })
+  @Column({ type: 'bool', nullable: true, default: false })
+  premium_user?: boolean;
+
   @IsOptional()
   @ApiProperty({ example: '12.0' })
   @Column({ type: 'decimal', precision: 12, scale: 2, default: 0 })
@@ -97,6 +103,31 @@ export class ActivityEvent extends EntityHelper {
   })
   @Column({ nullable: true })
   status_id?: string | null;
+
+  @IsOptional()
+  @ApiProperty({ example: '12.0' })
+  @Column({ type: 'decimal', precision: 12, scale: 2, default: 0 })
+  base_price?: string;
+
+  @IsOptional()
+  @ApiProperty({ example: '12.0' })
+  @Column({ type: 'decimal', precision: 12, scale: 2, default: 0 })
+  max_price?: string;
+
+  @IsOptional()
+  @ApiProperty({ example: '12.0' })
+  @Column({ type: 'decimal', precision: 12, scale: 2, default: 0 })
+  package_total_cost?: string;
+
+  @IsOptional()
+  @ApiProperty({ example: '12.0' })
+  @Column({ type: 'decimal', precision: 12, scale: 2, default: 0 })
+  extra_cost_per_person?: string;
+
+  @IsOptional()
+  @ApiProperty({ example: 10 })
+  @Column({ type: 'integer', nullable: false })
+  max_extra_person?: number;
 
   @Allow()
   @IsOptional()
