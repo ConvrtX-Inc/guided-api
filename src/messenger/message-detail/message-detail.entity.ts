@@ -32,6 +32,22 @@ import {
     user_id?: string | null;
 
     @IsOptional()
+    @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
+    @Validate(IsExist, ['User', 'id'], {
+      message: 'User not Found',
+    })
+    @Column({ nullable: true })
+    sender_id?: string | null;
+
+    @IsOptional()
+    @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
+    @Validate(IsExist, ['User', 'id'], {
+      message: 'User not Found',
+    })
+    @Column({ nullable: true })
+    receiver_id?: string | null;
+
+    @IsOptional()
     @ApiProperty({ example: 'Hey' })
     @Column({ type: 'text' })
     message?: string;    
