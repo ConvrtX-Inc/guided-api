@@ -21,28 +21,29 @@ import { EntityHelper } from '../utils/entity-helper';
 export class UserGuideRequest extends EntityHelper {
     @PrimaryGeneratedColumn('uuid')
     id: string;
+    
+    @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
+    @IsOptional()
+    @Column({ nullable: true })
+    user_id: string | null;
 
     @ApiProperty({ example: 'John' })
     @IsOptional()
-    @Index()
     @Column({ nullable: true })
     first_name: string | null;
   
     @ApiProperty({ example: 'Doe' })
     @IsOptional()
-    @Index()
     @Column({ nullable: true })
     last_name: string | null;
 
     @ApiProperty({ example: 'Doe' })
     @IsOptional()
-    @Index()
     @Column({ nullable: true })
     email: string | null;
 
     @ApiProperty({ example: '3235534022' })
     @IsOptional()
-    @Index()
     @Column({ type: 'bigint', nullable: true })
     phone_no: number | null;
 
@@ -69,7 +70,7 @@ export class UserGuideRequest extends EntityHelper {
 
     @Allow()
     @IsOptional()
-    @ApiProperty({ example: true })
+    @ApiProperty({ example: false })
     @Column({ type: 'bool', nullable: false, default: 'FALSE' })
     is_approved?: boolean;
 
