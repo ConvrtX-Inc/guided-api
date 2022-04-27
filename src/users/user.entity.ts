@@ -82,6 +82,12 @@ export class User extends EntityHelper {
   @Column({ nullable: true })
   stripe_customer_id?: string | null;
 
+  @ApiProperty()
+  @IsOptional()
+  @ApiProperty({ example: '' })
+  @Column({ nullable: true })
+  stripe_account_id?: string | null;
+
   @ApiProperty({ example: '3235534022' })
   @IsOptional()
   @Index()
@@ -202,6 +208,14 @@ export class User extends EntityHelper {
   @Index()
   @Column({ nullable: true })
   socialId: string | null;
+
+  @IsOptional()
+  @ApiProperty({ example: 'profile_photo_firebase_url' })
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
+  profile_photo_firebase_url: string | null;
 
   @ApiProperty({ example: 'fileEntity' })
   @IsOptional()

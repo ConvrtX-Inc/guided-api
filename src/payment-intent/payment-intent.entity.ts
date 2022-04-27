@@ -31,6 +31,11 @@ export class PaymentIntent extends EntityHelper {
   @Column({ length: 100, nullable: false })
   stripe_payment_intent_id: string;
 
+  @ApiProperty({ example: '123465678' })
+  @IsNotEmpty({ groups: [CrudValidationGroups.CREATE] })
+  @Column({ length: 100, nullable: false })
+  stripe_payment_method_id : string;
+
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_date: Date;
   

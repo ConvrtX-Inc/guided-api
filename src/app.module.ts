@@ -93,6 +93,12 @@ import { ActivityEventFormsModule } from './activity-event-forms/activity-event-
 import { ActivityEventDestinationModule } from './activity-event-destination/activity-event-destination.module';
 import { ActivityEventDestinationImageModule } from './activity-event-destination-image/activity-event-destination-image.module';
 import { ActivityEventImageModule } from './activity-event-image/activity-event-image.module';
+import { UserProfileImagesModule } from './user-profile-images/user-profile-images.module';
+import { TransactionPaymentModule } from './transaction-payment/transaction-payment.module';
+import { StripeAccountsModule } from './stripe-accounts/stripe-accounts.module';
+import { StripeTransferModule } from './stripe-transfer/stripe-transfer.module';
+import { UserAvailabilityModule } from './user-availability/user-availability.module';
+import { UserGuideRequestModule } from './user-guide-request/user-guide-request.module';
 
 @Module({
   imports: [
@@ -143,6 +149,8 @@ import { ActivityEventImageModule } from './activity-event-image/activity-event-
     UsersModule,
     CardModule,
     ChargeModule,
+    StripeAccountsModule,
+    StripeTransferModule,
     SubscriptionModule,
     StripeModule,
     FilesModule,
@@ -212,6 +220,10 @@ import { ActivityEventImageModule } from './activity-event-image/activity-event-
     ActivityEventDestinationModule,
     ActivityEventDestinationImageModule,
     ActivityEventImageModule,
+    UserProfileImagesModule,
+    TransactionPaymentModule,
+    UserAvailabilityModule,
+    UserGuideRequestModule,
   ],
 })
 export class AppModule {}
