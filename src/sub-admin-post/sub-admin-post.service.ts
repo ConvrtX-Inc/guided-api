@@ -79,11 +79,12 @@ export class SubAdminPostService {
         'title',
         'created_date',
         'user_id',
-        'snapshot_img',
+        //'snapshot_img',
+        'snapshot_img_url',
         'views',
         'category_type',
         'premium_user',
-        'post_id'
+        'post_id',
       ],
       order: { created_date: 'DESC' },
       where: { user_id: user_id },
@@ -109,7 +110,14 @@ export class SubAdminPostService {
       .orderBy('created_date', 'DESC')
       .getRawMany();*/
     return await this.repoActivityPost.find({
-      select: ['id', 'title', 'created_date', 'user_id', 'snapshot_img'],
+      select: [
+        'id',
+        'title',
+        'created_date',
+        'user_id',
+        //'snapshot_img',
+        'snapshot_img_url',
+      ],
       take: 4,
       order: { created_date: 'DESC' },
       where: { user_id: user_id },
