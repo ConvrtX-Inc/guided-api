@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
-import { ActivityPackageFormsController } from './activity-package-forms.controller';
-import { ActivityPackageFormsService } from './activity-package-forms.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ActivityEventFormsController } from './activity-event-forms.controller';
+import { ActivityEventForms } from './activity-event-forms.entity';
+import { ActivityEventFormsService } from './activity-event-forms.service';
 
 @Module({
-  controllers: [ActivityPackageFormsController],
-  providers: [ActivityPackageFormsService]
+  controllers: [ActivityEventFormsController],
+  providers: [ActivityEventFormsService],
+  imports: [TypeOrmModule.forFeature([ActivityEventForms])],
 })
 export class ActivityEventFormsModule {}

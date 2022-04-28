@@ -1,19 +1,19 @@
 import {
-  Controller,  
+  Controller,
   UseGuards,
   Post,
   Param,
   HttpCode,
   HttpStatus,
-  Get
+  Get,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Crud, CrudController } from '@nestjsx/crud';
-  
+
 import { ActivityPost } from './activity-post.entity';
 import { ActivityPostService } from './activity-post.service';
-  
+
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
 @ApiTags('Activity Post')
@@ -42,19 +42,23 @@ import { ActivityPostService } from './activity-post.service';
 })
 export class ActivityPostController implements CrudController<ActivityPost> {
   constructor(public service: ActivityPostService) {}
-  
+
   get base(): CrudController<ActivityPost> {
     return this;
-  }    
+  }
 
-  @ApiOperation({ summary: 'Approved a post, post_id is dependent on the category of post.' })
+  @ApiOperation({
+    summary: 'Approved a post, post_id is dependent on the category of post.',
+  })
   @Post('approved-post/:post_id')
   @HttpCode(HttpStatus.OK)
   public async approvedPost(@Param('post_id') post_id: string) {
     return this.service.approvedPost(post_id);
   }
 
-  @ApiOperation({ summary: 'Reject a post, post_id is dependent on the category of post.' })
+  @ApiOperation({
+    summary: 'Reject a post, post_id is dependent on the category of post.',
+  })
   @Post('reject-post/:post_id')
   @HttpCode(HttpStatus.OK)
   public async rejectPost(@Param('post_id') post_id: string) {
@@ -64,9 +68,13 @@ export class ActivityPostController implements CrudController<ActivityPost> {
   @ApiOperation({ summary: 'Get posts by user id.' })
   @Post('get-posts/:user_id')
   @HttpCode(HttpStatus.OK)
-  public async getPosts(@Param('user_id') user_id: string){
+  public async getPosts(@Param('user_id') user_id: string) {
     return this.service.getPosts(user_id);
   }
 
+  @Get('get-by-post/:post_id')
+  @ApiOperation({ summary: 'Get One Activity Post by Post ID' })
+  public async getP(@Param('post_id') post_id: string) {
+    return this.service.getActivityPostByPostId(post_id);
+  }
 }
-  

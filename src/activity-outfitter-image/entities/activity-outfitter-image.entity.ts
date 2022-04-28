@@ -65,6 +65,11 @@ export class ActivityOutfitterImage extends EntityHelper {
   @Column({ type: 'bool', nullable: true, default: false })
   default_img?: boolean;
 
+  @IsOptional()
+  @ApiProperty({ example: 'firebase_snapshot_img' })
+  @Column({ nullable: true, type: 'text' })
+  firebase_snapshot_img?: string;
+
   @CreateDateColumn()
   date_created: Date;
 

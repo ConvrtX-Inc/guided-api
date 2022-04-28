@@ -49,6 +49,11 @@ export class ActivityPackage extends EntityHelper {
   sub_badge_ids?: { sub_badge_ids: string };
 
   @IsOptional()
+  @ApiProperty({ example: '2022-03-01' })
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  date?: string;
+
+  @IsOptional()
   @ApiProperty({ example: 'Description' })
   @Column({ nullable: true, length: 200 })
   package_note?: string;
@@ -97,7 +102,7 @@ export class ActivityPackage extends EntityHelper {
           new Uint8Array(base64_arraybuffer.base64_2_ab(this.cover_img)),
         );
       }
-    } catch (e) {}
+    } catch (e) { }
   }
 
   destination: any;
@@ -196,6 +201,11 @@ export class ActivityPackage extends EntityHelper {
   @ApiProperty({ example: false })
   @Column({ type: 'bool', nullable: true, default: false })
   is_post?: boolean;
+
+  @IsOptional()
+  @ApiProperty({ example: 'firebase_cover_img' })
+  @Column({ nullable: true, type: 'text' })
+  firebase_cover_img?: string;
 
   @IsOptional()
   @DeleteDateColumn()

@@ -98,6 +98,8 @@ import { TransactionPaymentModule } from './transaction-payment/transaction-paym
 import { StripeAccountsModule } from './stripe-accounts/stripe-accounts.module';
 import { StripeTransferModule } from './stripe-transfer/stripe-transfer.module';
 import { UserMessagesBlockModule } from './user-messages-block/user-messages-block.module';
+import { UserAvailabilityModule } from './user-availability/user-availability.module';
+import { UserGuideRequestModule } from './user-guide-request/user-guide-request.module';
 
 @Module({
   imports: [
@@ -222,6 +224,8 @@ import { UserMessagesBlockModule } from './user-messages-block/user-messages-blo
     UserProfileImagesModule,
     TransactionPaymentModule,
     UserMessagesBlockModule,
+    UserAvailabilityModule,
+    UserGuideRequestModule,
   ],
 })
 export class AppModule {}
