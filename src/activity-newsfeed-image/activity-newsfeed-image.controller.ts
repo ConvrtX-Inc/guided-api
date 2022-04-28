@@ -1,6 +1,6 @@
-import { Controller, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
 import { ActivityNewsFeedImage } from './activity-newsfeed-image.entity';
 import { ActivityNewsfeedImageService } from './activity-newsfeed-image.service';
@@ -37,5 +37,11 @@ export class ActivityNewsfeedImageController
   constructor(public service: ActivityNewsfeedImageService) {}
   get base(): CrudController<ActivityNewsFeedImage> {
     return this;
+  }
+
+  @Get('/get-by-newsfeed/:newsfeed_id')
+  @ApiOperation({ summary: 'Get Newsfeed Image by Newsfeed' })
+  getArticleImageByArticleId(@Param('newsfeed_id') newsfeed_id: string) {
+    return this.service.getNewsfeedImageByNewsfeedId(newsfeed_id);
   }
 }

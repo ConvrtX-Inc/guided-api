@@ -1,6 +1,6 @@
-import { Controller, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
 import { ActivityArticleImageService } from './activity-article-image.service';
 import { ActivityArticleImage } from './activity-article-image.entity';
@@ -38,4 +38,10 @@ export class ActivityArticleImageController
   get base(): CrudController<ActivityArticleImage> {
     return this;
   }
+  @Get('/get-by-article/:article_id')
+  @ApiOperation({ summary: 'Get Article Image by Article' })
+  getArticleImageByArticleId(@Param('article_id') article_id: string) {
+    return this.service.getArticleImageByArticleId(article_id);
+  }
+
 }
