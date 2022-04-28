@@ -138,7 +138,8 @@ export class MessageDetailService extends TypeOrmCrudService<MessageDetail> {
           id: receiver.id,
           full_name: receiver.full_name,
           avatar: receiver.profile_photo_firebase_url,
-          isOnline: receiver.is_online
+          isOnline: receiver.is_online,
+          phone_number:receiver.phone_no
         }
 
         const isBlocked = blockedUsers.find((blocked) => blocked.from_user_id == receiver_id || blocked.to_user_id == receiver_id);
