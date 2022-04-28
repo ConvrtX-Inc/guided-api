@@ -68,6 +68,14 @@ export class ActivityArticleImage extends EntityHelper {
   @Column({ type: 'bool', nullable: true, default: false })
   default_img?: boolean;
 
+  @IsOptional()
+  @ApiProperty({ example: 'Firebase img url' })
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
+  img_url: string | null;
+
   @CreateDateColumn()
   created_date: Date;
 

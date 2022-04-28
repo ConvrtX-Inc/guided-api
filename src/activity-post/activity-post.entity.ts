@@ -149,6 +149,14 @@ export class ActivityPost extends EntityHelper {
   @Column({ type: 'bool', nullable: true, default: false })
   premium_user?: boolean;
 
+  @IsOptional()
+  @ApiProperty({ example: 'Firebase snapshot img url' })
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
+  snapshot_img_url: string | null;
+
   @Allow()
   @IsOptional()
   @ApiProperty({ example: 'd1681a31-7b03-4abe-a11e-ff2e5acd8495' })
