@@ -15,7 +15,7 @@ export class ActivityNewsfeedImageService extends TypeOrmCrudService<ActivityNew
 
   async getNewsfeedImageByNewsfeedId(newsfeed_id: string) {
     return await this.newsfeedImageRepo.find({
-      select: ['id', 'activity_newsfeed_id', 'img_url'],
+      select: ['id', 'activity_newsfeed_id', 'img_url', 'filename'],
       where: { activity_newsfeed_id: newsfeed_id },
     });
   }

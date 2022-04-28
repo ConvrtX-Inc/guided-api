@@ -15,7 +15,7 @@ export class ActivityArticleImageService extends TypeOrmCrudService<ActivityArti
 
   async getArticleImageByArticleId(article_id: string) {
     return await this.articleImageRepo.find({
-      select: ['id', 'activity_article_id', 'img_url'],
+      select: ['id', 'activity_article_id', 'img_url', 'filename'],
       where: { activity_article_id: article_id },
     });
   }
