@@ -76,6 +76,14 @@ export class ActivityArticleImage extends EntityHelper {
   })
   img_url: string | null;
 
+  @IsOptional()
+  @ApiProperty({ example: 'Firebase img url' })
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
+  filename: string | null;
+
   @CreateDateColumn()
   created_date: Date;
 
