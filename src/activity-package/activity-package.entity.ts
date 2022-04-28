@@ -102,7 +102,7 @@ export class ActivityPackage extends EntityHelper {
           new Uint8Array(base64_arraybuffer.base64_2_ab(this.cover_img)),
         );
       }
-    } catch (e) {}
+    } catch (e) { }
   }
 
   destination: any;
@@ -201,6 +201,11 @@ export class ActivityPackage extends EntityHelper {
   @ApiProperty({ example: false })
   @Column({ type: 'bool', nullable: true, default: false })
   is_post?: boolean;
+
+  @IsOptional()
+  @ApiProperty({ example: 'firebase_cover_img' })
+  @Column({ nullable: true, type: 'text' })
+  firebase_cover_img?: string;
 
   @IsOptional()
   @DeleteDateColumn()
