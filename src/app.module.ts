@@ -97,6 +97,7 @@ import { UserProfileImagesModule } from './user-profile-images/user-profile-imag
 import { TransactionPaymentModule } from './transaction-payment/transaction-payment.module';
 import { StripeAccountsModule } from './stripe-accounts/stripe-accounts.module';
 import { StripeTransferModule } from './stripe-transfer/stripe-transfer.module';
+import { UserMessagesBlockModule } from './user-messages-block/user-messages-block.module';
 
 @Module({
   imports: [
@@ -220,6 +221,7 @@ import { StripeTransferModule } from './stripe-transfer/stripe-transfer.module';
     ActivityEventImageModule,
     UserProfileImagesModule,
     TransactionPaymentModule,
+    UserMessagesBlockModule,
   ],
 })
 export class AppModule {}

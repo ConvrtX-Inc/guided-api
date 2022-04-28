@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { DeepPartial } from '../../utils/types/deep-partial.type';
@@ -8,6 +8,7 @@ import { FindOptions } from '../../utils/types/find-options.type';
 import { MessageDetail } from './message-detail.entity';
 import { UsersService } from 'src/users/users.service';
 import { groupBy } from 'rxjs';
+import { UserBlockMessages } from 'src/user-messages-block/user-message-block.entity';
 //import { ParticipantService } from '../participant/participant.service';
 
 @Injectable()
@@ -112,7 +113,14 @@ export class MessageDetailService extends TypeOrmCrudService<MessageDetail> {
 
   async getDetailedChatMessages(messages: MessageDetail[]) {
     if (messages.length > 0) {
-      let chatMessages = [];
+      const blockedUsers = await getRepository(UserBlockMessages)
+      .createQueryBuilder('user_block')
+      .select('"user_block".*')
+      .where('from_user_id = :currentUser OR to_user_id = :currentUser', { currentUser: messages[0].user_id })
+      .getRawMany();
+
+
+       let chatMessages = [];
 
       let rooms = [...new Set(messages.map(item => item.message_id))];
 
@@ -133,11 +141,17 @@ export class MessageDetailService extends TypeOrmCrudService<MessageDetail> {
           isOnline: receiver.is_online
         }
 
+        const isBlocked = blockedUsers.find((blocked) => blocked.from_user_id == receiver_id || blocked.to_user_id == receiver_id);
+
         const chat = {
           user_id: msgs[0].user_id,
           room_id: rooms[i],
           receiver: receiverDetails,
-          messages: msgs
+          messages: msgs,
+          is_blocked: isBlocked ? true : false,
+          user_message_block_id: isBlocked ? isBlocked.id : '',
+          user_message_block_from: isBlocked ? isBlocked.from_user_id : '',
+
         }
 
 
@@ -159,6 +173,16 @@ export class MessageDetailService extends TypeOrmCrudService<MessageDetail> {
       return messages;
     }
 
+  }
+
+  async deleteMessages(room_id:string,user_id: string){
+    const deleteConversation =  await this.msgRepository.delete({message_id: room_id,user_id: user_id});
+    console.log('delete conversation',deleteConversation);
+    if(deleteConversation.affected > 0){
+      return {
+        'message': 'Conversation Deleted'
+      }
+    }
   }
 
 }
