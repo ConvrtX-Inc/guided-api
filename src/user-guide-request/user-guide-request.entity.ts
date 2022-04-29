@@ -47,14 +47,11 @@ export class UserGuideRequest extends EntityHelper {
     @Column({ type: 'bigint', nullable: true })
     phone_no: number | null;
 
+    @ApiProperty({ example: 'activities' })
     @IsOptional()
-    @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
+    @Index()
     @Column({ nullable: true })
-    @Transform((value: string | null) => (value == '' ? null : value))
-    @Validate(IsExist, ['Badge', 'id'], {
-      message: 'Badge not Found',
-    })
-    badge_id?: string | null;
+    activities: string | null;
 
     @ApiProperty({ example: 'metro manila' })
     @IsOptional()
