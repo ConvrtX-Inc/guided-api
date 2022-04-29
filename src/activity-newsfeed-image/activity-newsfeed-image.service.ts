@@ -12,4 +12,11 @@ export class ActivityNewsfeedImageService extends TypeOrmCrudService<ActivityNew
   ) {
     super(newsfeedImageRepo);
   }
+
+  async getNewsfeedImageByNewsfeedId(newsfeed_id: string) {
+    return await this.newsfeedImageRepo.find({
+      select: ['id', 'activity_newsfeed_id', 'firebase_snapshot_img', 'filename'],
+      where: { activity_newsfeed_id: newsfeed_id },
+    });
+  }
 }

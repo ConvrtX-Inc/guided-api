@@ -65,6 +65,19 @@ export class ActivityNewsFeedImage extends EntityHelper {
   @Column({ type: 'bool', nullable: true, default: false })
   default_img?: boolean;
 
+  @IsOptional()
+  @ApiProperty({ example: 'firebase_snapshot_img' })
+  @Column({ nullable: true, type: 'text' })
+  firebase_snapshot_img?: string;
+
+  @IsOptional()
+  @ApiProperty({ example: 'Firebase img url' })
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
+  filename: string | null;
+
   @CreateDateColumn()
   created_date: Date;
 

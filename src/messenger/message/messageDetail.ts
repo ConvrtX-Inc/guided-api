@@ -12,8 +12,9 @@ export class MessageDetailClass {
   private parentid: string;
   private sender_id : string;
   private receiver_id:string;
-   
-  public constructor(userid: string, msg: string, status: number, dateCreate: Date, parent_id: string,sender_id: string,receiver_id: string) {
+  private type: string;
+     
+  public constructor(userid: string, msg: string, status: number, dateCreate: Date, parent_id: string,sender_id: string,receiver_id: string,type: string ) {
     this.userid = userid;
     this.text = msg;
     this.status = status;
@@ -21,6 +22,8 @@ export class MessageDetailClass {
     this.parentid = parent_id; 
     this.sender_id = sender_id;
     this.receiver_id = receiver_id;
+    this.type = type;
+ 
   }
 
   get UserID(): string {
@@ -50,7 +53,10 @@ export class MessageDetailClass {
   get ReceiverID(): string {
     return this.receiver_id;
   }
-   
+
+  get getType ():string{
+    return this.type;
+  }
    
 }
   
