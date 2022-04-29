@@ -71,6 +71,14 @@ export class ActivityPackageDestinationImage extends EntityHelper {
   firebase_snapshot_img?: string;
 
   @IsOptional()
+  @ApiProperty({ example: 'Firebase img filename' })
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
+  filename: string | null;
+
+  @IsOptional()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_date?: string;
 
