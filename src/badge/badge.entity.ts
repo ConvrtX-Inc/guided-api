@@ -63,6 +63,19 @@ export class Badge extends EntityHelper {
     } catch (e) {}
   }
 
+  @IsOptional()
+  @ApiProperty({ example: 'firebase_snapshot_img' })
+  @Column({ nullable: true, type: 'text' })
+  firebase_snapshot_img?: string;
+
+  @IsOptional()
+  @ApiProperty({ example: 'Firebase img filename' })
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
+  filename: string | null;
+
   @Allow()
   @IsOptional()
   @ApiProperty({ example: true })

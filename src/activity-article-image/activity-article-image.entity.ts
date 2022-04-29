@@ -69,15 +69,12 @@ export class ActivityArticleImage extends EntityHelper {
   default_img?: boolean;
 
   @IsOptional()
-  @ApiProperty({ example: 'Firebase img url' })
-  @Column({
-    type: 'text',
-    nullable: true,
-  })
-  img_url: string | null;
+  @ApiProperty({ example: 'firebase_snapshot_img' })
+  @Column({ nullable: true, type: 'text' })
+  firebase_snapshot_img?: string;
 
   @IsOptional()
-  @ApiProperty({ example: 'Firebase img url' })
+  @ApiProperty({ example: 'Firebase img filename' })
   @Column({
     type: 'text',
     nullable: true,
