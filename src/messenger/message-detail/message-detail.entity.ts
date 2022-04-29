@@ -71,6 +71,11 @@ import {
     @ApiProperty({ example: false })
     @Column({ type: 'bool', nullable: true, default: false })
     is_archive?: boolean;
+
+    @IsOptional()
+    @ApiProperty({ example: 'text' })
+    @Column({ type: 'text' , default:'text' })
+    message_type?: string | null;    
           
     @CreateDateColumn()
     created_date: Date;

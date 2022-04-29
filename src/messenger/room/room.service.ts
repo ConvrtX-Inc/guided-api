@@ -119,6 +119,7 @@ export class RoomService extends TypeOrmCrudService<Room> {
         userMsgDetail.sender_id = msgdetail.SenderID;
         userMsgDetail.receiver_id = msgdetail.ReceiverID;
         userMsgDetail.message_id = room_id;
+        userMsgDetail.message_type = msgdetail.getType;
 
         await userMsgDetail.save(); 
       }

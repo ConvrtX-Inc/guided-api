@@ -97,6 +97,7 @@ import { UserProfileImagesModule } from './user-profile-images/user-profile-imag
 import { TransactionPaymentModule } from './transaction-payment/transaction-payment.module';
 import { StripeAccountsModule } from './stripe-accounts/stripe-accounts.module';
 import { StripeTransferModule } from './stripe-transfer/stripe-transfer.module';
+import { UserMessagesBlockModule } from './user-messages-block/user-messages-block.module';
 import { UserAvailabilityModule } from './user-availability/user-availability.module';
 import { UserGuideRequestModule } from './user-guide-request/user-guide-request.module';
 
@@ -222,6 +223,7 @@ import { UserGuideRequestModule } from './user-guide-request/user-guide-request.
     ActivityEventImageModule,
     UserProfileImagesModule,
     TransactionPaymentModule,
+    UserMessagesBlockModule,
     UserAvailabilityModule,
     UserGuideRequestModule,
   ],

@@ -54,7 +54,7 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   @SubscribeMessage('msgToServer')
   public handleMessage(client: Socket, payload: any): void {         
     var curDate = new Date();
-    let _message = new MessageDetailClass(payload.sender_id, payload.text, MessageStatus.msSent, curDate, payload.message_id , payload.sender_id, payload.receiver_id);
+    let _message = new MessageDetailClass(payload.sender_id, payload.text, MessageStatus.msSent, curDate, payload.message_id , payload.sender_id, payload.receiver_id, payload.type);
     let room = this.getRoomOfClient(client); 
     this.addMessage(_message, room);
     this.wss.to(room).emit('msgToClient', _message);           
