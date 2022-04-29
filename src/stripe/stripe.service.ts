@@ -102,8 +102,6 @@ export default class StripeService {
             transfers: { requested: true },
           },
         });
-        await this.onBoardAccountLink(account.id);
-
         user.stripe_account_id = account.id;
         await user.save();
       }
