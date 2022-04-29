@@ -120,20 +120,10 @@ export class UserGuideRequest extends EntityHelper {
     @Column({ nullable: true })
     certificate_name: string | null;
 
-    @ApiProperty({ example: 'image_1_firebase_url' })
+    @ApiProperty({ example: 'image_firebase_url' })
     @IsOptional()
     @Column({ nullable: true })
-    image_1_firebase_url: string | null;
-
-    @ApiProperty({ example: 'image_2_firebase_url' })
-    @IsOptional()
-    @Column({ nullable: true })
-    image_2_firebase_url: string | null;
-
-    @ApiProperty({ example: 'image_3_firebase_url' })
-    @IsOptional()
-    @Column({ nullable: true })
-    image_3_firebase_url: string | null;
+    image_firebase_url: string | null;
 
     @CreateDateColumn()
     created_date: Date;
