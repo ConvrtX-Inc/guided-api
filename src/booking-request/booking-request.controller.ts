@@ -18,7 +18,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { Crud, CrudController, Override, ParsedBody } from '@nestjsx/crud';
 import { BookingRequest } from './booking-request.entity';
-import {FindBookingDto} from "./booking.dto";
+import { FindBookingDto } from "./booking.dto";
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
@@ -37,7 +37,14 @@ import {FindBookingDto} from "./booking.dto";
     join: {
       status: {
         eager: true,
+      }, from_user: {
+        eager: true,
+        allow: ["full_name", "email","profile_photo_firebase_url"]
       },
+      package:{
+        eager:true, 
+        allow: ["name"]
+      }
     },
   },
   params: {
@@ -55,7 +62,7 @@ import {FindBookingDto} from "./booking.dto";
 export class BookingRequestController
   implements CrudController<BookingRequest>
 {
-  constructor(public service: BookingRequestService) {}
+  constructor(public service: BookingRequestService) { }
 
   get base(): CrudController<BookingRequest> {
     return this;
