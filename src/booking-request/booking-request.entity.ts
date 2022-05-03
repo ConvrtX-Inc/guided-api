@@ -12,6 +12,8 @@ import { Allow, IsOptional } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { Status } from 'src/statuses/status.entity';
 import { Transform } from 'class-transformer';
+import { User } from 'src/users/user.entity';
+import { ActivityPackage } from 'src/activity-package/activity-package.entity';
 
 @Entity()
 export class BookingRequest extends EntityHelper {
@@ -32,6 +34,13 @@ export class BookingRequest extends EntityHelper {
   @Generated('uuid')
   from_user_id?: string;
 
+  @ManyToOne(() => User, {
+    eager: true,
+    
+  })
+  @JoinColumn({ name: 'from_user_id', referencedColumnName: 'id'})
+  from_user?: User;
+
   @IsOptional()
   @ApiProperty({ example: 'Request Msg' })
   @Column({ nullable: false, length: 100 })
@@ -43,6 +52,13 @@ export class BookingRequest extends EntityHelper {
   @Column()
   @Generated('uuid')
   activity_package_id?: string;
+
+
+  @ManyToOne(() => ActivityPackage, {
+    eager: true,
+  })
+  @JoinColumn({ name: 'activity_package_id', referencedColumnName: 'id'})
+  package?: ActivityPackage;
   
   @IsOptional()
   @ApiProperty({ example: 'profile_photo_firebase_url' })
