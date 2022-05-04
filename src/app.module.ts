@@ -100,6 +100,7 @@ import { StripeTransferModule } from './stripe-transfer/stripe-transfer.module';
 import { UserMessagesBlockModule } from './user-messages-block/user-messages-block.module';
 import { UserAvailabilityModule } from './user-availability/user-availability.module';
 import { UserGuideRequestModule } from './user-guide-request/user-guide-request.module';
+import { WishlistModule } from './wishlist/wishlist.module';
 
 @Module({
   imports: [
@@ -226,6 +227,7 @@ import { UserGuideRequestModule } from './user-guide-request/user-guide-request.
     UserMessagesBlockModule,
     UserAvailabilityModule,
     UserGuideRequestModule,
+    WishlistModule,
   ],
 })
 export class AppModule {}
