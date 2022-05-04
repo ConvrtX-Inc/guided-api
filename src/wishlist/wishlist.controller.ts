@@ -1,34 +1,43 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  UseGuards,
+} from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Crud, CrudController } from '@nestjsx/crud';
+import { AuthGuard } from '@nestjs/passport';
+import { Wishlist } from './wishlist.entity';
 import { WishlistService } from './wishlist.service';
-import { CreateWishlistDto } from './dto/create-wishlist.dto';
-import { UpdateWishlistDto } from './dto/update-wishlist.dto';
 
-@Controller('wishlist')
-export class WishlistController {
-  constructor(private readonly wishlistService: WishlistService) {}
+@ApiBearerAuth()
+@UseGuards(AuthGuard('jwt'))
+@ApiTags('Wishlist')
+@Crud({
+  model: {
+    type: Wishlist,
+  },
+  routes: {
+    exclude: ['replaceOneBase', 'createManyBase'],
+  },
+  query: {
+    maxLimit: 50,
+    alwaysPaginate: false,
+  },
+  params: {
+    id: {
+      type: 'uuid',
+      primary: true,
+      field: 'id',
+    },
+  },
+})
+@Controller({
+  path: 'wishlit',
+  version: '1'
+})
+export class WishlistController implements CrudController<Wishlist> {
+  constructor(public service: WishlistService) { }
 
-  @Post()
-  create(@Body() createWishlistDto: CreateWishlistDto) {
-    return this.wishlistService.create(createWishlistDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.wishlistService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.wishlistService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateWishlistDto: UpdateWishlistDto) {
-    return this.wishlistService.update(+id, updateWishlistDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.wishlistService.remove(+id);
+  get base(): CrudController<Wishlist> {
+    return this;
   }
 }

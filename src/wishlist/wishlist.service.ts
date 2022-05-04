@@ -1,26 +1,47 @@
 import { Injectable } from '@nestjs/common';
-import { CreateWishlistDto } from './dto/create-wishlist.dto';
-import { UpdateWishlistDto } from './dto/update-wishlist.dto';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { FindOptions } from '../utils/types/find-options.type';
+import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
+import { DeepPartial } from '../utils/types/deep-partial.type';
+import { Wishlist } from './wishlist.entity';
 
 @Injectable()
-export class WishlistService {
-  create(createWishlistDto: CreateWishlistDto) {
-    return 'This action adds a new wishlist';
+export class WishlistService extends TypeOrmCrudService<Wishlist> {
+  constructor(
+    @InjectRepository(Wishlist)
+    private WishlistsRepository: Repository<Wishlist>,
+  ) {
+    super(WishlistsRepository);
   }
 
-  findAll() {
-    return `This action returns all wishlist`;
+  async findOneEntity(options: FindOptions<Wishlist>) {
+    return this.WishlistsRepository.findOne({
+      where: options.where,
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} wishlist`;
+  async findManyEntities(options: FindOptions<Wishlist>) {
+    return this.WishlistsRepository.find({
+      where: options.where,
+    });
   }
 
-  update(id: number, updateWishlistDto: UpdateWishlistDto) {
-    return `This action updates a #${id} wishlist`;
+  async saveOne(data) {
+    return await this.saveEntity(data);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} wishlist`;
+  async saveEntity(data: DeepPartial<Wishlist>[]) {
+    return this.WishlistsRepository.save(
+      this.WishlistsRepository.create(data),
+    );
+  }
+
+  async softDelete(id: number): Promise<void> {
+    await this.WishlistsRepository.softDelete(id);
+  }
+
+  async hardDelete(id) {
+    await this.WishlistsRepository.delete(id);
   }
 }
