@@ -43,6 +43,11 @@ export class ActivityPackageDestination extends EntityHelper {
   longitude?: string;
 
   @IsOptional()
+  @ApiProperty({ example: 'PH' })
+  @Column({ length: 100 })
+  code?: string;
+
+  @IsOptional()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_date?: string;
 
