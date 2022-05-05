@@ -65,14 +65,14 @@ export class ActivityNewsfeedService extends TypeOrmCrudService<ActivityNewsfeed
 
   async getActivityNewsfeedList() {
     return this.activityPostRepository.createQueryBuilder('newsfeed')
-    .leftJoinAndMapOne('newsfeed.badge', Badge, 'badge', 'badge.id = newsfeed.badge_id')
+    .leftJoinAndMapOne('newsfeed.badge', Badge, 'badge', 'badge.id = newsfeed.main_badge_id')
     .where('newsfeed.is_published = true')
     .getMany();
   }
 
   async getActivityNewsfeedDetail(id: string){
   return this.activityPostRepository.createQueryBuilder('newsfeed')
-    .leftJoinAndMapOne('newsfeed.badge', Badge, 'badge', 'badge.id = newsfeed.badge_id')
+    .leftJoinAndMapOne('newsfeed.badge', Badge, 'badge', 'badge.id = newsfeed.main_badge_id')
     .leftJoinAndMapOne('newsfeed.post', ActivityPost, 'post', 'newsfeed.id = post.post_id')
     .leftJoinAndMapOne('post.publisher', User, 'publisher', 'publisher.id = post.user_id')
     .leftJoinAndMapOne('newsfeed.author', User, 'author', 'author.id = newsfeed.user_id')
