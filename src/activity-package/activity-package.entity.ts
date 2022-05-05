@@ -70,6 +70,20 @@ export class ActivityPackage extends EntityHelper {
   })
   description?: string;
 
+  @IsOptional()
+  @ApiProperty({ example: 'Included free services' })
+  @Column({
+    type: 'text',
+  })
+  included?: string;
+  
+  @IsOptional()
+  @ApiProperty({ example: 'Free services that are not included' })
+  @Column({
+    type: 'text',
+  })
+  not_included?: string;
+
   @Allow()
   @IsOptional()
   @ApiProperty({ example: false })
