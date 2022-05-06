@@ -11,13 +11,21 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import { Crud, CrudController, Override } from '@nestjsx/crud';
+import {
+  Crud,
+  CrudController,
+  CrudRequest,
+  Override,
+  ParsedRequest,
+} from '@nestjsx/crud';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UsersCrudService } from './users-crud.service';
 import { infinityPagination } from 'src/utils/infinity-pagination';
+import { getRepository } from 'typeorm';
+import { Badge } from 'src/badge/badge.entity';
 
 @ApiBearerAuth()
 // @Roles(RoleEnum.admin)
@@ -63,15 +71,15 @@ export class UsersController implements CrudController<User> {
   constructor(
     public service: UsersCrudService,
     public userService: UsersService,
-  ) {}
+  ) { }
 
-  get base(): CrudController<User> {
+  get base (): CrudController<User> {
     return this;
   }
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(
+  async findAll (
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
   ) {
@@ -79,21 +87,46 @@ export class UsersController implements CrudController<User> {
       limit = 50;
     }
 
-    return infinityPagination(
+    const result = infinityPagination(
       await this.service.findManyWithPagination({
         page,
         limit,
       }),
       { page, limit },
     );
-  }
-  @Override('getOneBase')
-  async getOneAndDoStuff(@Request() req) {
-    return this.service.getOneBase(req.params.id);
+
+    const users = result.data;
+    for (const i in users) {
+      const badge = await getRepository(Badge)
+        .createQueryBuilder('badge')
+        .where("badge.id = '" + users[i].badge_id + "'")
+        .getRawOne();
+      users[i]['badge'] = badge;
+    }
+
+    return users;
   }
 
+  @Override('getOneBase')
+  async getOne (@ParsedRequest() req: CrudRequest) {
+    const users = await this.service.getOne(req);
+    console.log(users);
+    const badge = await getRepository(Badge)
+      .createQueryBuilder('badge')
+      .where("badge.id = '" + users.badge_id + "'")
+      .getRawOne();
+
+    users['badge'] = badge;
+    return users;
+  }
+
+  // @Override('getOneBase')
+  // async getOneAndDoStuff(@Request() req) {
+  //   return this.service.getOneBase(req.params.id);
+  // }
+
   @Override()
-  async deleteOne(@Request() request) {
+  async deleteOne (@Request() request) {
     return this.service.softDelete(request.params.id);
   }
 
@@ -106,7 +139,7 @@ export class UsersController implements CrudController<User> {
       },
     },
   })
-  async updatePassword(@Param('id') id: string, @Request() req) {
+  async updatePassword (@Param('id') id: string, @Request() req) {
     req.body.id = id;
     return this.userService.update(id, req.body);
   }
@@ -121,7 +154,7 @@ export class UsersController implements CrudController<User> {
       },
     },
   })
-  async updatePhoneNo(@Request() req) {
+  async updatePhoneNo (@Request() req) {
     return this.userService.updatePhoneNo(req.body.id, req.body.phone_no);
   }
 
@@ -135,7 +168,7 @@ export class UsersController implements CrudController<User> {
       },
     },
   })
-  async updateAbout(@Request() req) {
+  async updateAbout (@Request() req) {
     return this.userService.updateAbout(req.body.id, req.body.about);
   }
 
@@ -149,7 +182,7 @@ export class UsersController implements CrudController<User> {
       },
     },
   })
-  async updatePhoto(@Request() req) {
+  async updatePhoto (@Request() req) {
     return this.userService.updatePhoto(req.body.id, req.body.file_id);
   }
 
@@ -163,7 +196,7 @@ export class UsersController implements CrudController<User> {
       },
     },
   })
-  async updateAsGuide(@Request() req) {
+  async updateAsGuide (@Request() req) {
     return this.userService.updateAsGuide(req.body.id, req.body.is_guide);
   }
 
@@ -177,10 +210,16 @@ export class UsersController implements CrudController<User> {
       },
     },
   })
-  async updateAvailability(@Request() req) {
+  async updateAvailability (@Request() req) {
     return await this.userService.updateAvailability(
       req.body.id,
       req.body.is_online,
     );
+  }
+
+  @ApiOperation({ summary: 'Get users by type' })
+  @Get('type/:type')
+  public async getUsersByType(@Param('type') type: string) {
+    return this.userService.getUsersByType(type);
   }
 }
