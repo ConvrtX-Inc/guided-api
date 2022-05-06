@@ -24,6 +24,16 @@ export class Notification extends EntityHelper {
   })
   user_id?: string | null;
 
+  @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
+    @Validate(IsExist, ['Messages', 'id'], {
+        message: 'Message Id not Found',
+    })
+    @Column({
+        type: "uuid",
+        nullable: false
+    })
+   message_id?: string;
+
   @IsOptional()
   @ApiProperty({ example: 'Notification Msg' })
   @Column({ length: 50 })

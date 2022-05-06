@@ -39,7 +39,7 @@ export class MessagesController implements CrudController<Messages> {
   }
 
   @Override()
-  async deleteOne(@Request() request) {
-    return this.service.softDelete(request.params.id);
+  async delete(@Request() request) {
+    return this.service.delete(request.params.id);
   }
 }
