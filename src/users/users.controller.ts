@@ -183,4 +183,10 @@ export class UsersController implements CrudController<User> {
       req.body.is_online,
     );
   }
+
+  @ApiOperation({ summary: 'Get users by type' })
+  @Get('type/:type')
+  public async getUsersByType(@Param('type') type: string) {
+    return this.userService.getUsersByType(type);
+  }
 }
