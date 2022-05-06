@@ -102,6 +102,7 @@ import { UserAvailabilityModule } from './user-availability/user-availability.mo
 import { UserGuideRequestModule } from './user-guide-request/user-guide-request.module';
 import { BlockModule } from './block/block.module';
 import { InboxModule } from './inbox/inbox.module';
+import { WishlistModule } from './wishlist/wishlist.module';
 
 @Module({
   imports: [
@@ -230,6 +231,7 @@ import { InboxModule } from './inbox/inbox.module';
     UserGuideRequestModule,
     BlockModule,
     InboxModule,
+    WishlistModule,
   ],
 })
 export class AppModule {}

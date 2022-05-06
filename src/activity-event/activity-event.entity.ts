@@ -126,8 +126,23 @@ export class ActivityEvent extends EntityHelper {
 
   @IsOptional()
   @ApiProperty({ example: 10 })
-  @Column({ type: 'integer', default: 0})
+  @Column({ type: 'integer', default: 0 })
   max_extra_person?: number;
+
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: 1000 })
+  @Column({
+    type: 'integer',
+    nullable: false,
+    default: 0,
+  })
+  max_traveller?: number;
+
+  @IsOptional()
+  @ApiProperty({ example: 'Description' })
+  @Column({ nullable: true, length: 200 })
+  package_note?: string;
 
   @Allow()
   @IsOptional()

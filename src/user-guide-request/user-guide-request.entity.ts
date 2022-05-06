@@ -122,6 +122,12 @@ export class UserGuideRequest extends EntityHelper {
     @Column({ nullable: true })
     image_firebase_url: string | null;
 
+
+    @ApiProperty({ example: 'description' })
+    @IsOptional()
+    @Column({ nullable: true })
+    description: string | null;
+
     @CreateDateColumn()
     created_date: Date;
   
