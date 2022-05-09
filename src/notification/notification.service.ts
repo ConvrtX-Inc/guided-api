@@ -65,7 +65,8 @@ export class NotificationService extends TypeOrmCrudService<Notification> {
               status: booking_request.status.status_name,
               from_user: booking_request.from_user_id,
               to_user: booking_request.user_id,
-              is_approved: booking_request.is_approved
+              is_approved: booking_request.is_approved,
+              booking_date : booking_request.booking_date_start
             };
           }
         }
