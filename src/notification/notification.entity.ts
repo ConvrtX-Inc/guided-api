@@ -32,7 +32,7 @@ export class Notification extends EntityHelper {
   @ManyToOne(() => User, {
     eager: true,
   })
-  @JoinColumn({ name: 'from_user_id', referencedColumnName: 'id'})
+  @JoinColumn({ name: 'from_user_id', referencedColumnName: 'id' })
   from_user?: User;
 
 
@@ -52,6 +52,18 @@ export class Notification extends EntityHelper {
   title?: string;
 
   @IsOptional()
+  @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
+  @Transform((value: string | null) => (value == '' ? null : value))
+  @Validate(IsExist, ['Messages', 'id'], {
+    message: 'Message Id not Found',
+  })
+  @Column({
+    type: "uuid",
+    nullable: true
+  })
+  message_id?: string | null;;
+
+  @IsOptional()
   @ApiProperty({ example: 'Notification Msg' })
   @Column({ length: 50 })
   notification_msg?: string;
@@ -59,7 +71,7 @@ export class Notification extends EntityHelper {
   @IsOptional()
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
   @Transform((value: string | null) => (value == '' ? null : value))
-  @Column({nullable:true})
+  @Column({ nullable: true })
   @Generated('uuid')
   booking_request_id?: string;
 

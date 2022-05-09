@@ -1,4 +1,11 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpException,
+  HttpStatus,
+  Post,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from 'src/auth/auth.service';
 import { AuthAppleService } from './auth-apple.service';
@@ -19,7 +26,18 @@ export class AuthAppleController {
   @HttpCode(HttpStatus.OK)
   async login(@Body() loginDto: AuthAppleLoginDto) {
     const socialData = await this.authAppleService.getProfileByToken(loginDto);
-
-    return this.authService.validateSocialLogin('apple', socialData);
+    if (socialData.id != '') {
+      return this.authService.validateSocialLogin('apple', socialData);
+    } else {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            details: 'Something went wrong!',
+          },
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
   }
 }
