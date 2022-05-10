@@ -126,7 +126,7 @@ export class ActivityEvent extends EntityHelper {
 
   @IsOptional()
   @ApiProperty({ example: 10 })
-  @Column({ type: 'integer', default: 0 })
+  @Column({ type: 'integer', default: 0 , nullable: true})
   max_extra_person?: number;
 
   @Allow()

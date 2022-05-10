@@ -48,7 +48,8 @@ export class Notification extends EntityHelper {
 
   @IsOptional()
   @ApiProperty({ example: 'title' })
-  @Column({ length: 50 })
+  @Column({ length: 50,
+    nullable: true })
   title?: string;
 
   @IsOptional()
@@ -61,7 +62,7 @@ export class Notification extends EntityHelper {
     type: "uuid",
     nullable: true
   })
-  message_id?: string | null;;
+  message_id?: string | null;
 
   @IsOptional()
   @ApiProperty({ example: 'Notification Msg' })
