@@ -30,7 +30,7 @@ export class Notification extends EntityHelper {
     })
     @Column({
         type: "uuid",
-        nullable: false
+        nullable: true
     })
    message_id?: string;
 

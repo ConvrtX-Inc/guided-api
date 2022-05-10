@@ -73,14 +73,14 @@ export class ActivityPackage extends EntityHelper {
   @IsOptional()
   @ApiProperty({ example: 'Included free services' })
   @Column({
-    type: 'text',
+    type: 'text', nullable: true
   })
   included?: string;
   
   @IsOptional()
   @ApiProperty({ example: 'Free services that are not included' })
   @Column({
-    type: 'text',
+    type: 'text', nullable: true
   })
   not_included?: string;
 
@@ -191,7 +191,7 @@ export class ActivityPackage extends EntityHelper {
 
   @IsOptional()
   @ApiProperty({ example: 10 })
-  @Column({ type: 'integer', nullable: false })
+  @Column({ type: 'integer', nullable: true })
   max_extra_person?: number;
 
   @IsOptional()
