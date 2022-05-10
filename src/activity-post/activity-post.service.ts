@@ -25,6 +25,7 @@ import { ActivityPackageDestinationImage } from 'src/activity-package-destinatio
 import { ActivityAdvertisementImage } from 'src/activity-advertisement-image/entities/activity-advertisement-image.entity';
 import { ActivityEventImage } from 'src/activity-event-image/entities/activity-event-image.entity';
 import { ActivityOutfitterImage } from 'src/activity-outfitter-image/entities/activity-outfitter-image.entity';
+import { IPaginationOptions } from 'src/utils/types/pagination-options';
 
 @Injectable()
 export class ActivityPostService extends TypeOrmCrudService<ActivityPost> {
@@ -416,5 +417,55 @@ export class ActivityPostService extends TypeOrmCrudService<ActivityPost> {
     return await this.activityPostRepository.findOne({
       where: { post_id: post_id },
     });
+  }
+
+  //activity post with pagination functionality
+  async getActivityPostPagination(
+    user_id: string,
+    badge_id: string,
+    title: string,
+    paginationOptions: IPaginationOptions,
+  ) {
+    const query = await this.activityPostRepository
+      .createQueryBuilder('activity')
+      .select(
+        'activity.id,activity.post_id,activity.user_id,activity.premium_user,activity.views, activity.category_type, activity.title, activity.main_badge_id, activity.activityBadgeId, activity.created_date,activity.firebase_snapshot_img,badge.badge_name, badge.badge_description, badge.firebase_snapshot_img as badge_firebase_snapshot_img',
+      )
+      .innerJoin(
+        'badge',
+        'badge',
+        'badge.id::text=activity.main_badge_id::text',
+      )
+      .where('activity.user_id = :user_id', {
+        user_id: user_id,
+      });
+
+    if (badge_id) {
+      query.where('activity.main_badge_id::text = :main_badge_id::text', {
+        main_badge_id: badge_id,
+      });
+    }
+
+    if (title) {
+      query.where('activity.title LIKE :title', {
+        title: `%${title}%`,
+      });
+    }
+
+    query.orderBy('activity.created_date', 'DESC');
+
+    //const pageNum: number = parseInt(paginationOptions.page as any) || 1;
+    const totalCount = await query.getCount();
+    //console.log(paginationOptions.page * paginationOptions.limit);
+    query
+      .offset((paginationOptions.page - 1) * paginationOptions.limit)
+      .limit(paginationOptions.limit);
+
+    return {
+      data: await query.getRawMany(),
+      total: totalCount,
+      page: paginationOptions.page,
+      last_page: Math.ceil(totalCount / paginationOptions.limit),
+    };
   }
 }

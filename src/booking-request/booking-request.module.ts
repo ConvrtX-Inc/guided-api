@@ -9,5 +9,6 @@ import { Status } from 'src/statuses/status.entity';
   controllers: [BookingRequestController],
   providers: [BookingRequestService],
   imports: [TypeOrmModule.forFeature([BookingRequest,Status])],
+  exports:[BookingRequestService]
 })
 export class BookingRequestModule {}
