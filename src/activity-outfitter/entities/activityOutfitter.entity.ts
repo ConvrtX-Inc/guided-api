@@ -36,7 +36,8 @@ export class ActivityOutfitter extends EntityHelper {
   @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
   @IsNotEmpty({ groups: [CrudValidationGroups.CREATE] })
   @IsNumber()
-  @Column({ nullable: false, type: 'money' })
+  //@Column({ nullable: false, type: 'money' })
+  @Column({ type: 'decimal', precision: 12, scale: 2, default: 0 })
   price: number;
 
   @ApiProperty({ example: 'https://productlink.com' })
@@ -105,6 +106,12 @@ export class ActivityOutfitter extends EntityHelper {
   @ApiProperty({ example: false })
   @Column({ type: 'bool', nullable: true, default: false })
   is_post?: boolean;
+
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: false })
+  @Column({ type: 'bool', nullable: true, default: false })
+  premium_user?: boolean;
 
   @CreateDateColumn()
   created_date: Date;
