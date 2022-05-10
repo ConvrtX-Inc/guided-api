@@ -40,4 +40,8 @@ export class MessagesService extends TypeOrmCrudService<Messages> {
   async softDelete(id: number): Promise<void> {
     await this.destinationsRepository.softDelete(id);
   }
+
+  async delete(id: number): Promise<void> {
+    await this.destinationsRepository.delete(id);
+  }
 }

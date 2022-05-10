@@ -1,12 +1,13 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { User } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import { UsersCrudService } from './users-crud.service';
 import { FileEntity } from '../files/file.entity';
 import { FindOptions } from '../utils/types/find-options.type';
 import { Waiver } from '../waiver/waiver.entity';
+import { UserType } from 'src/user-type/user-type.entity';
 
 @Injectable()
 export class UsersService {
@@ -16,7 +17,7 @@ export class UsersService {
     @InjectRepository(FileEntity)
     private fileRepository: Repository<FileEntity>,
     private userCrudService: UsersCrudService,
-  ) {}
+  ) { }
 
   async update(id: string, data: User) {
     if (!id) {
@@ -264,6 +265,31 @@ export class UsersService {
   async findOneEntity(options: FindOptions<User>) {
     return this.usersRepository.findOne({
       where: options.where,
+    });
+  }
+
+  async getUsersByType(type: string) {
+    const userType = await getRepository(UserType)
+      .createQueryBuilder('usertype')
+      .where("usertype.name = '" + type.replace(/\b\w/g, (l) => l.toUpperCase()) + "'")
+      .getRawOne();
+
+    console.log(userType);
+
+    if (!userType) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            userType: 'notFound',
+          },
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
+
+    return await this.usersRepository.find({
+      where: { user_type_id: userType.usertype_id },
     });
   }
 }
