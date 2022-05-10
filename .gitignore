@@ -42,5 +42,4 @@ lerna-debug.log*
 package-lock.json
 src/database/migrations/1647660945734-Convrtx.ts
 .env
-/src/.idea
-/src/database/migrations/*
+

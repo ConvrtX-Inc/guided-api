@@ -26,6 +26,7 @@ import { UsersCrudService } from './users-crud.service';
 import { infinityPagination } from 'src/utils/infinity-pagination';
 import { getRepository } from 'typeorm';
 import { Badge } from 'src/badge/badge.entity';
+import { BookingRequest } from 'src/booking-request/booking-request.entity';
 
 @ApiBearerAuth()
 // @Roles(RoleEnum.admin)
@@ -97,13 +98,17 @@ export class UsersController implements CrudController<User> {
 
     const users = result.data;
     for (const i in users) {
-      let badge = null;
-      if (users[i].badge_id) {
-        badge = await getRepository(Badge)
-          .createQueryBuilder('badge')
-          .where("badge.id = '" + users[i].badge_id + "'")
-          .getRawOne();
-      }
+      const badge = await getRepository(Badge)
+        .createQueryBuilder('badge')
+        .where("badge.id = '" + users[i].badge_id + "'")
+        .getRawOne();
+
+      const total_booking = await getRepository(BookingRequest)
+        .createQueryBuilder('booking_request')
+        .where("booking_request.user_id = '" + users[i].id + "'")
+        .getCount();
+
+      users[i]['total_booking'] = total_booking;
       users[i]['badge'] = badge;
     }
 
@@ -113,12 +118,17 @@ export class UsersController implements CrudController<User> {
   @Override('getOneBase')
   async getOne(@ParsedRequest() req: CrudRequest) {
     const users = await this.service.getOne(req);
-    console.log(users);
     const badge = await getRepository(Badge)
       .createQueryBuilder('badge')
       .where("badge.id = '" + users.badge_id + "'")
       .getRawOne();
 
+    const total_booking = await getRepository(BookingRequest)
+      .createQueryBuilder('booking_request')
+      .where("booking_request.user_id = '" + users.id + "'")
+      .getCount();
+
+    users['total_booking'] = total_booking;
     users['badge'] = badge;
     return users;
   }
