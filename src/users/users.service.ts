@@ -269,9 +269,10 @@ export class UsersService {
   }
 
   async getUsersByType(type: string) {
+    const typeString = type.replace(/\b\w/g, (l) => l.toUpperCase());
     const userType = await getRepository(UserType)
       .createQueryBuilder('usertype')
-      .where("usertype.name = '" + type.replace(/\b\w/g, (l) => l.toUpperCase()) + "'")
+      .where("usertype.name = '" + typeString + "'")
       .getRawOne();
 
     console.log(userType);
@@ -286,6 +287,15 @@ export class UsersService {
         },
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
+    }
+
+    if (typeString == 'guide') {
+      return await this.usersRepository.find({
+        where: {
+          user_type_id: userType.usertype_id,
+          is_traveller: false
+        },
+      });
     }
 
     return await this.usersRepository.find({

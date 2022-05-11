@@ -72,7 +72,7 @@ export class UsersController implements CrudController<User> {
   constructor(
     public service: UsersCrudService,
     public userService: UsersService,
-  ) {}
+  ) { }
 
   get base(): CrudController<User> {
     return this;
@@ -98,11 +98,13 @@ export class UsersController implements CrudController<User> {
 
     const users = result.data;
     for (const i in users) {
-      const badge = await getRepository(Badge)
-        .createQueryBuilder('badge')
-        .where("badge.id = '" + users[i].badge_id + "'")
-        .getRawOne();
-
+      let badge = null;
+      if (users[i].badge_id) {
+        badge = await getRepository(Badge)
+          .createQueryBuilder('badge')
+          .where("badge.id = '" + users[i].badge_id + "'")
+          .getRawOne();
+      }
       const total_booking = await getRepository(BookingRequest)
         .createQueryBuilder('booking_request')
         .where("booking_request.user_id = '" + users[i].id + "'")
@@ -118,18 +120,21 @@ export class UsersController implements CrudController<User> {
   @Override('getOneBase')
   async getOne(@ParsedRequest() req: CrudRequest) {
     const users = await this.service.getOne(req);
-    const badge = await getRepository(Badge)
-      .createQueryBuilder('badge')
-      .where("badge.id = '" + users.badge_id + "'")
-      .getRawOne();
 
-    const total_booking = await getRepository(BookingRequest)
-      .createQueryBuilder('booking_request')
-      .where("booking_request.user_id = '" + users.id + "'")
-      .getCount();
+    if (users.badge_id) {
+      const badge = await getRepository(Badge)
+        .createQueryBuilder('badge')
+        .where("badge.id = '" + users.badge_id + "'")
+        .getRawOne();
 
-    users['total_booking'] = total_booking;
-    users['badge'] = badge;
+      const total_booking = await getRepository(BookingRequest)
+        .createQueryBuilder('booking_request')
+        .where("booking_request.user_id = '" + users.id + "'")
+        .getCount();
+
+      users['total_booking'] = total_booking;
+      users['badge'] = badge;
+    }
     return users;
   }
 

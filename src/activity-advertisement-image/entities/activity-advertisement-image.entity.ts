@@ -64,6 +64,14 @@ export class ActivityAdvertisementImage extends EntityHelper {
   @Column({ nullable: true, type: 'text' })
   firebase_snapshot_img?: string;
 
+  @IsOptional()
+  @ApiProperty({ example: 'Firebase img filename' })
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
+  filename: string | null;
+
   @CreateDateColumn()
   created_date: Date;
 
