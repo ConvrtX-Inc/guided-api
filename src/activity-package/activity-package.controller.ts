@@ -142,4 +142,10 @@ export class ActivityPackageController
   public async getClosestActivity(@Body() dto: ClosestActivityDto) {
     return this.service.getClosestActivity(dto);
   }
+
+  @Get('/date-range/:start_date/:end_date')
+  @ApiOperation({ summary: 'Retrieve activity package by date range' })
+  getActivitypackageRange(@Param('start_date') start_date: string, @Param('end_date') end_date: string) {
+    return this.service.getActivitypackageRange(start_date, end_date);
+  }
 }

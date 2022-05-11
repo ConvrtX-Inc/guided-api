@@ -44,8 +44,6 @@ export class ActivityAvailabilityHoursService extends TypeOrmCrudService<Activit
       .andWhere(`availability_date BETWEEN '${start_date}' AND '${end_date}'`)
       .getMany();
 
-    console.log(activityAvailability);
-
     for (const i in activityAvailability) {
       const activityAvailabilityHours = await getRepository(ActivityAvailabilityHours)
         .createQueryBuilder()
