@@ -3,8 +3,11 @@ import {
   BeforeInsert,
   BeforeUpdate,
   Column,
+  CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Allow, IsOptional, Validate } from 'class-validator';
@@ -67,4 +70,22 @@ export class Certificate extends EntityHelper {
       }
     } catch (e) {}
   }
+
+  @IsOptional()
+  @ApiProperty({ example: 'certificate_photo_firebase_url' })
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
+  certificate_photo_firebase_url: string | null;
+
+  @CreateDateColumn()
+  created_date: Date;
+
+  @UpdateDateColumn()
+  updated_date: Date;
+
+  @IsOptional()
+  @DeleteDateColumn()
+  deleted_at: Date;
 }

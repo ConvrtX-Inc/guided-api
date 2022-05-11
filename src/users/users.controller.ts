@@ -26,6 +26,7 @@ import { UsersCrudService } from './users-crud.service';
 import { infinityPagination } from 'src/utils/infinity-pagination';
 import { getRepository } from 'typeorm';
 import { Badge } from 'src/badge/badge.entity';
+import { BookingRequest } from 'src/booking-request/booking-request.entity';
 
 @ApiBearerAuth()
 // @Roles(RoleEnum.admin)
@@ -73,13 +74,13 @@ export class UsersController implements CrudController<User> {
     public userService: UsersService,
   ) { }
 
-  get base (): CrudController<User> {
+  get base(): CrudController<User> {
     return this;
   }
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll (
+  async findAll(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
   ) {
@@ -97,10 +98,19 @@ export class UsersController implements CrudController<User> {
 
     const users = result.data;
     for (const i in users) {
-      const badge = await getRepository(Badge)
-        .createQueryBuilder('badge')
-        .where("badge.id = '" + users[i].badge_id + "'")
-        .getRawOne();
+      let badge = null;
+      if (users[i].badge_id) {
+        badge = await getRepository(Badge)
+          .createQueryBuilder('badge')
+          .where("badge.id = '" + users[i].badge_id + "'")
+          .getRawOne();
+      }
+      const total_booking = await getRepository(BookingRequest)
+        .createQueryBuilder('booking_request')
+        .where("booking_request.user_id = '" + users[i].id + "'")
+        .getCount();
+
+      users[i]['total_booking'] = total_booking;
       users[i]['badge'] = badge;
     }
 
@@ -108,15 +118,23 @@ export class UsersController implements CrudController<User> {
   }
 
   @Override('getOneBase')
-  async getOne (@ParsedRequest() req: CrudRequest) {
+  async getOne(@ParsedRequest() req: CrudRequest) {
     const users = await this.service.getOne(req);
-    console.log(users);
-    const badge = await getRepository(Badge)
-      .createQueryBuilder('badge')
-      .where("badge.id = '" + users.badge_id + "'")
-      .getRawOne();
 
-    users['badge'] = badge;
+    if (users.badge_id) {
+      const badge = await getRepository(Badge)
+        .createQueryBuilder('badge')
+        .where("badge.id = '" + users.badge_id + "'")
+        .getRawOne();
+
+      const total_booking = await getRepository(BookingRequest)
+        .createQueryBuilder('booking_request')
+        .where("booking_request.user_id = '" + users.id + "'")
+        .getCount();
+
+      users['total_booking'] = total_booking;
+      users['badge'] = badge;
+    }
     return users;
   }
 
@@ -126,7 +144,7 @@ export class UsersController implements CrudController<User> {
   // }
 
   @Override()
-  async deleteOne (@Request() request) {
+  async deleteOne(@Request() request) {
     return this.service.softDelete(request.params.id);
   }
 
@@ -139,7 +157,7 @@ export class UsersController implements CrudController<User> {
       },
     },
   })
-  async updatePassword (@Param('id') id: string, @Request() req) {
+  async updatePassword(@Param('id') id: string, @Request() req) {
     req.body.id = id;
     return this.userService.update(id, req.body);
   }
@@ -154,7 +172,7 @@ export class UsersController implements CrudController<User> {
       },
     },
   })
-  async updatePhoneNo (@Request() req) {
+  async updatePhoneNo(@Request() req) {
     return this.userService.updatePhoneNo(req.body.id, req.body.phone_no);
   }
 
@@ -168,7 +186,7 @@ export class UsersController implements CrudController<User> {
       },
     },
   })
-  async updateAbout (@Request() req) {
+  async updateAbout(@Request() req) {
     return this.userService.updateAbout(req.body.id, req.body.about);
   }
 
@@ -182,7 +200,7 @@ export class UsersController implements CrudController<User> {
       },
     },
   })
-  async updatePhoto (@Request() req) {
+  async updatePhoto(@Request() req) {
     return this.userService.updatePhoto(req.body.id, req.body.file_id);
   }
 
@@ -196,7 +214,7 @@ export class UsersController implements CrudController<User> {
       },
     },
   })
-  async updateAsGuide (@Request() req) {
+  async updateAsGuide(@Request() req) {
     return this.userService.updateAsGuide(req.body.id, req.body.is_guide);
   }
 
@@ -210,7 +228,7 @@ export class UsersController implements CrudController<User> {
       },
     },
   })
-  async updateAvailability (@Request() req) {
+  async updateAvailability(@Request() req) {
     return await this.userService.updateAvailability(
       req.body.id,
       req.body.is_online,

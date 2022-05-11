@@ -10,6 +10,8 @@ import { DeepPartial } from '../utils/types/deep-partial.type';
 import { ClosestActivityDto } from './dtos/activity-package.dto';
 import { ActivityPackageDestination } from '../activity-package-destination/activity-package-destination.entity';
 import { ActivityPackageDestinationImage } from '../activity-package-destination-image/activity-package-destination-image.entity';
+import { getRepository } from 'typeorm';
+import { Badge } from 'src/badge/badge.entity';
 
 @Injectable()
 export class ActivityPackageService extends TypeOrmCrudService<ActivityPackage> {
@@ -68,8 +70,8 @@ export class ActivityPackageService extends TypeOrmCrudService<ActivityPackage> 
     }
   }
 
-  async getActivityPackageBySearchText(text: string) {
-    return this.activityRepository
+  async getActivityPackageBySearchText (text: string) {
+    const activity_package = await this.activityRepository
       .createQueryBuilder('activity')
       .where('activity.name LIKE :name', { name: `%${text}%` })
       .orWhere('activity.description LIKE :description', {
@@ -77,6 +79,23 @@ export class ActivityPackageService extends TypeOrmCrudService<ActivityPackage> 
       })
       .orWhere('activity.address LIKE :address', { address: `%${text}%` })
       .getMany();
+
+    for (const i in activity_package) {
+      const main_badge = await getRepository(Badge)
+        .createQueryBuilder('badge')
+        .where("badge.id = '" + activity_package[i].main_badge_id + "'")
+        .getRawOne();
+
+      const activity_package_destination = await getRepository(ActivityPackageDestination)
+        .createQueryBuilder('activity_package_destination')
+        .where("activity_package_destination.activity_package_id = '" + activity_package[i].id + "'")
+        .getRawOne();
+
+      activity_package[i]['main_badge'] = main_badge;
+      activity_package[i]['activity_package_destination'] = activity_package_destination;
+    }
+
+    return activity_package;
   }
 
   async checkActivityAvailability(id: string) {
