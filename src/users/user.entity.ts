@@ -287,6 +287,28 @@ export class User extends EntityHelper {
   @Column({ type: 'bool', nullable: false, default: 'FALSE' })
   is_online?: boolean;
 
+  @ApiProperty({ example: 'Canada' })
+  @IsOptional()
+  @Index()
+  @Column({ nullable: true })
+  country: string | null;
+
+  @ApiProperty({ example: 'Prince Rupert' })
+  @IsOptional()
+  @Index()
+  @Column({ nullable: true })
+  place_name: string | null;
+
+  @ApiProperty({ example: '14.566804' })
+  @IsOptional()
+  @Column({ type: 'bigint', nullable: true })
+  latitude: number | null;
+
+  @ApiProperty({ example: '121.076909' })
+  @IsOptional()
+  @Column({ type: 'bigint', nullable: true })
+  longitude: number | null;
+
   @CreateDateColumn()
   created_date: Date;
 
