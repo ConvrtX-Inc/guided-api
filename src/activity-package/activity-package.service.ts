@@ -220,4 +220,25 @@ export class ActivityPackageService extends TypeOrmCrudService<ActivityPackage> 
       return dist;
     }
   }
+
+  async getActivitypackageRange(start_date: string, end_date: string) {
+    let response = [];
+    const activityAvailability = await getRepository(ActivityAvailability)
+      .createQueryBuilder()
+      .select()
+      .where(`availability_date BETWEEN '${start_date}' AND '${end_date}'`)
+      .getMany();
+
+    for (const i in activityAvailability) {
+      const activityPackage = await getRepository(ActivityPackage)
+        .createQueryBuilder()
+        .select()
+        .where("id = '" + activityAvailability[i].activity_package_id + "'")
+        .getOne();
+
+      response.push(activityPackage);
+    }
+
+    return response;
+  }
 }
