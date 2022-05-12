@@ -72,9 +72,10 @@ export class ActivityPackageController
         activityPackage[i]['main_badge'] = badge;
 
         const activityPackageDestination = await getRepository(ActivityPackageDestination)
-          .createQueryBuilder('activitypackagedestination')
-          .where("activitypackagedestination.activity_package_id = '" + activityPackage[i].id + "'")
+          .createQueryBuilder('activity_package_destination')
+          .where("activity_package_destination.activity_package_id = '" + activityPackage[i].id + "'")
           .getRawOne();
+
         activityPackage[i]['activity_package_destination'] = activityPackageDestination;
       }
     }
@@ -92,8 +93,8 @@ export class ActivityPackageController
     activityPackage['main_badge'] = badge;
 
     const activityPackageDestination = await getRepository(ActivityPackageDestination)
-      .createQueryBuilder('activitypackagedestination')
-      .where("activitypackagedestination.activity_package_id = '" + activityPackage.id + "'")
+      .createQueryBuilder('activity_package_destination')
+      .where("activity_package_destination.activity_package_id = '" + activityPackage.id + "'")
       .getRawOne();
     activityPackage['activity_package_destination'] = activityPackageDestination;
 
@@ -141,5 +142,11 @@ export class ActivityPackageController
   @HttpCode(HttpStatus.OK)
   public async getClosestActivity(@Body() dto: ClosestActivityDto) {
     return this.service.getClosestActivity(dto);
+  }
+
+  @Get('/date-range/:start_date/:end_date')
+  @ApiOperation({ summary: 'Retrieve activity package by date range' })
+  getActivitypackageRange(@Param('start_date') start_date: string, @Param('end_date') end_date: string) {
+    return this.service.getActivitypackageRange(start_date, end_date);
   }
 }
