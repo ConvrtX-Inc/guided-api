@@ -84,7 +84,7 @@ export class ActivityPackageService extends TypeOrmCrudService<ActivityPackage> 
       const main_badge = await getRepository(Badge)
         .createQueryBuilder('badge')
         .where("badge.id = '" + activity_package[i].main_badge_id + "'")
-        .getRawOne();
+        .getOne();
 
       const activity_package_destination = await getRepository(ActivityPackageDestination)
         .createQueryBuilder('activity_package_destination')
@@ -236,10 +236,16 @@ export class ActivityPackageService extends TypeOrmCrudService<ActivityPackage> 
         .where("id = '" + activityAvailability[i].activity_package_id + "'")
         .getOne();
 
-      const check = response.find(x => x.id == activityPackage.id);
-      if (!check) {
-        response.push(activityPackage);
-      }
+        const check = response.find(x => x.id == activityPackage.id);
+        if (!check) {
+          const badge = await getRepository(Badge)
+          .createQueryBuilder('badge')
+          .where({ id: activityPackage.main_badge_id })
+          .getOne();
+        activityPackage['main_badge'] = badge;
+
+          response.push(activityPackage);
+        }
     }
 
     return response;
