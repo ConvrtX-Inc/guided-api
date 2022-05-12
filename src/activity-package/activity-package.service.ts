@@ -70,7 +70,7 @@ export class ActivityPackageService extends TypeOrmCrudService<ActivityPackage> 
     }
   }
 
-  async getActivityPackageBySearchText (text: string) {
+  async getActivityPackageBySearchText(text: string) {
     const activity_package = await this.activityRepository
       .createQueryBuilder('activity')
       .where('activity.name LIKE :name', { name: `%${text}%` })
@@ -236,7 +236,10 @@ export class ActivityPackageService extends TypeOrmCrudService<ActivityPackage> 
         .where("id = '" + activityAvailability[i].activity_package_id + "'")
         .getOne();
 
-      response.push(activityPackage);
+      const check = response.find(x => x.id == activityPackage.id);
+      if (!check) {
+        response.push(activityPackage);
+      }
     }
 
     return response;
