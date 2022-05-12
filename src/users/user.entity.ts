@@ -309,6 +309,25 @@ export class User extends EntityHelper {
   @Column({ type: 'bigint', nullable: true })
   longitude: number | null;
 
+  @ApiProperty({ example: 'address 1' })
+  @IsOptional()
+  @Index()
+  @Column({ nullable: true })
+  address_line1: string | null;
+
+
+  @ApiProperty({ example: 'address 2' })
+  @IsOptional()
+  @Index()
+  @Column({ nullable: true })
+  address_line2: string | null;
+
+  @IsOptional()
+  @ApiProperty({ example: '1999-12-12 11:11:11' })
+  @Column({ type: 'timestamp' ,nullable: true })
+  birth_date?: Date;
+
+
   @CreateDateColumn()
   created_date: Date;
 
