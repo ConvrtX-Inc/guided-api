@@ -50,6 +50,37 @@ export class AuthRegisterLoginDto {
   @ApiProperty({ example: '1' })
   country_code: number;
 
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: '' })
+  organization_name: string;
+
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: '' })
+  registration_number: string;
+
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: true })
+  is_active?: boolean;
+  
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: true })
+  is_subadmin_others?: boolean;
+
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: true })
+  is_subadmin_nonprofit?: boolean;
+
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: true })
+  is_subadmin_guide?: boolean;
+
+  @Allow()
   @IsOptional()
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
   user_type_id?: string;

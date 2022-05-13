@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ActivityArticleImage } from 'src/activity-article-image/activity-article-image.entity';
 import { ActivityArticle } from 'src/activity-article/activity-article.entity';
 import { ActivityPost } from 'src/activity-post/activity-post.entity';
+import { User } from 'src/users/user.entity';
+import { IPaginationOptions } from 'src/utils/types/pagination-options';
 import { getConnection, Repository } from 'typeorm';
 
 @Injectable()
@@ -16,6 +18,9 @@ export class SubAdminPostService {
 
     @InjectRepository(ActivityArticleImage)
     private repoActivityArticleImage: Repository<ActivityArticleImage>,
+
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
   ) {}
 
   async getGuidesViewPost() {
@@ -123,5 +128,34 @@ export class SubAdminPostService {
       where: { user_id: user_id },
       relations: ['activityBadge'],
     });
+  }
+
+  async getSubAdminUsers(paginationOptions: IPaginationOptions) {
+    const query = await this.usersRepository
+      .createQueryBuilder('users')
+      .select(
+        'users.id,usertype.name,users.user_type_id,users.full_name,users.organization_name,users.is_subadmin_guide,users.is_subadmin_nonprofit,users.is_subadmin_others,users.is_for_the_planet,users.is_for_the_planet,users.is_active',
+      )
+      .leftJoin(
+        'user_type',
+        'usertype',
+        'usertype.id::text=users.user_type_id::text',
+      )
+      .where('usertype.name ILIKE :typename', {
+        typename: `subadmin`,
+      })
+      .orderBy('users.created_date', 'DESC');
+
+    const totalCount = await query.getCount();
+    query
+      .offset((paginationOptions.page - 1) * paginationOptions.limit)
+      .limit(paginationOptions.limit);
+
+    return {
+      data: await query.getRawMany(),
+      total: totalCount,
+      page: paginationOptions.page,
+      last_page: Math.ceil(totalCount / paginationOptions.limit),
+    };
   }
 }
