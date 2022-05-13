@@ -73,4 +73,9 @@ export class AuthRegisterLoginDto {
   @IsOptional()
   @ApiProperty({ example: true })
   is_traveller?: boolean;
+
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: true })
+  is_guide?: boolean;
 }
