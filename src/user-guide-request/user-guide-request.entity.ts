@@ -124,7 +124,7 @@ export class UserGuideRequest extends EntityHelper {
 
     @ApiProperty({ example: 'pending' })
     @IsOptional()
-    @Column({ nullable: true })
+    @Column({ nullable: true, default: 'pending' })
     guide_application_status ?: string | null;
 
     @ApiProperty({ example: 'description' })
