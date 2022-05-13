@@ -245,9 +245,9 @@ export class ActivityPackageService extends TypeOrmCrudService<ActivityPackage> 
         activityPackage['main_badge'] = badge;
 
         const activityPackageDestination = await getRepository(ActivityPackageDestination)
-          .createQueryBuilder()
+          .createQueryBuilder('activity_package_destination')
           .where({ activity_package_id: activityPackage.id })
-          .getOne();
+          .getRawOne();
         activityPackage['activity_package_destination'] = activityPackageDestination;
 
         response.push(activityPackage);
