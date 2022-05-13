@@ -145,6 +145,12 @@ export class User extends EntityHelper {
   @Column({ type: 'bool', nullable: true, default: false })
   is_subadmin_others?: boolean;
 
+  @Allow()
+  @IsOptional()
+  @ApiProperty({ example: true })
+  @Column({ type: 'bool', nullable: true, default: false })
+  is_active?: boolean;
+
   @IsOptional()
   @ApiProperty({ example: 'about' })
   @Column({
@@ -175,6 +181,22 @@ export class User extends EntityHelper {
     message: 'User Type not Found',
   })
   user_type_id?: string | null;
+
+  @IsOptional()
+  @ApiProperty({ example: 'Organization name' })
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
+  organization_name?: string;
+
+  @IsOptional()
+  @ApiProperty({ example: 'Registration number' })
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
+  registration_number?: string;
 
   @IsOptional()
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
