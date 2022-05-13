@@ -122,6 +122,10 @@ export class UserGuideRequest extends EntityHelper {
     @Column({ nullable: true })
     image_firebase_url: string | null;
 
+    @ApiProperty({ example: 'pending' })
+    @IsOptional()
+    @Column({ nullable: true, default: 'pending' })
+    guide_application_status ?: string | null;
 
     @ApiProperty({ example: 'description' })
     @IsOptional()

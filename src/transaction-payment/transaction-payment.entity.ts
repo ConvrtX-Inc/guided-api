@@ -16,7 +16,7 @@ export class TransactionPayment extends EntityHelper {
     @Validate(IsExist, ['User', 'id'], {
       message: 'User not Found',
     })
-    @Column({ type:'uuid', nullable: false })
+    @Column({ type:'uuid', nullable: true })
     user_id: string;
 
     @IsOptional()

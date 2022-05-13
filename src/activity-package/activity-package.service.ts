@@ -70,7 +70,7 @@ export class ActivityPackageService extends TypeOrmCrudService<ActivityPackage> 
     }
   }
 
-  async getActivityPackageBySearchText (text: string) {
+  async getActivityPackageBySearchText(text: string) {
     const activity_package = await this.activityRepository
       .createQueryBuilder('activity')
       .where('activity.name LIKE :name', { name: `%${text}%` })
@@ -84,7 +84,7 @@ export class ActivityPackageService extends TypeOrmCrudService<ActivityPackage> 
       const main_badge = await getRepository(Badge)
         .createQueryBuilder('badge')
         .where("badge.id = '" + activity_package[i].main_badge_id + "'")
-        .getRawOne();
+        .getOne();
 
       const activity_package_destination = await getRepository(ActivityPackageDestination)
         .createQueryBuilder('activity_package_destination')
@@ -236,7 +236,22 @@ export class ActivityPackageService extends TypeOrmCrudService<ActivityPackage> 
         .where("id = '" + activityAvailability[i].activity_package_id + "'")
         .getOne();
 
-      response.push(activityPackage);
+      const check = response.find(x => x.id == activityPackage.id);
+      if (!check) {
+        const badge = await getRepository(Badge)
+          .createQueryBuilder('badge')
+          .where({ id: activityPackage.main_badge_id })
+          .getOne();
+        activityPackage['main_badge'] = badge;
+
+        const activityPackageDestination = await getRepository(ActivityPackageDestination)
+          .createQueryBuilder('activitypackagedestination')
+          .where({ activity_package_id: activityPackage.id })
+          .getOne();
+        activityPackage['activity_package_destination'] = activityPackageDestination;
+
+        response.push(activityPackage);
+      }
     }
 
     return response;

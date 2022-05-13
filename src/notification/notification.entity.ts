@@ -78,7 +78,7 @@ export class Notification extends EntityHelper {
 
   @IsOptional()
   @ApiProperty({ example: 'booking request' })
-  @Column({ length: 50 })
+  @Column({ length: 50, nullable: true })
   type?: string;
 
   @IsOptional()
