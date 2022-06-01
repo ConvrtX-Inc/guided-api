@@ -151,7 +151,7 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
   }
 
   async getEarnings(tour_guide_id: string) {
-    var totalEarning:number = 0.0;
+    var totalEarning: number = 0.0;
     var pending: number= 0.0;
     var personalBalance: number= 0.0;
     var pendingName = "Pending";
@@ -159,23 +159,17 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
     var completedName = "Completed";
     var completedStatusId = "";
 
-    console.log("Guide ID:"+tour_guide_id);
     const stats = await getRepository(Status).find();
-    // console.log(stats);
 
     for(const s in stats)
     {
       if(stats[s].status_name==pendingName){
         pendingStatusId = stats[s].id;
-      }
-      else if(stats[s].status_name==completedName)
-      {
+      } else if (stats[s].status_name == completedName) {
         completedStatusId = stats[s].id;
       }
     }
 
-    console.log("Completed:" + completedStatusId);
-    console.log("Pending:" + pendingStatusId);
 
     var trans = await this.destinationsRepository
       .find({
@@ -198,8 +192,7 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
         }
       }
       
-    console.log("TEST");
-    console.log(trans[0].total);
+
     var result = '{'
     +'"total":'+totalEarning+','
       + '"pending":' + pending + ','
