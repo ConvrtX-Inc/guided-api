@@ -54,6 +54,7 @@ export class TransactionController implements CrudController<Transaction> {
   @ApiOperation({ summary: 'Get the transactions by user_id and status' })
   @Get('byuser/transaction/:user_id/:status')
   public async getTransactionsByUserAndStatus(@Param('user_id') user_id: string, @Param('status') status: string) {
+    console.log("API RECEIVED!");
     return this.service.getTransactionsByUserAndStatus(user_id, status);
   }
 
@@ -68,4 +69,12 @@ export class TransactionController implements CrudController<Transaction> {
   public async updateToRefunded(@Param('transaction_id') transaction_id: string) {
     return this.service.updateToRefunded(transaction_id);
   }
+
+
+  @ApiOperation({ summary: 'Return earnings of a guide' })
+  @Get('earnings/:tour_guide_id')
+  public async getEarnings(@Param('tour_guide_id') tour_guide_id: string) {
+    return this.service.getEarnings(tour_guide_id);
+  }
+
 }

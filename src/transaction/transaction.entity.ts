@@ -11,6 +11,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Allow, IsOptional, Validate } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { IsExist } from '../utils/validators/is-exists.validator';
+import { double } from 'aws-sdk/clients/lightsail';
 
 @Entity()
 export class Transaction extends EntityHelper {
@@ -37,7 +38,7 @@ export class Transaction extends EntityHelper {
   @IsOptional()
   @ApiProperty({ example: '12.0' })
   @Column({ type: 'decimal', precision: 12, scale: 2, default: 0 })
-  total?: boolean;
+  total?: number;
 
   @IsOptional()
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
@@ -75,7 +76,7 @@ export class Transaction extends EntityHelper {
   created_date: Date;
 
   @UpdateDateColumn()
-  updated_date: Date;
+  updated_date: Date; 
 
   @IsOptional()
   @DeleteDateColumn()

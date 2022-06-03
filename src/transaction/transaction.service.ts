@@ -46,6 +46,7 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
   }
 
   async getTransactionsByGuide(user_id: string) {
+       console.log("Tourguide ID:"+user_id);
     return this.destinationsRepository.find({
       where: {
         tour_guide_id: user_id,
@@ -54,6 +55,8 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
   }
 
   async getTransactionsByGuideAndStatus(tour_guide_id: string, status: string) {
+    console.log("Tourguide ID:"+tour_guide_id);
+    console.log("Status: "+status);
     let returnResponse = [];
     let transactions;
     if (status.toLowerCase() === 'all') {
@@ -94,6 +97,8 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
   }
 
   async getTransactionsByUserAndStatus(user_id: string, status: string) {
+    console.log("user:"+user_id);
+    console.log("status:"+status);
     let returnResponse = [];
     let transactions;
     if (status.toLowerCase() === 'all') {
@@ -144,4 +149,57 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
     transaction.status_id = status.id;
     return this.destinationsRepository.update(transaction_id, transaction);
   }
+
+  async getEarnings(tour_guide_id: string) {
+    var totalEarning: number = 0.0;
+    var pending: number= 0.0;
+    var personalBalance: number= 0.0;
+    var pendingName = "Pending";
+    var pendingStatusId = "";
+    var completedName = "Completed";
+    var completedStatusId = "";
+
+    const stats = await getRepository(Status).find();
+
+    for(const s in stats)
+    {
+      if(stats[s].status_name==pendingName){
+        pendingStatusId = stats[s].id;
+      } else if (stats[s].status_name == completedName) {
+        completedStatusId = stats[s].id;
+      }
+    }
+
+
+    var trans = await this.destinationsRepository
+      .find({
+        where: {
+          tour_guide_id: tour_guide_id,
+        },
+      });
+
+      for (const i in trans)
+      {
+
+        personalBalance = +personalBalance+ +trans[i].total;
+        if(trans[i].status_id==completedStatusId)
+        {
+          totalEarning = +totalEarning + +trans[i].total;
+        }
+        if (trans[i].status_id == pendingStatusId)
+        {
+          pending = +pending + +trans[i].total;
+        }
+      }
+      
+
+    var result = '{'
+    +'"total":'+totalEarning+','
+      + '"pending":' + pending + ','
+      + '"personal":' + personalBalance
+
+    +'}';
+    return result;
+  }
+
 }

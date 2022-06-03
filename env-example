@@ -7,6 +7,8 @@ APP_FALLBACK_LANGUAGE=en
 FRONTEND_DOMAIN=http://localhost:3000
 BACKEND_DOMAIN=http://localhost:3000
 
+"C:\Users\Mars\Desktop\Convrtx\APIv2\guided-api"
+
 DATABASE_TYPE=postgres
 DATABASE_HOST=postgres
 DATABASE_PORT=5432
