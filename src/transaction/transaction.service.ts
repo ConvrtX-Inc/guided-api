@@ -178,20 +178,15 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
         },
       });
 
-      for (const i in trans)
-      {
-
-        personalBalance = +personalBalance+ +trans[i].total;
-        if(trans[i].status_id==completedStatusId)
-        {
-          totalEarning = +totalEarning + +trans[i].total;
-        }
-        if (trans[i].status_id == pendingStatusId)
-        {
-          pending = +pending + +trans[i].total;
-        }
+    for (const i in trans) {
+      personalBalance = +personalBalance + +trans[i].total;
+      if (trans[i].status_id == completedStatusId) {
+        totalEarning = +totalEarning + +trans[i].total;
       }
-      
+      if (trans[i].status_id == pendingStatusId) {
+        pending = +pending + +trans[i].total;
+      }
+    }
 
     var result = '{'
     +'"total":'+totalEarning+','
