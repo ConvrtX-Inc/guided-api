@@ -276,7 +276,7 @@ export default class StripeService {
   }
 
 
-  async refund(){
+  /*async refund(){
 
     return await this.stripe.paymentIntents.confirm(dto.payment_intent_id, {
       payment_method: dto.payment_method_id,
@@ -284,7 +284,7 @@ export default class StripeService {
     });
 
 
-  }
+  }*/
 
 
 

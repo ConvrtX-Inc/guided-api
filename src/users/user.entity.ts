@@ -199,6 +199,14 @@ export class User extends EntityHelper {
   registration_number?: string;
 
   @IsOptional()
+  @ApiProperty({ example: 'bank_card/apple_pay/google_wallet' })
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
+  default_payment_method?: string;
+
+  @IsOptional()
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
   @Column({ nullable: true })
   @Transform((value: string | null) => (value == '' ? null : value))
