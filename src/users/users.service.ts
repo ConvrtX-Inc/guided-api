@@ -8,6 +8,7 @@ import { FileEntity } from '../files/file.entity';
 import { FindOptions } from '../utils/types/find-options.type';
 import { Waiver } from '../waiver/waiver.entity';
 import { UserType } from 'src/user-type/user-type.entity';
+import { UserDto } from './dtos/user.dto';
 
 @Injectable()
 export class UsersService {
@@ -17,7 +18,7 @@ export class UsersService {
     @InjectRepository(FileEntity)
     private fileRepository: Repository<FileEntity>,
     private userCrudService: UsersCrudService,
-  ) { }
+  ) {}
 
   async update(id: string, data: User) {
     if (!id) {
@@ -293,7 +294,7 @@ export class UsersService {
       return await this.usersRepository.find({
         where: {
           user_type_id: userType.usertype_id,
-          is_traveller: false
+          is_traveller: false,
         },
       });
     }
@@ -301,5 +302,23 @@ export class UsersService {
     return await this.usersRepository.find({
       where: { user_type_id: userType.usertype_id },
     });
+  }
+
+  async getDefaultPaymentMethod(user_id: string) {
+    return await this.usersRepository
+      .createQueryBuilder('user')
+      .select('id, default_payment_method')
+      .where('id::text = :user_id::text', { user_id: user_id })
+      .getRawOne();
+  }
+
+  async updateDefaultPaymentMethod(user_id: string, dto: UserDto) {
+    const user = await this.usersRepository.findOne({
+      where: { id: user_id },
+    });
+    if (user) {
+      user.default_payment_method = dto.default_payment_method;
+      await user.save();
+    }
   }
 }

@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   DefaultValuePipe,
   Get,
@@ -7,6 +8,7 @@ import {
   Param,
   ParseIntPipe,
   Patch,
+  Post,
   Query,
   Request,
   UseGuards,
@@ -27,6 +29,7 @@ import { infinityPagination } from 'src/utils/infinity-pagination';
 import { getRepository } from 'typeorm';
 import { Badge } from 'src/badge/badge.entity';
 import { BookingRequest } from 'src/booking-request/booking-request.entity';
+import { UserDto } from './dtos/user.dto';
 
 @ApiBearerAuth()
 // @Roles(RoleEnum.admin)
@@ -72,7 +75,7 @@ export class UsersController implements CrudController<User> {
   constructor(
     public service: UsersCrudService,
     public userService: UsersService,
-  ) { }
+  ) {}
 
   get base(): CrudController<User> {
     return this;
@@ -239,5 +242,24 @@ export class UsersController implements CrudController<User> {
   @Get('type/:type')
   public async getUsersByType(@Param('type') type: string) {
     return this.userService.getUsersByType(type);
+  }
+
+  @ApiOperation({
+    summary: 'Get user default payment method',
+  })
+  @HttpCode(HttpStatus.OK)
+  @Get('payment-method/:user_id')
+  public async getDefaultPaymentMethod(@Param('user_id') user_id: string) {
+    return this.userService.getDefaultPaymentMethod(user_id);
+  }
+
+  @ApiOperation({ summary: 'Update user default payment method' })
+  @Post('payment-method/:user_id')
+  @HttpCode(HttpStatus.OK)
+  public async updateDefaultPaymentMethod(
+    @Param('user_id') user_id: string,
+    @Body() dto: UserDto,
+  ) {
+    return this.userService.updateDefaultPaymentMethod(user_id, dto);
   }
 }
