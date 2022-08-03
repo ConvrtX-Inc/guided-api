@@ -99,6 +99,14 @@ export class BookingRequest extends EntityHelper {
   @Column({ type: 'bool', nullable: true, default: false })
   is_approved?: boolean;
 
+  @IsOptional()
+  @ApiProperty({ example: 'completed/pending/rejected' })
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
+  payment_status?: string;
+
   @CreateDateColumn()
   created_date: Date;
 
