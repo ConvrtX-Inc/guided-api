@@ -103,7 +103,8 @@ import { UserGuideRequestModule } from './user-guide-request/user-guide-request.
 import { BlockModule } from './block/block.module';
 import { InboxModule } from './inbox/inbox.module';
 import { WishlistModule } from './wishlist/wishlist.module';
-
+import { FcmModule } from './fcm/fcm.module';
+import fcmConfig from './config/fcm.config';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -119,6 +120,7 @@ import { WishlistModule } from './wishlist/wishlist.module';
         twitterConfig,
         appleConfig,
         stripeConfig,
+        fcmConfig
       ],
       envFilePath: ['.env'],
     }),
@@ -232,6 +234,9 @@ import { WishlistModule } from './wishlist/wishlist.module';
     BlockModule,
     InboxModule,
     WishlistModule,
+    FcmModule,
   ],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
