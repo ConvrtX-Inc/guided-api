@@ -103,6 +103,7 @@ import { UserGuideRequestModule } from './user-guide-request/user-guide-request.
 import { BlockModule } from './block/block.module';
 import { InboxModule } from './inbox/inbox.module';
 import { WishlistModule } from './wishlist/wishlist.module';
+import { FcmDeviceTokenModule } from './fcm-device-token/fcm-device-token.module';
 
 @Module({
   imports: [
@@ -232,6 +233,7 @@ import { WishlistModule } from './wishlist/wishlist.module';
     BlockModule,
     InboxModule,
     WishlistModule,
+    FcmDeviceTokenModule,
   ],
 })
 export class AppModule {}
