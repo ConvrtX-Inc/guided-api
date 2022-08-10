@@ -3,6 +3,7 @@ import { CrudValidationGroups } from '@nestjsx/crud';
 import { Allow, IsNotEmpty, Validate } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { IsExist } from 'src/utils/validators/is-exists.validator';
+import { IsNotExist } from 'src/utils/validators/is-not-exists.validator';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -21,6 +22,10 @@ export class FcmDeviceToken extends EntityHelper {
   @Allow()
   @ApiProperty({ example: '08b79d9f' })
   @Column({ nullable: false, type: 'text' })
+  @Validate(IsNotExist, ['FcmDeviceToken'], {
+    message: 'device_token already exists',
+    groups: [CrudValidationGroups.CREATE, CrudValidationGroups.UPDATE],
+  })
   device_token: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

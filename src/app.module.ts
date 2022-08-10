@@ -104,6 +104,7 @@ import { BlockModule } from './block/block.module';
 import { InboxModule } from './inbox/inbox.module';
 import { WishlistModule } from './wishlist/wishlist.module';
 import { FcmDeviceTokenModule } from './fcm-device-token/fcm-device-token.module';
+import { BookingTransactionModule } from './booking-transaction/booking-transaction.module';
 
 @Module({
   imports: [
@@ -234,6 +235,7 @@ import { FcmDeviceTokenModule } from './fcm-device-token/fcm-device-token.module
     InboxModule,
     WishlistModule,
     FcmDeviceTokenModule,
+    BookingTransactionModule,
   ],
 })
 export class AppModule {}
