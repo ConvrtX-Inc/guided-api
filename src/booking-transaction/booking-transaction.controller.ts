@@ -18,6 +18,24 @@ import { BookingTransactionService } from './booking-transaction.service';
   query: {
     maxLimit: 50,
     alwaysPaginate: false,
+    join: {
+      user_tour_guide: {
+        eager: true,
+        allow: ['profile_photo_firebase_url', 'full_name']
+      },
+      user_traveler: {
+        eager: true,
+        allow: ['profile_photo_firebase_url', 'full_name']
+      },
+      bookingrequest: {
+        eager: true,
+        allow: ['activity_package_id'],
+      },
+      activitypackage: {
+        eager: true,
+        allow: ['name'],
+      },
+    },
   },
   params: {
     id: {
