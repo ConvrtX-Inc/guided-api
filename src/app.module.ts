@@ -103,9 +103,9 @@ import { UserGuideRequestModule } from './user-guide-request/user-guide-request.
 import { BlockModule } from './block/block.module';
 import { InboxModule } from './inbox/inbox.module';
 import { WishlistModule } from './wishlist/wishlist.module';
+import { FcmModule } from './fcm/fcm.module';
+import fcmConfig from './config/fcm.config';
 import { FcmDeviceTokenModule } from './fcm-device-token/fcm-device-token.module';
-import { BookingTransactionModule } from './booking-transaction/booking-transaction.module';
-
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -121,6 +121,7 @@ import { BookingTransactionModule } from './booking-transaction/booking-transact
         twitterConfig,
         appleConfig,
         stripeConfig,
+        fcmConfig
       ],
       envFilePath: ['.env'],
     }),
@@ -234,8 +235,10 @@ import { BookingTransactionModule } from './booking-transaction/booking-transact
     BlockModule,
     InboxModule,
     WishlistModule,
+    FcmModule,
     FcmDeviceTokenModule,
-    BookingTransactionModule,
   ],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
