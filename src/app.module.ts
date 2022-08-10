@@ -106,6 +106,7 @@ import { WishlistModule } from './wishlist/wishlist.module';
 import { FcmModule } from './fcm/fcm.module';
 import fcmConfig from './config/fcm.config';
 import { FcmDeviceTokenModule } from './fcm-device-token/fcm-device-token.module';
+import { BookingTransactionModule } from './booking-transaction/booking-transaction.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -121,7 +122,7 @@ import { FcmDeviceTokenModule } from './fcm-device-token/fcm-device-token.module
         twitterConfig,
         appleConfig,
         stripeConfig,
-        fcmConfig
+        fcmConfig,
       ],
       envFilePath: ['.env'],
     }),
@@ -237,6 +238,7 @@ import { FcmDeviceTokenModule } from './fcm-device-token/fcm-device-token.module
     WishlistModule,
     FcmModule,
     FcmDeviceTokenModule,
+    BookingTransactionModule,
   ],
   controllers: [],
   providers: [],
