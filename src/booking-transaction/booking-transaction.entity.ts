@@ -2,9 +2,12 @@ import { ApiProperty } from '@nestjs/swagger';
 import { CrudValidationGroups } from '@nestjsx/crud';
 import { Transform } from 'class-transformer';
 import { Allow, IsNotEmpty, IsOptional, Validate } from 'class-validator';
+import { ActivityPackage } from 'src/activity-package/activity-package.entity';
+import { BookingRequest } from 'src/booking-request/booking-request.entity';
+import { User } from 'src/users/user.entity';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { IsExist } from 'src/utils/validators/is-exists.validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Generated, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class BookingTransaction extends EntityHelper {
@@ -19,6 +22,12 @@ export class BookingTransaction extends EntityHelper {
   @Column({ type: 'uuid', nullable: false })
   tour_guide_id: string;
 
+  @ManyToOne(() => User, {
+    eager: true,
+  })
+  @JoinColumn({ name: 'tour_guide_id', referencedColumnName: 'id'})
+  user_tour_guide?: User;
+
   @ApiProperty({ example: '2cc5bcab-b726-43a2-98e8-98baa5fce9b4' })
   @IsNotEmpty({ groups: [CrudValidationGroups.CREATE] })
   @Validate(IsExist, ['User', 'id'], {
@@ -26,6 +35,12 @@ export class BookingTransaction extends EntityHelper {
   })
   @Column({ type: 'uuid', nullable: false })
   traveler_id: string;
+
+  @ManyToOne(() => User, {
+    eager: true,
+  })
+  @JoinColumn({ name: 'traveler_id', referencedColumnName: 'id'})
+  user_traveler?: User;
 
   @IsOptional()
   @ApiProperty({ example: 'completed/pending/rejected' })
@@ -86,8 +101,31 @@ export class BookingTransaction extends EntityHelper {
   @Validate(IsExist, ['BookingRequest', 'id'], {
     message: 'Booking request not found',
   })
-  @Column({ nullable: true })
-  booking_request_id: string | null;
+  @Column()
+  @Generated('uuid')
+  booking_request_id?: string | null;
+
+  @ManyToOne(() => BookingRequest, {
+    eager: true,
+  })
+  @JoinColumn({ name: 'booking_request_id', referencedColumnName: 'id'})
+  bookingrequest?: BookingRequest;
+
+  @IsOptional()
+  @ApiProperty({ example: 'eae25276-3af3-432c-9c1b-7b7548513015' })
+  @Transform((value: string | null) => (value == '' ? null : value))
+  @Validate(IsExist, ['ActivityPackage', 'id'], {
+    message: 'Activity package not found',
+  })
+  @Column()
+  @Generated('uuid')
+  activity_package_id?: string | null;
+
+  @ManyToOne(() => ActivityPackage, {
+    eager: true,
+  })
+  @JoinColumn({ name: 'activity_package_id', referencedColumnName: 'id'})
+  activitypackage?: ActivityPackage;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_date: Date;
