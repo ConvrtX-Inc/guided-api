@@ -1,6 +1,7 @@
 import { Factory, Seeder } from 'typeorm-seeding';
-import { Connection, Timestamp } from 'typeorm';
+import { Connection } from 'typeorm';
 import { Status } from 'src/statuses/status.entity';
+import { StatusName } from '../../statuses/enums/status-name.enum';
 
 export default class CreateStatus implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<void> {
@@ -17,13 +18,13 @@ export default class CreateStatus implements Seeder {
         .into(Status)
         .values([
           {
-            status_name: 'Active',
+            status_name: StatusName.Active,
           },
           {
-            status_name: 'Inactive',
+            status_name: StatusName.Inactive,
           },
           {
-            status_name: 'Refunded',
+            status_name: StatusName.Refunded,
           },
         ])
         .execute();
@@ -34,7 +35,7 @@ export default class CreateStatus implements Seeder {
       .select()
       .from(Status, 'Status')
       .where('"Status"."status_name" = :status_name', {
-        status_name: 'Pending',
+        status_name: StatusName.Pending,
       })
       .getCount();
     if (countPending === 0) {
@@ -42,7 +43,7 @@ export default class CreateStatus implements Seeder {
         .createQueryBuilder()
         .insert()
         .into(Status)
-        .values([{ status_name: 'Pending' }])
+        .values([{ status_name: StatusName.Pending }])
         .execute();
     }
     const countApproved = await connection
@@ -50,7 +51,7 @@ export default class CreateStatus implements Seeder {
       .select()
       .from(Status, 'Status')
       .where('"Status"."status_name" = :status_name', {
-        status_name: 'Approved',
+        status_name: StatusName.Approved,
       })
       .getCount();
 
@@ -59,7 +60,7 @@ export default class CreateStatus implements Seeder {
         .createQueryBuilder()
         .insert()
         .into(Status)
-        .values([{ status_name: 'Approved' }])
+        .values([{ status_name: StatusName.Approved }])
         .execute();
     }
     const countCancelled = await connection
@@ -67,7 +68,7 @@ export default class CreateStatus implements Seeder {
       .select()
       .from(Status, 'Status')
       .where('"Status"."status_name" = :status_name', {
-        status_name: 'Cancelled',
+        status_name: StatusName.Cancelled,
       })
       .getCount();
 
@@ -76,7 +77,7 @@ export default class CreateStatus implements Seeder {
         .createQueryBuilder()
         .insert()
         .into(Status)
-        .values([{ status_name: 'Cancelled' }])
+        .values([{ status_name: StatusName.Cancelled }])
         .execute();
     }
     const countDisabled = await connection
@@ -84,7 +85,7 @@ export default class CreateStatus implements Seeder {
       .select()
       .from(Status, 'Status')
       .where('"Status"."status_name" = :status_name', {
-        status_name: 'Disabled',
+        status_name: StatusName.Disabled,
       })
       .getCount();
 
@@ -93,7 +94,7 @@ export default class CreateStatus implements Seeder {
         .createQueryBuilder()
         .insert()
         .into(Status)
-        .values([{ status_name: 'Disabled' }])
+        .values([{ status_name: StatusName.Disabled }])
         .execute();
     }
 
@@ -102,7 +103,7 @@ export default class CreateStatus implements Seeder {
       .select()
       .from(Status, 'Status')
       .where('"Status"."status_name" = :status_name', {
-        status_name: 'Rejected',
+        status_name: StatusName.Rejected,
       })
       .getCount();
 
@@ -111,7 +112,7 @@ export default class CreateStatus implements Seeder {
         .createQueryBuilder()
         .insert()
         .into(Status)
-        .values([{ status_name: 'Rejected' }])
+        .values([{ status_name: StatusName.Rejected }])
         .execute();
     }
 
@@ -120,7 +121,7 @@ export default class CreateStatus implements Seeder {
     .select()
     .from(Status, 'Status')
     .where('"Status"."status_name" = :status_name', {
-      status_name: 'Completed',
+      status_name: StatusName.Completed,
     })
     .getCount();
 
@@ -129,7 +130,7 @@ export default class CreateStatus implements Seeder {
       .createQueryBuilder()
       .insert()
       .into(Status)
-      .values([{ status_name: 'Completed' }])
+      .values([{ status_name: StatusName.Completed }])
       .execute();
   }
 
@@ -138,7 +139,7 @@ export default class CreateStatus implements Seeder {
     .select()
     .from(Status, 'Status')
     .where('"Status"."status_name" = :status_name', {
-      status_name: 'Refunded',
+      status_name: StatusName.Refunded,
     })
     .getCount();
 
@@ -147,7 +148,7 @@ export default class CreateStatus implements Seeder {
       .createQueryBuilder()
       .insert()
       .into(Status)
-      .values([{ status_name: 'Refunded' }])
+      .values([{ status_name: StatusName.Refunded }])
       .execute();
   }
 

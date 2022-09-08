@@ -2,6 +2,7 @@ import {Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn} from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger';
 import { Allow, IsOptional } from 'class-validator';
 import { EntityHelper } from '../utils/entity-helper';
+import { StatusName } from 'aws-sdk/clients/ec2';
 
 @Entity()
 export class Status extends EntityHelper {
@@ -11,7 +12,7 @@ export class Status extends EntityHelper {
   @Allow()
   @ApiProperty({ example: 'Active' })
   @Column()
-  status_name?: string;
+  status_name?: string | StatusName;
 
   @Allow()
   @IsOptional()
