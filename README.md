@@ -48,7 +48,7 @@ cp env-example .env
 ```bash
 yarn install
 
-npm migration:generate
+npm run migration:generate
 
 npm run migration:run
 

@@ -1,6 +1,7 @@
 import { Factory, Seeder } from 'typeorm-seeding';
 import { Connection } from 'typeorm';
 import { UserType } from 'src/user-type/user-type.entity';
+import { UserTypeName } from '../../user-type/enums/user-type-name.enum';
 
 export default class CreateUserType implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<void> {
@@ -8,16 +9,16 @@ export default class CreateUserType implements Seeder {
       .createQueryBuilder()
       .select()
       .from(UserType, 'UserType')
-      .where('"UserType"."name" = :name', { name: 'Guide' })
+      .where('"UserType"."name" = :name', { name: UserTypeName.Guide })
       .getCount();
 
     //update to Tourist Guide
-    if (countGuide > 0) { 
+    if (countGuide > 0) {
       await connection
         .createQueryBuilder()
         .update(UserType)
-        .set({ name: 'Tourist Guide' })
-        .where([{ name: 'Guide' }])
+        .set({ name: UserTypeName.TouristGuide })
+        .where([{ name: UserTypeName.Guide }])
         .execute();
     }
 
@@ -25,22 +26,22 @@ export default class CreateUserType implements Seeder {
       .createQueryBuilder()
       .select()
       .from(UserType, 'UserType')
-      .where('"UserType"."name" = :name', { name: 'Tourist Guide' })
-      .getCount();      
+      .where('"UserType"."name" = :name', { name: UserTypeName.TouristGuide })
+      .getCount();
 
     if (countTouristGuide === 0) {
       await connection
         .createQueryBuilder()
         .insert()
         .into(UserType)
-        .values([{ name: 'Tourist Guide' }])
+        .values([{ name: UserTypeName.TouristGuide }])
         .execute();
     }
     const countAdmin = await connection
       .createQueryBuilder()
       .select()
       .from(UserType, 'UserType')
-      .where('"UserType"."name" = :name', { name: 'Admin' })
+      .where('"UserType"."name" = :name', { name: UserTypeName.Admin })
       .getCount();
 
     if (countAdmin === 0) {
@@ -48,14 +49,14 @@ export default class CreateUserType implements Seeder {
         .createQueryBuilder() 
         .insert()
         .into(UserType)
-        .values([{ name: 'Admin' }])
+        .values([{ name: UserTypeName.Admin }])
         .execute();
     }
     const countTourist = await connection
       .createQueryBuilder()
       .select()
       .from(UserType, 'UserType')
-      .where('"UserType"."name" = :name', { name: 'Tourist' })
+      .where('"UserType"."name" = :name', { name: UserTypeName.Tourist })
       .getCount();
 
     //update to Traveller
@@ -63,8 +64,8 @@ export default class CreateUserType implements Seeder {
       await connection
         .createQueryBuilder()
         .update(UserType)
-        .set({ name: 'Traveller' })
-        .where([{ name: 'Tourist' }])
+        .set({ name: UserTypeName.Traveller })
+        .where([{ name: UserTypeName.Tourist }])
         .execute();    
     } 
 
@@ -72,7 +73,7 @@ export default class CreateUserType implements Seeder {
       .createQueryBuilder()
       .select()
       .from(UserType, 'UserType')
-      .where('"UserType"."name" = :name', { name: 'Traveller' })
+      .where('"UserType"."name" = :name', { name: UserTypeName.Traveller })
       .getCount();
 
     if (countTraveller === 0) {
@@ -80,7 +81,7 @@ export default class CreateUserType implements Seeder {
         .createQueryBuilder()
         .insert()
         .into(UserType)
-        .values([{ name: 'Traveller' }])
+        .values([{ name: UserTypeName.Traveller }])
         .execute();
     }
 
@@ -88,7 +89,7 @@ export default class CreateUserType implements Seeder {
       .createQueryBuilder()
       .select()
       .from(UserType, 'UserType')
-      .where('"UserType"."name" = :name', { name: 'SubAdmin' })
+      .where('"UserType"."name" = :name', { name: UserTypeName.SubAdmin })
       .getCount();
 
     if (countSubAdmin === 0) {
@@ -96,7 +97,7 @@ export default class CreateUserType implements Seeder {
         .createQueryBuilder()
         .insert()
         .into(UserType)
-        .values([{ name: 'SubAdmin' }])
+        .values([{ name: UserTypeName.SubAdmin }])
         .execute();
     }
   }

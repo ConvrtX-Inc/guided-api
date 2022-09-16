@@ -3,6 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Allow, IsOptional, Validate } from 'class-validator';
 import { EntityHelper } from '../utils/entity-helper';
 import { IsNotExist } from '../utils/validators/is-not-exists.validator';
+import { UserTypeName } from './enums/user-type-name.enum';
 
 @Entity()
 export class UserType extends EntityHelper {
@@ -16,7 +17,7 @@ export class UserType extends EntityHelper {
     message: 'nameAlreadyExists',
   })
   @Column({ length: 100 })
-  name?: string;
+  name?: string | UserTypeName;
 
   @IsOptional()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
