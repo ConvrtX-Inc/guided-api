@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {HttpException, HttpStatus, Injectable, Logger} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../users/user.entity';
 import * as bcrypt from 'bcryptjs';
@@ -197,13 +197,13 @@ export class AuthService {
       hash,
     });
 
-    await this.mailService.userSignUp({
+    this.mailService.userSignUp({
       to: user.email,
       name: user.first_name,
       data: {
         hash,
       },
-    });
+    }).catch(Logger.error);
   }
 
   async confirmEmail(hash: string): Promise<void> {
