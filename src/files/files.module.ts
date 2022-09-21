@@ -59,8 +59,8 @@ import * as FirebaseStorage from 'multer-firebase-storage';
           },
           firebase: () => {
             const googleFileConfig = path.join(
-                process.cwd(),
-                configService.get('file.firebaseConfigFilePath'),
+              process.cwd(),
+              configService.get('file.firebaseConfigFilePath'),
             );
             const googleConfigFile = require(googleFileConfig);
 
