@@ -9,6 +9,8 @@ import * as multerS3 from 'multer-s3';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FileEntity } from './file.entity';
 import { FilesService } from './files.service';
+import * as path from 'path';
+import * as FirebaseStorage from 'multer-firebase-storage';
 
 @Module({
   imports: [
@@ -53,6 +55,27 @@ import { FilesService } from './files.service';
                     .toLowerCase()}`,
                 );
               },
+            });
+          },
+          firebase: () => {
+            const googleFileConfig = path.join(
+                process.cwd(),
+                configService.get('file.firebaseConfigFilePath'),
+            );
+            const googleConfigFile = require(googleFileConfig);
+
+            return FirebaseStorage({
+              bucketName: googleConfigFile.project_id + '.appspot.com',
+              credentials: {
+                clientEmail: googleConfigFile.client_email,
+                privateKey: googleConfigFile.private_key,
+                projectId: googleConfigFile.project_id,
+              },
+              appName: 'convrtx-dev',
+              namePrefix: 'gw-',
+              nameSuffix: '-npi--',
+              unique: true,
+              public: true,
             });
           },
         };

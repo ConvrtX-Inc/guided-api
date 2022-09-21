@@ -20,6 +20,24 @@ export class FileEntity extends EntityHelper {
   @Column()
   path: string;
 
+  @ApiProperty({ type: 'number', format: 'double' })
+  @Column()
+  size: number;
+
+  @ApiProperty()
+  @Allow()
+  @Column()
+  mimetype: string;
+
+  @ApiProperty({ nullable: true })
+  @Allow()
+  @Column({ nullable: true, name: 'file_name' })
+  fileName: string;
+
+  @ApiProperty({ additionalProperties: true })
+  @Column('simple-json', { name: 'meta_data', nullable: true })
+  metaData: any;
+
   @AfterLoad()
   @AfterInsert()
   updatePath() {
