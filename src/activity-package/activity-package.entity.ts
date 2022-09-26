@@ -228,10 +228,10 @@ export class ActivityPackage extends EntityHelper {
   deletedAt: Date;
 
   /**
-   * TODO: Missing fields:
-   * - language: string[]
-   * - leadThisAdventureBefore: 'YES_PROFESSIONALLY' | 'YES_FOR_FRIENDS_AND_FAMILY' | 'NO';
-   * - adventureDescriptionStatement : 'MY_ADVENTURE_IS_TOTALLY_UNIQUE' | 'TRAVELLERS_COULD_DO_IT_ON_THEIR_OWN_BUT_I_BRING_A_UNIQUE_VIEW' | 'TRAVELLERS_COULD_DO_IT_ON_THEIR_OWN'
-   * - mostLikeYouSoundingStatement : 'BRING_FOLKS_TOGETHER' | 'I_LOVE_SHARING_MY_SKILLS' | 'I_DONT_LIKE_GETTING_TOO_PERSONAL_WITH_TRAVELLERS'
+   * TODO: Enumerate Missing fields in Package-Creation screens :
+   * 1) language: string[]
+   * 4) leadThisAdventureBefore: 'YES_PROFESSIONALLY' | 'YES_FOR_FRIENDS_AND_FAMILY' | 'NO';
+   * 5) adventureDescriptionStatement : 'MY_ADVENTURE_IS_TOTALLY_UNIQUE' | 'TRAVELLERS_COULD_DO_IT_ON_THEIR_OWN_BUT_I_BRING_A_UNIQUE_VIEW' | 'TRAVELLERS_COULD_DO_IT_ON_THEIR_OWN'
+   * 6) mostLikeYouSoundingStatement : 'BRING_FOLKS_TOGETHER' | 'I_LOVE_SHARING_MY_SKILLS' | 'I_DONT_LIKE_GETTING_TOO_PERSONAL_WITH_TRAVELLERS'
    */
 }
