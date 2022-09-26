@@ -1,4 +1,4 @@
-import {HttpException, HttpStatus, Injectable, Logger} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../users/user.entity';
 import * as bcrypt from 'bcryptjs';
@@ -7,7 +7,7 @@ import { AuthUpdateDto } from './dtos/auth-update.dto';
 import { randomStringGenerator } from '@nestjs/common/utils/random-string-generator.util';
 import * as crypto from 'crypto';
 import { AuthProvidersEnum } from './auth-providers.enum';
-import { SocialInterface } from 'src/social/interfaces/social.interface';
+import { SocialData } from 'src/social/interfaces/social.data';
 import { AuthRegisterLoginDto } from './dtos/auth-register-login.dto';
 import { UsersCrudService } from '../users/users-crud.service';
 import { ForgotService } from 'src/forgot/forgot.service';
@@ -18,7 +18,6 @@ import { AuthForgotPasswordDto } from './dtos/auth-forgot-password.dto';
 import { VerifyService } from 'src/verify/verify.service';
 import { UsersService } from 'src/users/users.service';
 import { SmsService } from 'src/sms/sms.service';
-import { UserType } from '../user-type/user-type.entity';
 
 @Injectable()
 export class AuthService {
@@ -72,31 +71,7 @@ export class AuthService {
       user.password,
     );
 
-    if (isValidPassword) {
-      user['user_type_name'] = '';
-      if (typeof user.user_type_id !== 'undefined' && user.user_type_id) {
-        const userType = await this.userTypeService.findOneEntity({
-          where: {
-            id: user.user_type_id,
-          },
-        });
-        if (userType) {
-          user['user_type_name'] = userType.name;
-        }
-      }
-
-      const token = await this.jwtService.sign({
-        id: user.id,
-      });
-
-      //Update is_online status for user
-      const updateIsOnline = await this.usersService.updateOnline(
-        user.id,
-        true,
-      );
-
-      return { token, user: user };
-    } else {
+    if (!isValidPassword) {
       throw new HttpException(
         {
           status: HttpStatus.UNPROCESSABLE_ENTITY,
@@ -107,13 +82,33 @@ export class AuthService {
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
+
+    user['user_type_name'] = '';
+    if (typeof user.user_type_id !== 'undefined' && user.user_type_id) {
+      const userType = await this.userTypeService.findOneEntity({
+        where: {
+          id: user.user_type_id,
+        },
+      });
+      if (userType) {
+        user['user_type_name'] = userType.name;
+      }
+    }
+
+    const token = await this.jwtService.signAsync({
+      id: user.id,
+    });
+
+    //Update is_online status for user
+    await this.usersService.updateOnline(user.id, true);
+
+    return { token, user: user };
   }
 
   async validateSocialLogin(
-    authProvider: string,
-    socialData: SocialInterface,
-  ): Promise<{ token: string; user: User }> {
-    let user: User;
+    authProvider: 'apple' | 'facebook' | 'google',
+    socialData: SocialData,
+  ): Promise<User> {
     const socialEmail = socialData.email?.toLowerCase();
 
     const userByEmail = await this.usersCrudService.findOneEntity({
@@ -121,8 +116,11 @@ export class AuthService {
         email: socialEmail,
       },
     });
+    if (!!userByEmail) {
+      return userByEmail;
+    }
 
-    user = await this.usersCrudService.findOneEntity({
+    const user = await this.usersCrudService.findOneEntity({
       where: {
         socialId: socialData.id,
         provider: authProvider,
@@ -133,9 +131,7 @@ export class AuthService {
       if (socialEmail && !userByEmail) {
         user.email = socialEmail;
       }
-      await this.usersCrudService.saveEntity(user);
-    } else if (userByEmail) {
-      user = userByEmail;
+      return await this.usersCrudService.saveEntity(user);
     } else {
       const userType = await this.userTypeService.findOneEntity({
         where: {
@@ -143,7 +139,7 @@ export class AuthService {
         },
       });
 
-      user = await this.usersCrudService.saveEntity({
+      return await this.usersCrudService.saveEntity({
         email: socialEmail,
         first_name: socialData.firstName,
         last_name: socialData.lastName,
@@ -151,23 +147,7 @@ export class AuthService {
         provider: authProvider,
         user_type_id: userType ? userType.id : '',
       });
-
-      user = await this.usersCrudService.findOneEntity({
-        where: {
-          id: user.id,
-        },
-      });
     }
-
-    const jwtToken = await this.jwtService.sign({
-      id: user.id,
-      // role: user.role,
-    });
-
-    return {
-      token: jwtToken,
-      user,
-    };
   }
 
   async register(dto: AuthRegisterLoginDto): Promise<void> {
@@ -197,13 +177,15 @@ export class AuthService {
       hash,
     });
 
-    this.mailService.userSignUp({
-      to: user.email,
-      name: user.first_name,
-      data: {
-        hash,
-      },
-    }).catch(Logger.error);
+    this.mailService
+      .userSignUp({
+        to: user.email,
+        name: user.first_name,
+        data: {
+          hash,
+        },
+      })
+      .catch(Logger.error);
   }
 
   async confirmEmail(hash: string): Promise<void> {

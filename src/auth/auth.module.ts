@@ -1,4 +1,4 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { PassportModule } from '@nestjs/passport';
@@ -12,6 +12,7 @@ import { MailModule } from 'src/mail/mail.module';
 import { UserTypeModule } from 'src/user-type/user-type.module';
 import { VerifyModule } from 'src/verify/verify.module';
 import { SmsModule } from 'src/sms/sms.module';
+import { TokenService } from './token.service';
 
 @Module({
   imports: [
@@ -34,7 +35,7 @@ import { SmsModule } from 'src/sms/sms.module';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, AnonymousStrategy],
-  exports: [AuthService],
+  providers: [TokenService, AuthService, JwtStrategy, AnonymousStrategy],
+  exports: [AuthService, TokenService],
 })
 export class AuthModule {}

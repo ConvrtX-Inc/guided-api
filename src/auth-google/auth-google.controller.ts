@@ -1,14 +1,15 @@
 import {
-  Body,
   Controller,
   HttpCode,
-  HttpException,
   HttpStatus,
   Post,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
-import { AuthService } from 'src/auth/auth.service';
-import { AuthGoogleService } from './auth-google.service';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
+import { AppUser } from '../auth/current-user.decorator';
+import { User } from '../users/user.entity';
+import { TokenService } from '../auth/token.service';
 import { AuthGoogleLoginDto } from './dtos/auth-google-login.dto';
 
 @ApiTags('Auth')
@@ -17,27 +18,13 @@ import { AuthGoogleLoginDto } from './dtos/auth-google-login.dto';
   version: '1',
 })
 export class AuthGoogleController {
-  constructor(
-    public authService: AuthService,
-    public authGoogleService: AuthGoogleService,
-  ) {}
+  constructor(public readonly tokenService: TokenService) {}
 
+  @ApiBody({ type: AuthGoogleLoginDto })
+  @UseGuards(AuthGuard('google'))
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  async login(@Body() loginDto: AuthGoogleLoginDto) {
-    const socialData = await this.authGoogleService.getProfileByToken(loginDto);
-    if (socialData.id != '') {
-      return this.authService.validateSocialLogin('google', socialData);
-    } else {
-      throw new HttpException(
-        {
-          status: HttpStatus.UNPROCESSABLE_ENTITY,
-          errors: {
-            details: 'Something went wrong!' ,
-          },
-        },
-        HttpStatus.UNPROCESSABLE_ENTITY,
-      );
-    }
+  async login(@AppUser() user: User) {
+    return this.tokenService.generateToken(user);
   }
 }

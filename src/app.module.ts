@@ -20,7 +20,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthAppleModule } from './auth-apple/auth-apple.module';
 import { AuthFacebookModule } from './auth-facebook/auth-facebook.module';
 import { AuthGoogleModule } from './auth-google/auth-google.module';
-import { AuthTwitterModule } from './auth-twitter/auth-twitter.module';
 import { I18nModule } from 'nestjs-i18n/dist/i18n.module';
 import { I18nJsonParser } from 'nestjs-i18n/dist/parsers/i18n.json.parser';
 import { HeaderResolver } from 'nestjs-i18n';
@@ -165,7 +164,6 @@ import { BookingTransactionModule } from './booking-transaction/booking-transact
     AuthModule,
     AuthFacebookModule,
     AuthGoogleModule,
-    AuthTwitterModule,
     AuthAppleModule,
     ForgotModule,
     MailModule,
