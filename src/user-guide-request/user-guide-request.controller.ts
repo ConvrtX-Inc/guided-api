@@ -1,9 +1,4 @@
-import {
-  Controller,
-  UseGuards,
-  Get,
-  Param,
-} from '@nestjs/common';
+import { Controller, UseGuards, Get, Param } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
 import { AuthGuard } from '@nestjs/passport';
@@ -34,13 +29,14 @@ import { UserGuideRequestService } from './user-guide-request.service';
 })
 @Controller({
   path: 'user-guide-request',
-  version: '1'
+  version: '1',
 })
-export class UserGuideRequestController implements CrudController<UserGuideRequest> {
-  constructor(public service: UserGuideRequestService) { }
+export class UserGuideRequestController
+  implements CrudController<UserGuideRequest>
+{
+  constructor(public service: UserGuideRequestService) {}
 
   get base(): CrudController<UserGuideRequest> {
     return this;
   }
 }
-

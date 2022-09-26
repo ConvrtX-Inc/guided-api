@@ -5,7 +5,6 @@ import { AuthGuard } from '@nestjs/passport';
 import { Crud, CrudController, Override } from '@nestjsx/crud';
 import { ActivityPostCategory } from './activity-post-category.entity';
 
-
 @ApiTags('Activity Post Category')
 @Crud({
   model: {
@@ -30,7 +29,9 @@ import { ActivityPostCategory } from './activity-post-category.entity';
   path: 'activity-post-category',
   version: '1',
 })
-export class ActivityPostCategoryController implements CrudController<ActivityPostCategory> {
+export class ActivityPostCategoryController
+  implements CrudController<ActivityPostCategory>
+{
   constructor(public service: ActivityPostCategoryService) {}
 
   get base(): CrudController<ActivityPostCategory> {

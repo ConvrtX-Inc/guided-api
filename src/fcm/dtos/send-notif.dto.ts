@@ -6,7 +6,7 @@ import { IsNotEmpty, IsOptional } from 'class-validator';
 export class SendNotificationDto {
   @ApiProperty({ example: '[]' })
   @IsNotEmpty()
-  registration_ids:  string [];
+  registration_ids: string[];
 
   @ApiProperty({ example: 'title' })
   @IsNotEmpty()

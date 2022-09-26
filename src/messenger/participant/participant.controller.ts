@@ -38,5 +38,4 @@ export class ParticipantController implements CrudController<Participant> {
   get base(): CrudController<Participant> {
     return this;
   }
-  
 }

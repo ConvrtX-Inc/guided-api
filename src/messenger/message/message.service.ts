@@ -9,8 +9,8 @@ import { Message } from './message.entity';
 import { ParticipantService } from '../participant/participant.service';
 
 @Injectable()
-export class MessageService extends TypeOrmCrudService<Message> {    
-  public newRoomID: any;    
+export class MessageService extends TypeOrmCrudService<Message> {
+  public newRoomID: any;
 
   constructor(
     @InjectRepository(Message)
@@ -37,67 +37,65 @@ export class MessageService extends TypeOrmCrudService<Message> {
   }
 
   async saveEntity(data: DeepPartial<Message>[]) {
-    return this.msgRepository.save(
-      this.msgRepository.create(data),
-    );
-  }  
+    return this.msgRepository.save(this.msgRepository.create(data));
+  }
 
   async delete(id: number): Promise<void> {
     await this.msgRepository.delete(id);
   }
 
   async updateMessage(id: string, msg: string) {
-    return await this.msgRepository.update({
-      id,      
-    }, {
-      message : msg,
-    });
-  }  
+    return await this.msgRepository.update(
+      {
+        id,
+      },
+      {
+        message: msg,
+      },
+    );
+  }
 
   async filterMessages(user_id: string, filter: string) {
-    switch(filter){
+    switch (filter) {
       case 'all':
         return this.msgRepository.find({
-          where:  {
+          where: {
             user_id: user_id,
           },
         });
-      break;
+        break;
       case 'unread':
         return this.msgRepository.find({
-          where:  {
+          where: {
             user_id: user_id,
-            is_read: false 
+            is_read: false,
           },
         });
-      break;
+        break;
       case 'spam':
         return this.msgRepository.find({
-          where:  {
+          where: {
             user_id: user_id,
-            is_spam: true 
+            is_spam: true,
           },
         });
-      break;
+        break;
       case 'sent':
         return this.msgRepository.find({
-          where:  {
+          where: {
             user_id: user_id,
-            is_sent: true 
+            is_sent: true,
           },
         });
-      break;
+        break;
       case 'archive':
         return this.msgRepository.find({
-          where:  {
+          where: {
             user_id: user_id,
-            is_archive: true 
+            is_archive: true,
           },
         });
-      break;
+        break;
     }
-
-  }  
- 
-
+  }
 }

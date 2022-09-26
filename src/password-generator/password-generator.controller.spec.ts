@@ -9,7 +9,9 @@ describe('PasswordGeneratorController', () => {
       controllers: [PasswordGeneratorController],
     }).compile();
 
-    controller = module.get<PasswordGeneratorController>(PasswordGeneratorController);
+    controller = module.get<PasswordGeneratorController>(
+      PasswordGeneratorController,
+    );
   });
 
   it('should be defined', () => {

@@ -9,7 +9,9 @@ describe('ActivityOutfitterImageService', () => {
       providers: [ActivityOutfitterImageService],
     }).compile();
 
-    service = module.get<ActivityOutfitterImageService>(ActivityOutfitterImageService);
+    service = module.get<ActivityOutfitterImageService>(
+      ActivityOutfitterImageService,
+    );
   });
 
   it('should be defined', () => {

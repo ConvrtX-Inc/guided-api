@@ -12,7 +12,13 @@ import {
 import { ActivityPackageService } from './activity-package.service';
 import { ApiBearerAuth, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
-import { Crud, CrudController, CrudRequest, Override, ParsedRequest } from '@nestjsx/crud';
+import {
+  Crud,
+  CrudController,
+  CrudRequest,
+  Override,
+  ParsedRequest,
+} from '@nestjsx/crud';
 import { ActivityPackage } from './activity-package.entity';
 import { UserProfileQuestionDto } from '../user-profile-question/dtos/user-profile-question.dto';
 import { ClosestActivityDto } from './dtos/activity-package.dto';
@@ -49,7 +55,7 @@ import { ActivityPackageDestination } from 'src/activity-package-destination/act
 export class ActivityPackageController
   implements CrudController<ActivityPackage>
 {
-  constructor(public service: ActivityPackageService) { }
+  constructor(public service: ActivityPackageService) {}
 
   get base(): CrudController<ActivityPackage> {
     return this;
@@ -71,12 +77,19 @@ export class ActivityPackageController
           .getOne();
         activityPackage[i]['main_badge'] = badge;
 
-        const activityPackageDestination = await getRepository(ActivityPackageDestination)
+        const activityPackageDestination = await getRepository(
+          ActivityPackageDestination,
+        )
           .createQueryBuilder('activity_package_destination')
-          .where("activity_package_destination.activity_package_id = '" + activityPackage[i].id + "'")
+          .where(
+            "activity_package_destination.activity_package_id = '" +
+              activityPackage[i].id +
+              "'",
+          )
           .getRawOne();
 
-        activityPackage[i]['activity_package_destination'] = activityPackageDestination;
+        activityPackage[i]['activity_package_destination'] =
+          activityPackageDestination;
       }
     }
 
@@ -92,11 +105,18 @@ export class ActivityPackageController
       .getOne();
     activityPackage['main_badge'] = badge;
 
-    const activityPackageDestination = await getRepository(ActivityPackageDestination)
+    const activityPackageDestination = await getRepository(
+      ActivityPackageDestination,
+    )
       .createQueryBuilder('activity_package_destination')
-      .where("activity_package_destination.activity_package_id = '" + activityPackage.id + "'")
+      .where(
+        "activity_package_destination.activity_package_id = '" +
+          activityPackage.id +
+          "'",
+      )
       .getRawOne();
-    activityPackage['activity_package_destination'] = activityPackageDestination;
+    activityPackage['activity_package_destination'] =
+      activityPackageDestination;
 
     return activityPackage;
   }
@@ -146,7 +166,10 @@ export class ActivityPackageController
 
   @Get('/date-range/:start_date/:end_date')
   @ApiOperation({ summary: 'Retrieve activity package by date range' })
-  getActivitypackageRange(@Param('start_date') start_date: string, @Param('end_date') end_date: string) {
+  getActivitypackageRange(
+    @Param('start_date') start_date: string,
+    @Param('end_date') end_date: string,
+  ) {
     return this.service.getActivitypackageRange(start_date, end_date);
   }
 }

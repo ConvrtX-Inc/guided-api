@@ -7,7 +7,6 @@ import { ContactUsService } from './contact-us.service';
 @Module({
   controllers: [ContactUsController],
   providers: [ContactUsService],
-  imports: [ TypeOrmModule.forFeature([ContactUs])]
+  imports: [TypeOrmModule.forFeature([ContactUs])],
 })
 export class ContactUsModule {}
-

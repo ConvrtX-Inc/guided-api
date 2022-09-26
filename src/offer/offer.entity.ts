@@ -1,4 +1,10 @@
-import {Column, DeleteDateColumn, Entity, Generated, PrimaryGeneratedColumn} from 'typeorm';
+import {
+  Column,
+  DeleteDateColumn,
+  Entity,
+  Generated,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Allow, IsOptional } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';

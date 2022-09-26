@@ -3,7 +3,7 @@ import StripeService from '../stripe/stripe.service';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import CreateTransferDto from './dtos/create-transfer.dto';
-import ConfirmTransferDto from "./dtos/confirm-transfer.dto";
+import ConfirmTransferDto from './dtos/confirm-transfer.dto';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))

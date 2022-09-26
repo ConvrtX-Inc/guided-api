@@ -5,10 +5,11 @@ import { Repository } from 'typeorm';
 import { ActivityOutfitterImage } from './entities/activity-outfitter-image.entity';
 
 @Injectable()
-export class ActivityOutfitterImageService extends TypeOrmCrudService<ActivityOutfitterImage>{
-    constructor(@InjectRepository(ActivityOutfitterImage)
+export class ActivityOutfitterImageService extends TypeOrmCrudService<ActivityOutfitterImage> {
+  constructor(
+    @InjectRepository(ActivityOutfitterImage)
     private outfitterRepository: Repository<ActivityOutfitterImage>,
-    ) {
-      super(outfitterRepository);
-    }
+  ) {
+    super(outfitterRepository);
+  }
 }

@@ -3,7 +3,6 @@ import { IsEmail, IsOptional } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class AuthForgotPasswordDto {
-
   @ApiProperty({
     example: 'test@example.com',
     description:

@@ -5,9 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PaymentIntent } from './payment-intent.entity';
 
 @Module({
-  imports : [PaymentIntentModule, TypeOrmModule.forFeature([PaymentIntent])],
+  imports: [PaymentIntentModule, TypeOrmModule.forFeature([PaymentIntent])],
   controllers: [PaymentIntentController],
   providers: [PaymentIntentService],
-  exports: [PaymentIntentService]
+  exports: [PaymentIntentService],
 })
 export class PaymentIntentModule {}

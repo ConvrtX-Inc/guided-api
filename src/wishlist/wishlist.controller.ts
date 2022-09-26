@@ -1,7 +1,4 @@
-import {
-  Controller,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
 import { AuthGuard } from '@nestjs/passport';
@@ -32,10 +29,10 @@ import { WishlistService } from './wishlist.service';
 })
 @Controller({
   path: 'wishlit',
-  version: '1'
+  version: '1',
 })
 export class WishlistController implements CrudController<Wishlist> {
-  constructor(public service: WishlistService) { }
+  constructor(public service: WishlistService) {}
 
   get base(): CrudController<Wishlist> {
     return this;

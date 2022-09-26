@@ -7,6 +7,6 @@ import { ActivityAdvertisementImage } from './entities/activity-advertisement-im
 @Module({
   controllers: [ActivityAdvertisementImageController],
   providers: [ActivityAdvertisementImageService],
-  imports: [TypeOrmModule.forFeature([ActivityAdvertisementImage])]
+  imports: [TypeOrmModule.forFeature([ActivityAdvertisementImage])],
 })
 export class ActivityAdvertisementImageModule {}

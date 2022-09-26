@@ -11,7 +11,9 @@ describe('ActivityOutfitterImageController', () => {
       providers: [ActivityOutfitterImageService],
     }).compile();
 
-    controller = module.get<ActivityOutfitterImageController>(ActivityOutfitterImageController);
+    controller = module.get<ActivityOutfitterImageController>(
+      ActivityOutfitterImageController,
+    );
   });
 
   it('should be defined', () => {

@@ -1,10 +1,10 @@
 import { Controller, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
-import { Crud, CrudController } from '@nestjsx/crud';    
+import { Crud, CrudController } from '@nestjsx/crud';
 import { ContactUs } from './contact-us.entity';
 import { ContactUsService } from './contact-us.service';
-    
+
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
 @ApiTags('Contact Us')
@@ -27,18 +27,14 @@ import { ContactUsService } from './contact-us.service';
     },
   },
 })
-
 @Controller({
   path: 'contact-us',
   version: '1',
 })
-
 export class ContactUsController implements CrudController<ContactUs> {
   constructor(public service: ContactUsService) {}
-    
+
   get base(): CrudController<ContactUs> {
     return this;
-  }    
-
+  }
 }
-    

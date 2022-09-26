@@ -8,15 +8,13 @@ import { FcmService } from './fcm.service';
 @UseGuards(AuthGuard('jwt'))
 @ApiTags('Firebase Cloud Messaging')
 @Controller({
-    path: 'fcm',
-    version: '1',
+  path: 'fcm',
+  version: '1',
 })
 export class FcmController {
-    constructor(private service: FcmService) {
-
-    }
-    @Post('sendNotification')
-    async sendNotification(@Body() dto: SendNotificationDto) {
-       return await this.service.sendNotification(dto);
-    }
+  constructor(private service: FcmService) {}
+  @Post('sendNotification')
+  async sendNotification(@Body() dto: SendNotificationDto) {
+    return await this.service.sendNotification(dto);
+  }
 }

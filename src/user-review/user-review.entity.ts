@@ -1,9 +1,16 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { CrudValidationGroups } from "@nestjsx/crud";
-import { IsNotEmpty, IsOptional, Validate } from "class-validator";
-import { EntityHelper } from "src/utils/entity-helper";
-import { IsExist } from "src/utils/validators/is-exists.validator";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { ApiProperty } from '@nestjs/swagger';
+import { CrudValidationGroups } from '@nestjsx/crud';
+import { IsNotEmpty, IsOptional, Validate } from 'class-validator';
+import { EntityHelper } from 'src/utils/entity-helper';
+import { IsExist } from 'src/utils/validators/is-exists.validator';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class UserReview extends EntityHelper {

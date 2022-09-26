@@ -16,11 +16,11 @@ export default class CreateFreeServices implements Seeder {
         .insert()
         .into(FreeServices)
         .values([
-            { name: 'Foods'},
-            { name: 'Wifi'},
-            { name: 'Transport'},
-            { name: 'Snacks'},
-            { name: 'Electricity'}            
+          { name: 'Foods' },
+          { name: 'Wifi' },
+          { name: 'Transport' },
+          { name: 'Snacks' },
+          { name: 'Electricity' },
         ])
         .execute();
     }

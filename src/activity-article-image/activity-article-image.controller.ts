@@ -43,5 +43,4 @@ export class ActivityArticleImageController
   getArticleImageByArticleId(@Param('article_id') article_id: string) {
     return this.service.getArticleImageByArticleId(article_id);
   }
-
 }

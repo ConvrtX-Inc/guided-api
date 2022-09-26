@@ -1,6 +1,17 @@
-import { Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  DeleteDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Allow, IsOptional, Validate, IsNotEmpty, IsNumber } from 'class-validator';
+import {
+  Allow,
+  IsOptional,
+  Validate,
+  IsNotEmpty,
+  IsNumber,
+} from 'class-validator';
 import { EntityHelper } from '../utils/entity-helper';
 import { IsNotExist } from '../utils/validators/is-not-exists.validator';
 import { Transform } from 'class-transformer';

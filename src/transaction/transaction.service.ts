@@ -46,7 +46,7 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
   }
 
   async getTransactionsByGuide(user_id: string) {
-       console.log("Tourguide ID:"+user_id);
+    console.log('Tourguide ID:' + user_id);
     return this.destinationsRepository.find({
       where: {
         tour_guide_id: user_id,
@@ -55,8 +55,8 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
   }
 
   async getTransactionsByGuideAndStatus(tour_guide_id: string, status: string) {
-    console.log("Tourguide ID:"+tour_guide_id);
-    console.log("Status: "+status);
+    console.log('Tourguide ID:' + tour_guide_id);
+    console.log('Status: ' + status);
     let returnResponse = [];
     let transactions;
     if (status.toLowerCase() === 'all') {
@@ -68,12 +68,14 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
     } else {
       const stat = await getRepository(Status)
         .createQueryBuilder('status')
-        .where('status.status_name = :status_name', { status_name: status.replace(/\b\w/g, (l) => l.toUpperCase()) })
+        .where('status.status_name = :status_name', {
+          status_name: status.replace(/\b\w/g, (l) => l.toUpperCase()),
+        })
         .getOne();
       transactions = await this.destinationsRepository.find({
         where: {
           tour_guide_id: tour_guide_id,
-          status_id: stat.id
+          status_id: stat.id,
         },
       });
     }
@@ -88,17 +90,17 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
         .where({ id: transactions[i].activity_package_id })
         .getOne();
       transactions[i]['status'] = await getRepository(Status)
-      .createQueryBuilder('status')
-      .where({ id: transactions[i].status_id })
-      .getOne();
-      returnResponse.push(transactions[i])
+        .createQueryBuilder('status')
+        .where({ id: transactions[i].status_id })
+        .getOne();
+      returnResponse.push(transactions[i]);
     }
     return returnResponse;
   }
 
   async getTransactionsByUserAndStatus(user_id: string, status: string) {
-    console.log("user:"+user_id);
-    console.log("status:"+status);
+    console.log('user:' + user_id);
+    console.log('status:' + status);
     let returnResponse = [];
     let transactions;
     if (status.toLowerCase() === 'all') {
@@ -110,12 +112,14 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
     } else {
       const stat = await getRepository(Status)
         .createQueryBuilder('status')
-        .where('status.status_name = :status_name', { status_name: status.replace(/\b\w/g, (l) => l.toUpperCase()) })
+        .where('status.status_name = :status_name', {
+          status_name: status.replace(/\b\w/g, (l) => l.toUpperCase()),
+        })
         .getOne();
       transactions = await this.destinationsRepository.find({
         where: {
           user_id: user_id,
-          status_id: stat.id
+          status_id: stat.id,
         },
       });
     }
@@ -129,11 +133,11 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
         .createQueryBuilder('activitypackage')
         .where({ id: transactions[i].activity_package_id })
         .getOne();
-        transactions[i]['status'] = await getRepository(Status)
+      transactions[i]['status'] = await getRepository(Status)
         .createQueryBuilder('status')
         .where({ id: transactions[i].status_id })
         .getOne();
-      returnResponse.push(transactions[i])
+      returnResponse.push(transactions[i]);
     }
     return returnResponse;
   }
@@ -141,7 +145,7 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
   async updateToRefunded(transaction_id: string) {
     const status = await getRepository(Status)
       .createQueryBuilder('status')
-      .where({ status_name: "Refunded" })
+      .where({ status_name: 'Refunded' })
       .getOne();
 
     let transaction = new Transaction();
@@ -152,31 +156,28 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
 
   async getEarnings(tour_guide_id: string) {
     var totalEarning: number = 0.0;
-    var pending: number= 0.0;
-    var personalBalance: number= 0.0;
-    var pendingName = "Pending";
-    var pendingStatusId = "";
-    var completedName = "Completed";
-    var completedStatusId = "";
+    var pending: number = 0.0;
+    var personalBalance: number = 0.0;
+    var pendingName = 'Pending';
+    var pendingStatusId = '';
+    var completedName = 'Completed';
+    var completedStatusId = '';
 
     const stats = await getRepository(Status).find();
 
-    for(const s in stats)
-    {
-      if(stats[s].status_name==pendingName){
+    for (const s in stats) {
+      if (stats[s].status_name == pendingName) {
         pendingStatusId = stats[s].id;
       } else if (stats[s].status_name == completedName) {
         completedStatusId = stats[s].id;
       }
     }
 
-
-    var trans = await this.destinationsRepository
-      .find({
-        where: {
-          tour_guide_id: tour_guide_id,
-        },
-      });
+    var trans = await this.destinationsRepository.find({
+      where: {
+        tour_guide_id: tour_guide_id,
+      },
+    });
 
     for (const i in trans) {
       personalBalance = +personalBalance + +trans[i].total;
@@ -188,13 +189,17 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
       }
     }
 
-    var result = '{'
-    +'"total":'+totalEarning+','
-      + '"pending":' + pending + ','
-      + '"personal":' + personalBalance
-
-    +'}';
+    var result =
+      '{' +
+      '"total":' +
+      totalEarning +
+      ',' +
+      '"pending":' +
+      pending +
+      ',' +
+      '"personal":' +
+      personalBalance +
+      '}';
     return result;
   }
-
 }

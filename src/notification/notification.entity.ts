@@ -1,11 +1,13 @@
 import {
-  Column, CreateDateColumn,
+  Column,
+  CreateDateColumn,
   DeleteDateColumn,
   Entity,
   Generated,
   JoinColumn,
   ManyToOne,
-  PrimaryGeneratedColumn, UpdateDateColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, Validate } from 'class-validator';
@@ -35,7 +37,6 @@ export class Notification extends EntityHelper {
   @JoinColumn({ name: 'from_user_id', referencedColumnName: 'id' })
   from_user?: User;
 
-
   @IsOptional()
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
   @Column({ nullable: true })
@@ -45,11 +46,9 @@ export class Notification extends EntityHelper {
   })
   to_user_id?: string | null;
 
-
   @IsOptional()
   @ApiProperty({ example: 'title' })
-  @Column({ length: 50,
-    nullable: true })
+  @Column({ length: 50, nullable: true })
   title?: string;
 
   @IsOptional()
@@ -59,8 +58,8 @@ export class Notification extends EntityHelper {
     message: 'Message Id not Found',
   })
   @Column({
-    type: "uuid",
-    nullable: true
+    type: 'uuid',
+    nullable: true,
   })
   message_id?: string | null;
 

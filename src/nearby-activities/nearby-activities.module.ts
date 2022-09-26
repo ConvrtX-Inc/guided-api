@@ -10,10 +10,14 @@ import { User } from '../users/user.entity';
 @Module({
   controllers: [NearbyActivitiesController],
   providers: [NearbyActivitiesService],
-  imports: [    
-    TypeOrmModule.forFeature([ActivityPackage, ActivityPackageDestination, ActivityPackageDestinationImage, User]),
+  imports: [
+    TypeOrmModule.forFeature([
+      ActivityPackage,
+      ActivityPackageDestination,
+      ActivityPackageDestinationImage,
+      User,
+    ]),
   ],
-  exports: [NearbyActivitiesService]
+  exports: [NearbyActivitiesService],
 })
 export class NearbyActivitiesModule {}
-

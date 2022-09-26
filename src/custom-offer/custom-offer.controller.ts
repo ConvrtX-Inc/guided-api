@@ -1,18 +1,18 @@
 import {
-  Controller,  
+  Controller,
   UseGuards,
   Post,
   Param,
   HttpCode,
-  HttpStatus
+  HttpStatus,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Crud, CrudController } from '@nestjsx/crud';
-  
+
 import { CustomOffer } from './custom-offer.entity';
 import { CustomOfferService } from './custom-offer.service';
-  
+
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
 @ApiTags('Custom Offer')
@@ -41,10 +41,10 @@ import { CustomOfferService } from './custom-offer.service';
 })
 export class CustomOfferController implements CrudController<CustomOffer> {
   constructor(public service: CustomOfferService) {}
-  
+
   get base(): CrudController<CustomOffer> {
     return this;
-  }    
+  }
 
   @Post('withdraw/:id')
   @ApiOperation({ summary: 'Withdraw custom offer.' })
@@ -53,4 +53,3 @@ export class CustomOfferController implements CrudController<CustomOffer> {
     return this.service.withdrawOffer(id);
   }
 }
-  

@@ -1,4 +1,12 @@
-import { Controller, UseGuards, Get, HttpCode, HttpStatus, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  UseGuards,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Crud, CrudController } from '@nestjsx/crud';
@@ -38,18 +46,26 @@ export class MessageDetailController implements CrudController<MessageDetail> {
     return this;
   }
 
-  @ApiOperation({ summary: 'Get the messages of a user (Param: all, unread, spam, sent, archive)' })
+  @ApiOperation({
+    summary:
+      'Get the messages of a user (Param: all, unread, spam, sent, archive)',
+  })
   @Get('/:user_id/:filter')
   @HttpCode(HttpStatus.OK)
-  async filterMessages(@Param('user_id') user_id: string, @Param('filter') filter: string) {
+  async filterMessages(
+    @Param('user_id') user_id: string,
+    @Param('filter') filter: string,
+  ) {
     return this.service.filterMessages(user_id, filter);
   }
 
   @ApiOperation({ summary: 'Delete Messages' })
   @Delete('/delete-conversation/:room_id/user/:user_id')
   @HttpCode(HttpStatus.OK)
-  async deleteMessages(@Param('room_id') room_id: string,@Param('user_id') user_id: string) {
-    return this.service.deleteMessages(room_id,user_id);
+  async deleteMessages(
+    @Param('room_id') room_id: string,
+    @Param('user_id') user_id: string,
+  ) {
+    return this.service.deleteMessages(room_id, user_id);
   }
 }
-

@@ -9,7 +9,9 @@ describe('DashboardRelatedController', () => {
       controllers: [DashboardRelatedController],
     }).compile();
 
-    controller = module.get<DashboardRelatedController>(DashboardRelatedController);
+    controller = module.get<DashboardRelatedController>(
+      DashboardRelatedController,
+    );
   });
 
   it('should be defined', () => {

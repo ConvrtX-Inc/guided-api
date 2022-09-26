@@ -9,9 +9,10 @@ import { ActivityPost } from '../activity-post/activity-post.entity';
 import { User } from '../users/user.entity';
 
 @Injectable()
-export class ActivityOutfitterService extends TypeOrmCrudService<ActivityOutfitter>{
-  constructor(@InjectRepository(ActivityOutfitter)
-  private outfitterRepository: Repository<ActivityOutfitter>,
+export class ActivityOutfitterService extends TypeOrmCrudService<ActivityOutfitter> {
+  constructor(
+    @InjectRepository(ActivityOutfitter)
+    private outfitterRepository: Repository<ActivityOutfitter>,
   ) {
     super(outfitterRepository);
   }
@@ -36,12 +37,12 @@ export class ActivityOutfitterService extends TypeOrmCrudService<ActivityOutfitt
     await this.outfitterRepository.softDelete(id);
   }
 
-  async approvedActivityOutfitter(id: string) {    
+  async approvedActivityOutfitter(id: string) {
     const post = await this.outfitterRepository.findOne({
       where: { id: id },
     });
     if (post) {
-      post.is_published = true;      
+      post.is_published = true;
       await post.save();
     }
   }
@@ -57,19 +58,46 @@ export class ActivityOutfitterService extends TypeOrmCrudService<ActivityOutfitt
   }
 
   async getOutfitterList() {
-    return this.outfitterRepository.createQueryBuilder('outfitter')
-    .leftJoinAndMapMany('outfitter.outfitterimage', ActivityOutfitterImage, 'outfitterimage', 'outfitter.id = outfitterimage.activity_outfitter_id::uuid')
-    .leftJoinAndMapOne('outfitter.post', ActivityPost, 'post', 'outfitter.id = post.post_id')
-    .leftJoinAndMapOne('post.publisher', User, 'publisher', 'publisher.id = post.user_id')
-    .leftJoinAndMapOne('outfitter.author', User, 'author', 'author.id = outfitter.user_id::uuid')
-    .select([
-      'outfitter',
-      'outfitterimage',
-      'post',
-      'author.id', 'author.first_name', 'author.last_name', 'author.phone_no',
-      'publisher.id', 'publisher.first_name', 'publisher.last_name', 'publisher.phone_no'
-    ])
-    .where('post.is_published = true')
-    .getMany();
+    return this.outfitterRepository
+      .createQueryBuilder('outfitter')
+      .leftJoinAndMapMany(
+        'outfitter.outfitterimage',
+        ActivityOutfitterImage,
+        'outfitterimage',
+        'outfitter.id = outfitterimage.activity_outfitter_id::uuid',
+      )
+      .leftJoinAndMapOne(
+        'outfitter.post',
+        ActivityPost,
+        'post',
+        'outfitter.id = post.post_id',
+      )
+      .leftJoinAndMapOne(
+        'post.publisher',
+        User,
+        'publisher',
+        'publisher.id = post.user_id',
+      )
+      .leftJoinAndMapOne(
+        'outfitter.author',
+        User,
+        'author',
+        'author.id = outfitter.user_id::uuid',
+      )
+      .select([
+        'outfitter',
+        'outfitterimage',
+        'post',
+        'author.id',
+        'author.first_name',
+        'author.last_name',
+        'author.phone_no',
+        'publisher.id',
+        'publisher.first_name',
+        'publisher.last_name',
+        'publisher.phone_no',
+      ])
+      .where('post.is_published = true')
+      .getMany();
   }
 }

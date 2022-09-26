@@ -28,7 +28,9 @@ export class ActivityPostCategoryService extends TypeOrmCrudService<ActivityPost
   }
 
   async saveEntity(data: DeepPartial<ActivityPostCategory>[]) {
-    return this.actPostCategoryRepository.save(this.actPostCategoryRepository.create(data));
+    return this.actPostCategoryRepository.save(
+      this.actPostCategoryRepository.create(data),
+    );
   }
 
   async softDelete(id: number): Promise<void> {

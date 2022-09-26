@@ -7,6 +7,6 @@ import { UserProfileImage } from './user-profile-image.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([UserProfileImage])],
   controllers: [UserProfileImagesController],
-  providers: [UserProfileImagesService]
+  providers: [UserProfileImagesService],
 })
 export class UserProfileImagesModule {}

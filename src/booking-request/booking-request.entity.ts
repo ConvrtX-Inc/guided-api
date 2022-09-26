@@ -1,11 +1,13 @@
 import {
-  Column, CreateDateColumn,
+  Column,
+  CreateDateColumn,
   DeleteDateColumn,
   Entity,
   Generated,
   JoinColumn,
   ManyToOne,
-  PrimaryGeneratedColumn, UpdateDateColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Allow, IsOptional } from 'class-validator';
@@ -36,9 +38,8 @@ export class BookingRequest extends EntityHelper {
 
   @ManyToOne(() => User, {
     eager: true,
-    
   })
-  @JoinColumn({ name: 'from_user_id', referencedColumnName: 'id'})
+  @JoinColumn({ name: 'from_user_id', referencedColumnName: 'id' })
   from_user?: User;
 
   @IsOptional()
@@ -53,13 +54,12 @@ export class BookingRequest extends EntityHelper {
   @Generated('uuid')
   activity_package_id?: string;
 
-
   @ManyToOne(() => ActivityPackage, {
     eager: true,
   })
-  @JoinColumn({ name: 'activity_package_id', referencedColumnName: 'id'})
+  @JoinColumn({ name: 'activity_package_id', referencedColumnName: 'id' })
   package?: ActivityPackage;
-  
+
   @IsOptional()
   @ApiProperty({ example: 'profile_photo_firebase_url' })
   @Column({ nullable: true, type: 'text' })

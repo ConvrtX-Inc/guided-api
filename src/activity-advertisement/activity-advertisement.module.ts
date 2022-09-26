@@ -8,10 +8,7 @@ import { StatusModule } from 'src/statuses/status.module';
 @Module({
   controllers: [ActivityAdvertisementController],
   providers: [ActivityAdvertisementService],
-  imports: [
-    StatusModule,
-    TypeOrmModule.forFeature([ActivityAdvertisement])
-  ],
-  exports: [ActivityAdvertisementService]
+  imports: [StatusModule, TypeOrmModule.forFeature([ActivityAdvertisement])],
+  exports: [ActivityAdvertisementService],
 })
-export class ActivityAdvertisementModule { }
+export class ActivityAdvertisementModule {}

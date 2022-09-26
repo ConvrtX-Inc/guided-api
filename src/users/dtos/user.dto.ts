@@ -1,8 +1,8 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { Allow } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { Allow } from 'class-validator';
 
 export class UserDto {
-    @Allow()
-    @ApiProperty({ example: 'google_wallet' })
-    default_payment_method?: string;
-  }
+  @Allow()
+  @ApiProperty({ example: 'google_wallet' })
+  default_payment_method?: string;
+}

@@ -8,6 +8,6 @@ import { ActivityOutfitter } from './entities/activityOutfitter.entity';
   controllers: [ActivityOutfitterController],
   providers: [ActivityOutfitterService],
   imports: [TypeOrmModule.forFeature([ActivityOutfitter])],
-  exports: [ActivityOutfitterService]
+  exports: [ActivityOutfitterService],
 })
 export class ActivityOutfitterModule {}

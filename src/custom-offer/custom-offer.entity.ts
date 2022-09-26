@@ -1,4 +1,4 @@
-import { Column, Entity, Generated, PrimaryGeneratedColumn} from 'typeorm';
+import { Column, Entity, Generated, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Allow, IsOptional, Validate } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
@@ -51,7 +51,7 @@ export class CustomOffer extends EntityHelper {
     nullable: false,
   })
   number_person?: number;
- 
+
   @IsOptional()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   offer_date?: string;
@@ -67,13 +67,13 @@ export class CustomOffer extends EntityHelper {
   @Column()
   @Generated('uuid')
   currency_id?: string;
-  
+
   @Allow()
   @IsOptional()
   @ApiProperty({ example: false })
   @Column({ type: 'bool', nullable: true, default: false })
   is_withdrawn?: boolean;
-  
+
   @IsOptional()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_date?: string;
@@ -81,5 +81,4 @@ export class CustomOffer extends EntityHelper {
   @IsOptional()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updated_date?: string;
-
 }

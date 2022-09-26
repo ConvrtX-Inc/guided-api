@@ -32,9 +32,7 @@ export class WaiverService extends TypeOrmCrudService<Waiver> {
   }
 
   async saveEntity(data: DeepPartial<Waiver>[]) {
-    return this.waiversRepository.save(
-      this.waiversRepository.create(data),
-    );
+    return this.waiversRepository.save(this.waiversRepository.create(data));
   }
 
   async softDelete(id: number): Promise<void> {

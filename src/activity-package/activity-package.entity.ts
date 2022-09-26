@@ -73,14 +73,16 @@ export class ActivityPackage extends EntityHelper {
   @IsOptional()
   @ApiProperty({ example: 'Included free services' })
   @Column({
-    type: 'text', nullable: true
+    type: 'text',
+    nullable: true,
   })
   included?: string;
-  
+
   @IsOptional()
   @ApiProperty({ example: 'Free services that are not included' })
   @Column({
-    type: 'text', nullable: true
+    type: 'text',
+    nullable: true,
   })
   not_included?: string;
 
@@ -116,7 +118,7 @@ export class ActivityPackage extends EntityHelper {
           new Uint8Array(base64_arraybuffer.base64_2_ab(this.cover_img)),
         );
       }
-    } catch (e) { }
+    } catch (e) {}
   }
 
   destination: any;

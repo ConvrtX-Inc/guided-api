@@ -44,7 +44,7 @@ export class ActivityPackageDestination extends EntityHelper {
 
   @IsOptional()
   @ApiProperty({ example: 'PH' })
-  @Column({ length: 100 , nullable: true})
+  @Column({ length: 100, nullable: true })
   code?: string;
 
   @IsOptional()

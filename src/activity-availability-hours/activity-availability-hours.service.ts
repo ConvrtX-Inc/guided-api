@@ -35,7 +35,11 @@ export class ActivityAvailabilityHoursService extends TypeOrmCrudService<Activit
     await this.activityRepository.softDelete(id);
   }
 
-  async getActivityAvailabilityHours(activity_package_id: string, start_date: string, end_date: string) {
+  async getActivityAvailabilityHours(
+    activity_package_id: string,
+    start_date: string,
+    end_date: string,
+  ) {
     let response = [];
     const activityAvailability = await getRepository(ActivityAvailability)
       .createQueryBuilder()
@@ -45,13 +49,18 @@ export class ActivityAvailabilityHoursService extends TypeOrmCrudService<Activit
       .getMany();
 
     for (const i in activityAvailability) {
-      const activityAvailabilityHours = await getRepository(ActivityAvailabilityHours)
+      const activityAvailabilityHours = await getRepository(
+        ActivityAvailabilityHours,
+      )
         .createQueryBuilder()
         .select()
-        .where("activity_availability_id = '" + activityAvailability[i].id + "'")
+        .where(
+          "activity_availability_id = '" + activityAvailability[i].id + "'",
+        )
         .getMany();
 
-      activityAvailability[i]['activity_availability_hours'] = activityAvailabilityHours;
+      activityAvailability[i]['activity_availability_hours'] =
+        activityAvailabilityHours;
       response.push(activityAvailability[i]);
     }
 

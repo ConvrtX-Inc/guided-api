@@ -1,4 +1,11 @@
-import { Controller, Body, UseGuards, Post, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Body,
+  UseGuards,
+  Post,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
@@ -14,7 +21,7 @@ import { Card } from './entities/card.entity';
     type: Card,
   },
   routes: {
-    exclude: ['replaceOneBase', 'createManyBase']
+    exclude: ['replaceOneBase', 'createManyBase'],
   },
   query: {
     maxLimit: 50,
@@ -33,7 +40,7 @@ import { Card } from './entities/card.entity';
   version: '1',
 })
 export class CardController implements CrudController<Card> {
-  constructor(public service: CardService) { }
+  constructor(public service: CardService) {}
 
   get base(): CrudController<Card> {
     return this;

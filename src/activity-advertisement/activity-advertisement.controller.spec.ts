@@ -14,30 +14,34 @@ describe('ActivityAdvertisementController', () => {
         findManyEntities: jest.fn(() => []),
         saveEntity: jest.fn(() => []),
         softDelete: jest.fn(() => []),
-        approvedActivityAdvertisement: jest.fn(() => { }),
-        rejectActivityAdvertisement: jest.fn(() => { })
-      })
-    }
+        approvedActivityAdvertisement: jest.fn(() => {}),
+        rejectActivityAdvertisement: jest.fn(() => {}),
+      }),
+    };
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ActivityAdvertisementController],
       providers: [ActivityAdvertisementService, ApiServiceProvider],
     }).compile();
 
-    controller = module.get<ActivityAdvertisementController>(ActivityAdvertisementController);
-    spyService = module.get<ActivityAdvertisementService>(ActivityAdvertisementService);
-  })
+    controller = module.get<ActivityAdvertisementController>(
+      ActivityAdvertisementController,
+    );
+    spyService = module.get<ActivityAdvertisementService>(
+      ActivityAdvertisementService,
+    );
+  });
 
   it('calling approvedActivityAdvertisement method', () => {
-    const id = "6952bcec-d3eb-4ffa-b8a1-9cc64f3f5f9b";
-    
+    const id = '6952bcec-d3eb-4ffa-b8a1-9cc64f3f5f9b';
+
     controller.approvedActivityAdvertisement(id);
 
     expect(spyService.approvedActivityAdvertisement).toHaveBeenCalled();
   });
 
   it('calling rejectActivityAdvertisement method', () => {
-    const id = "6952bcec-d3eb-4ffa-b8a1-9cc64f3f5f9b";
+    const id = '6952bcec-d3eb-4ffa-b8a1-9cc64f3f5f9b';
 
     controller.rejectActivityAdvertisement(id);
 

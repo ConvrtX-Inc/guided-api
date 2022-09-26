@@ -7,6 +7,6 @@ import { UserGuideRequest } from './user-guide-request.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([UserGuideRequest])],
   controllers: [UserGuideRequestController],
-  providers: [UserGuideRequestService]
+  providers: [UserGuideRequestService],
 })
 export class UserGuideRequestModule {}

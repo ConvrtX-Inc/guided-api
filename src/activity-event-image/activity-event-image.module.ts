@@ -7,6 +7,6 @@ import { ActivityEventImage } from './entities/activity-event-image.entity';
 @Module({
   controllers: [ActivityEventImageController],
   providers: [ActivityEventImageService],
-  imports: [TypeOrmModule.forFeature([ActivityEventImage])]
+  imports: [TypeOrmModule.forFeature([ActivityEventImage])],
 })
 export class ActivityEventImageModule {}

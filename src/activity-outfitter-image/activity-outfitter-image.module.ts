@@ -7,6 +7,6 @@ import { ActivityOutfitterImage } from './entities/activity-outfitter-image.enti
 @Module({
   controllers: [ActivityOutfitterImageController],
   providers: [ActivityOutfitterImageService],
-  imports: [TypeOrmModule.forFeature([ActivityOutfitterImage])]
+  imports: [TypeOrmModule.forFeature([ActivityOutfitterImage])],
 })
 export class ActivityOutfitterImageModule {}

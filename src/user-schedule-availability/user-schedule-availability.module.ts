@@ -8,10 +8,7 @@ import { UserScheduleAvailability } from './user-schedule-availability.entity';
 @Module({
   controllers: [UserScheduleAvailabilityController],
   providers: [UserScheduleAvailabilityService],
-  imports: [    
-    TypeOrmModule.forFeature([UserScheduleAvailability]),
-  ],
+  imports: [TypeOrmModule.forFeature([UserScheduleAvailability])],
   exports: [UserScheduleAvailabilityService],
 })
 export class UserScheduleAvailabilityModule {}
-

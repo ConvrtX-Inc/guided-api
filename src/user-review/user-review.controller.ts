@@ -1,9 +1,9 @@
-import { Controller, UseGuards } from "@nestjs/common";
-import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { Crud, CrudController } from "@nestjsx/crud";
-import { UserReviewCrudService } from "./user-review-crud.service";
-import { UserReview } from "./user-review.entity";
+import { Controller, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Crud, CrudController } from '@nestjsx/crud';
+import { UserReviewCrudService } from './user-review-crud.service';
+import { UserReview } from './user-review.entity';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
@@ -39,14 +39,13 @@ import { UserReview } from "./user-review.entity";
   },
 })
 @Controller({
-    path: 'user-reviews',
-    version: '1',
-  })
-  export class UserReviewController implements CrudController<UserReview>
-  {
-    constructor(public service: UserReviewCrudService) { }
+  path: 'user-reviews',
+  version: '1',
+})
+export class UserReviewController implements CrudController<UserReview> {
+  constructor(public service: UserReviewCrudService) {}
 
-    get base(): CrudController<UserReview> {
-      return this
-    }
+  get base(): CrudController<UserReview> {
+    return this;
   }
+}

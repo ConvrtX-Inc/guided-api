@@ -7,6 +7,6 @@ import { Messages } from 'src/messages/messages.entity';
 @Module({
   controllers: [InboxController],
   providers: [InboxService],
-  imports: [TypeOrmModule.forFeature([Messages])]
+  imports: [TypeOrmModule.forFeature([Messages])],
 })
 export class InboxModule {}

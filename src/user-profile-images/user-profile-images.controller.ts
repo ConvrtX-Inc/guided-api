@@ -1,7 +1,4 @@
-import {
-  Controller,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
 import { AuthGuard } from '@nestjs/passport';
@@ -34,7 +31,9 @@ import { UserProfileImagesService } from './user-profile-images.service';
   path: 'user-profile-images',
   version: '1',
 })
-export class UserProfileImagesController implements CrudController<UserProfileImage> {
+export class UserProfileImagesController
+  implements CrudController<UserProfileImage>
+{
   constructor(public service: UserProfileImagesService) {}
 
   get base(): CrudController<UserProfileImage> {

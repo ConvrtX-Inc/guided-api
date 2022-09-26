@@ -61,9 +61,14 @@ export class ActivityAdvertisementController
     return this.service.rejectActivityAdvertisement(id);
   }
 
-  @ApiOperation({ summary: 'Get the advertisement posts by user_id and status' })
+  @ApiOperation({
+    summary: 'Get the advertisement posts by user_id and status',
+  })
   @Get('byuser/post/:user_id/:status')
-  public async getAdvertisementsByUserAndStatus(@Param('user_id') user_id: string, @Param('status') status: string) {
+  public async getAdvertisementsByUserAndStatus(
+    @Param('user_id') user_id: string,
+    @Param('status') status: string,
+  ) {
     return this.service.getadvertisementsByUserAndStatus(user_id, status);
   }
 }

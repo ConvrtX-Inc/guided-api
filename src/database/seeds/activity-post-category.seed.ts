@@ -16,12 +16,12 @@ export default class CreateActivityPostCategory implements Seeder {
         .insert()
         .into(ActivityPostCategory)
         .values([
-            { name: 'Activity Package'},
-            { name: 'Newsfeed'},
-            { name: 'Event'},
-            { name: 'Article'},
-            { name: 'Advertisement'},
-            { name: 'Outfitter'}      
+          { name: 'Activity Package' },
+          { name: 'Newsfeed' },
+          { name: 'Event' },
+          { name: 'Article' },
+          { name: 'Advertisement' },
+          { name: 'Outfitter' },
         ])
         .execute();
     }

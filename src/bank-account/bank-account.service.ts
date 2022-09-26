@@ -3,7 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { DeepPartial } from 'src/utils/types/deep-partial.type';
 import { FindOptions } from 'src/utils/types/find-options.type';
-import { Connection, getConnection, Repository, UpdateQuery, UpdateQueryBuilder } from 'typeorm';
+import {
+  Connection,
+  getConnection,
+  Repository,
+  UpdateQuery,
+  UpdateQueryBuilder,
+} from 'typeorm';
 import { BankAccount } from './bank-account.entity';
 
 @Injectable()
@@ -32,9 +38,7 @@ export class BankAccountService extends TypeOrmCrudService<BankAccount> {
   }
 
   async saveEntity(data: DeepPartial<BankAccount>[]) {
-    return this.repository.save(
-      this.repository.create(data),
-    );
+    return this.repository.save(this.repository.create(data));
   }
 
   async softDelete(id: number): Promise<void> {
@@ -44,5 +48,4 @@ export class BankAccountService extends TypeOrmCrudService<BankAccount> {
   async delete(id: number): Promise<void> {
     await this.repository.delete(id);
   }
-    
 }

@@ -1,4 +1,4 @@
-import {HttpStatus, Injectable} from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { Connection, createQueryBuilder, Repository } from 'typeorm';
 import { BookingRequest } from './booking-request.entity';
 import { InjectConnection, InjectRepository } from '@nestjs/typeorm';

@@ -11,7 +11,7 @@ import { UserScheduleAvailability } from './user-schedule-availability.entity';
 export class UserScheduleAvailabilityService extends TypeOrmCrudService<UserScheduleAvailability> {
   constructor(
     @InjectRepository(UserScheduleAvailability)
-    private userScheduleAvailabilityRepository: Repository<UserScheduleAvailability>,    
+    private userScheduleAvailabilityRepository: Repository<UserScheduleAvailability>,
   ) {
     super(userScheduleAvailabilityRepository);
   }
@@ -33,8 +33,8 @@ export class UserScheduleAvailabilityService extends TypeOrmCrudService<UserSche
   }
 
   async saveEntity(data: DeepPartial<UserScheduleAvailability>[]) {
-    return this.userScheduleAvailabilityRepository.save(this.userScheduleAvailabilityRepository.create(data));
+    return this.userScheduleAvailabilityRepository.save(
+      this.userScheduleAvailabilityRepository.create(data),
+    );
   }
-
-
 }

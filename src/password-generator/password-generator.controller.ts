@@ -9,7 +9,7 @@ import { PasswordGeneratorService } from './password-generator.service';
 @ApiTags('Password Generator')
 @Controller({
   path: 'password-generator',
-  version: '1'
+  version: '1',
 })
 export class PasswordGeneratorController {
   constructor(private service: PasswordGeneratorService) {}

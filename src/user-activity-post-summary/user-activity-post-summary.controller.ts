@@ -30,7 +30,9 @@ import { UserActivityPostSummary } from './user-activity-post-summary.entity';
   path: 'user-activity-post-summary',
   version: '1',
 })
-export class UserActivityPostSummaryController implements CrudController<UserActivityPostSummary> {
+export class UserActivityPostSummaryController
+  implements CrudController<UserActivityPostSummary>
+{
   constructor(public service: UserActivityPostSummaryService) {}
 
   get base(): CrudController<UserActivityPostSummary> {

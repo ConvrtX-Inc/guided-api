@@ -1,9 +1,4 @@
-import {
-  Controller,
-  UseGuards,
-  Get,
-  Param,
-} from '@nestjs/common';
+import { Controller, UseGuards, Get, Param } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
 import { AuthGuard } from '@nestjs/passport';
@@ -34,10 +29,12 @@ import { TermsAndCondition } from './terms-and-condition.entity';
 })
 @Controller({
   path: 'terms-and-conditions',
-  version: '1'
+  version: '1',
 })
-export class TermsAndConditionsController implements CrudController<TermsAndCondition> {
-  constructor(public service: TermsAndConditionService) { }
+export class TermsAndConditionsController
+  implements CrudController<TermsAndCondition>
+{
+  constructor(public service: TermsAndConditionService) {}
 
   get base(): CrudController<TermsAndCondition> {
     return this;
@@ -48,5 +45,4 @@ export class TermsAndConditionsController implements CrudController<TermsAndCond
   getTermsByType(@Param('type') type: string) {
     return this.service.getTermsByType(type);
   }
-
 }

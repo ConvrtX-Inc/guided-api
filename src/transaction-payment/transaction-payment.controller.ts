@@ -1,7 +1,4 @@
-import {
-  Controller,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
 import { AuthGuard } from '@nestjs/passport';
@@ -34,7 +31,9 @@ import { TransactionPaymentService } from './transaction-payment.service';
   path: 'transaction-payment',
   version: '1',
 })
-export class TransactionPaymentController implements CrudController<TransactionPayment> {
+export class TransactionPaymentController
+  implements CrudController<TransactionPayment>
+{
   constructor(public service: TransactionPaymentService) {}
 
   get base(): CrudController<TransactionPayment> {

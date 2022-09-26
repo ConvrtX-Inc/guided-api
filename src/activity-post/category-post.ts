@@ -5,5 +5,5 @@ export enum CategoryPost {
   cpEvent = 3,
   cpArticle = 4,
   cpAdvertisement = 5,
-  cpOutfitter = 6
-  }
+  cpOutfitter = 6,
+}

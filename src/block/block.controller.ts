@@ -1,4 +1,12 @@
-import { Controller, Get, HttpCode, HttpStatus, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { BlockService } from './block.service';
@@ -28,11 +36,11 @@ import { Crud, CrudController, Override } from '@nestjsx/crud';
   },
 })
 @Controller({
-  path:'block',
+  path: 'block',
   version: '1',
 })
 export class BlockController implements CrudController<Block> {
-  constructor(public  service: BlockService) {}
+  constructor(public service: BlockService) {}
 
   get base(): CrudController<Block> {
     return this;
@@ -41,7 +49,10 @@ export class BlockController implements CrudController<Block> {
   @ApiOperation({ summary: 'Block messages by user id' })
   @Post('get-message/:user_id/:blocked_by')
   @HttpCode(HttpStatus.OK)
-  public async blockUser(@Param('user_id') blocked: string, @Param('blocked_by') blocked_by: string){
+  public async blockUser(
+    @Param('user_id') blocked: string,
+    @Param('blocked_by') blocked_by: string,
+  ) {
     return this.service.blockUser(blocked, blocked_by);
   }
 }

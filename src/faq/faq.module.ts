@@ -7,7 +7,6 @@ import { FaqService } from './faq.service';
 @Module({
   controllers: [FaqController],
   providers: [FaqService],
-  imports: [ TypeOrmModule.forFeature([Faq])]
+  imports: [TypeOrmModule.forFeature([Faq])],
 })
 export class FaqModule {}
-

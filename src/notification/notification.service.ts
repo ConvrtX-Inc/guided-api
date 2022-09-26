@@ -12,7 +12,7 @@ export class NotificationService extends TypeOrmCrudService<Notification> {
   constructor(
     @InjectRepository(Notification)
     private repository: Repository<Notification>,
-    private bookingRequestSvc: BookingRequestService
+    private bookingRequestSvc: BookingRequestService,
   ) {
     super(repository);
   }
@@ -34,9 +34,7 @@ export class NotificationService extends TypeOrmCrudService<Notification> {
   }
 
   async saveEntity(data: DeepPartial<Notification>[]) {
-    return this.repository.save(
-      this.repository.create(data),
-    );
+    return this.repository.save(this.repository.create(data));
   }
 
   async softDelete(id: number): Promise<void> {
@@ -66,21 +64,19 @@ export class NotificationService extends TypeOrmCrudService<Notification> {
               from_user: booking_request.from_user_id,
               to_user: booking_request.user_id,
               is_approved: booking_request.is_approved,
-              booking_date : booking_request.booking_date_start
+              booking_date: booking_request.booking_date_start,
             };
           }
         }
 
         return n;
-
-      })
+      }),
     );
 
     ///Sort notifications
     notifs = notifs.sort((a: any, b: any) => {
-
-      let date1 = new Date(a?.created_date)
-      let date2 = new Date(b?.created_date)
+      let date1 = new Date(a?.created_date);
+      let date2 = new Date(b?.created_date);
       return date2.valueOf() - date1.valueOf();
     });
 
@@ -98,12 +94,11 @@ export class NotificationService extends TypeOrmCrudService<Notification> {
 
     switch (filter.toLowerCase()) {
       case 'all':
-        return notifications
+        return notifications;
       case 'accepted':
         return notifications.filter((n) => n.booking_request.is_approved);
       case 'rejected':
         return notifications.filter((n) => !n.booking_request.is_approved);
     }
-
   }
 }

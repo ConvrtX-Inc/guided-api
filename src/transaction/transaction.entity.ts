@@ -76,7 +76,7 @@ export class Transaction extends EntityHelper {
   created_date: Date;
 
   @UpdateDateColumn()
-  updated_date: Date; 
+  updated_date: Date;
 
   @IsOptional()
   @DeleteDateColumn()

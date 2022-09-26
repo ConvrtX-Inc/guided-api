@@ -6,6 +6,6 @@ import { PasswordGeneratorService } from './password-generator.service';
 @Module({
   controllers: [PasswordGeneratorController],
   providers: [PasswordGeneratorService],
-  imports: [MailModule]
+  imports: [MailModule],
 })
 export class PasswordGeneratorModule {}

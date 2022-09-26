@@ -1,4 +1,10 @@
-import { Controller, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { AuthAppleLoginDto } from './dtos/auth-apple-login.dto';
 import { TokenService } from '../auth/token.service';
@@ -12,8 +18,7 @@ import { AuthGuard } from '@nestjs/passport';
   version: '1',
 })
 export class AuthAppleController {
-  constructor(public readonly tokenService: TokenService) {
-  }
+  constructor(public readonly tokenService: TokenService) {}
 
   @ApiBody({ type: AuthAppleLoginDto })
   @UseGuards(AuthGuard('apple'))

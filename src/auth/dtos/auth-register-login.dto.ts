@@ -64,7 +64,7 @@ export class AuthRegisterLoginDto {
   @IsOptional()
   @ApiProperty({ example: true })
   is_active?: boolean;
-  
+
   @Allow()
   @IsOptional()
   @ApiProperty({ example: true })

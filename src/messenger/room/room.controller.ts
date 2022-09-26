@@ -38,5 +38,4 @@ export class RoomController implements CrudController<Room> {
   get base(): CrudController<Room> {
     return this;
   }
-  
 }

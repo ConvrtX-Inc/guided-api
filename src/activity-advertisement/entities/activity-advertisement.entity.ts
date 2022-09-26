@@ -120,7 +120,7 @@ export class ActivityAdvertisement extends EntityHelper {
   @ApiProperty({ example: false })
   @Column({ type: 'bool', nullable: true, default: false })
   is_post?: boolean;
-  
+
   @Allow()
   @IsOptional()
   @ApiProperty({ example: false })

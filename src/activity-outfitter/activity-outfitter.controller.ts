@@ -1,4 +1,13 @@
-import { Controller, Request, UseGuards, Post, HttpCode, HttpStatus, Param, Get } from '@nestjs/common';
+import {
+  Controller,
+  Request,
+  UseGuards,
+  Post,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Get,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { Crud, CrudController, Override } from '@nestjsx/crud';
@@ -28,7 +37,9 @@ import { ActivityOutfitter } from './entities/activityOutfitter.entity';
   path: 'activity-outfitter',
   version: '1',
 })
-export class ActivityOutfitterController implements CrudController<ActivityOutfitter> {
+export class ActivityOutfitterController
+  implements CrudController<ActivityOutfitter>
+{
   constructor(readonly service: ActivityOutfitterService) {}
 
   get base(): CrudController<ActivityOutfitter> {

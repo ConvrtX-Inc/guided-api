@@ -7,9 +7,7 @@ import { ActivityNewsfeed } from './activity-newsfeed.entity';
 @Module({
   providers: [ActivityNewsfeedService],
   controllers: [ActivityNewsfeedController],
-  imports: [    
-    TypeOrmModule.forFeature([ActivityNewsfeed]),
-  ],
+  imports: [TypeOrmModule.forFeature([ActivityNewsfeed])],
   exports: [ActivityNewsfeedService],
-  })
+})
 export class ActivityNewsfeedModule {}

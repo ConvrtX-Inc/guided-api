@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, Validate } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
@@ -29,7 +29,7 @@ export class UserProfileQuestion extends EntityHelper {
     type: 'text',
   })
   answer?: string;
-  
+
   @IsOptional()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_date?: string;
@@ -37,5 +37,4 @@ export class UserProfileQuestion extends EntityHelper {
   @IsOptional()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updated_date?: string;
-
 }

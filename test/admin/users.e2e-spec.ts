@@ -52,7 +52,7 @@ describe('Users admin (e2e)', () => {
       .auth(apiToken, {
         type: 'bearer',
       })
-      .send({ id: newUserFirst.id, phone_no: 63917000123678})
+      .send({ id: newUserFirst.id, phone_no: 63917000123678 })
       .expect(200);
   });
 

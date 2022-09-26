@@ -10,7 +10,7 @@ import { ContactUs } from './contact-us.entity';
 export class ContactUsService extends TypeOrmCrudService<ContactUs> {
   constructor(
     @InjectRepository(ContactUs)
-    private contactUsRepository: Repository<ContactUs>    
+    private contactUsRepository: Repository<ContactUs>,
   ) {
     super(contactUsRepository);
   }
@@ -38,6 +38,4 @@ export class ContactUsService extends TypeOrmCrudService<ContactUs> {
   async softDelete(id: number): Promise<void> {
     await this.contactUsRepository.softDelete(id);
   }
- 
-
 }

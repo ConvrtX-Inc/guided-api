@@ -7,6 +7,6 @@ import { UserAvailability } from './user-availability.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([UserAvailability])],
   controllers: [UserAvailabilityController],
-  providers: [UserAvailabilityService]
+  providers: [UserAvailabilityService],
 })
 export class UserAvailabilityModule {}

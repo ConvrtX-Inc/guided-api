@@ -18,8 +18,19 @@ import { UserActivityPostSummary } from 'src/user-activity-post-summary/user-act
   controllers: [DashboardRelatedController],
   providers: [DashboardRelatedService],
   imports: [
-    TypeOrmModule.forFeature([User, Guideline, Transaction, ActivityPost, ActivityPackage, 
-                              ActivityNewsfeed, ActivityEvent, ActivityArticle, ActivityAdvertisement, ActivityOutfitter, UserActivityPostSummary]),
+    TypeOrmModule.forFeature([
+      User,
+      Guideline,
+      Transaction,
+      ActivityPost,
+      ActivityPackage,
+      ActivityNewsfeed,
+      ActivityEvent,
+      ActivityArticle,
+      ActivityAdvertisement,
+      ActivityOutfitter,
+      UserActivityPostSummary,
+    ]),
   ],
 })
 export class DashboardRelatedModule {}

@@ -1,16 +1,23 @@
-import { 
-  Controller, 
-  Get, 
-  Post, 
-  Body, 
-  Patch, 
-  Param, 
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
   Delete,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { CreateManyDto, Crud, CrudController, CrudRequest, CrudService, GetManyDefaultResponse } from '@nestjsx/crud';
+import {
+  CreateManyDto,
+  Crud,
+  CrudController,
+  CrudRequest,
+  CrudService,
+  GetManyDefaultResponse,
+} from '@nestjsx/crud';
 import { ActivityEventImageService } from './activity-event-image.service';
 import { ActivityEventImage } from './entities/activity-event-image.entity';
 
@@ -40,12 +47,12 @@ import { ActivityEventImage } from './entities/activity-event-image.entity';
   path: 'activity-event-image',
   version: '1',
 })
-export class ActivityEventImageController implements CrudController<ActivityEventImage>
-  {
+export class ActivityEventImageController
+  implements CrudController<ActivityEventImage>
+{
   constructor(readonly service: ActivityEventImageService) {}
- 
+
   get base(): CrudController<ActivityEventImage> {
     return this;
   }
-
- }
+}

@@ -5,9 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { BankAccount } from './bank-account.entity';
 
 @Module({
-  imports : [BankAccountModule, TypeOrmModule.forFeature([BankAccount])],
+  imports: [BankAccountModule, TypeOrmModule.forFeature([BankAccount])],
   controllers: [BankAccountController],
   providers: [BankAccountService],
-  exports: [BankAccountService]
+  exports: [BankAccountService],
 })
 export class BankAccountModule {}

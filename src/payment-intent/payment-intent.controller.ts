@@ -1,4 +1,11 @@
-import { Controller, Body, UseGuards, Post, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Body,
+  UseGuards,
+  Post,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
@@ -13,7 +20,7 @@ import { PaymentIntentService } from './payment-intent.service';
     type: PaymentIntent,
   },
   routes: {
-    exclude: ['replaceOneBase', 'createManyBase']
+    exclude: ['replaceOneBase', 'createManyBase'],
   },
   query: {
     maxLimit: 50,
@@ -32,10 +39,9 @@ import { PaymentIntentService } from './payment-intent.service';
   version: '1',
 })
 export class PaymentIntentController implements CrudController<PaymentIntent> {
-  constructor(public service: PaymentIntentService) { }
+  constructor(public service: PaymentIntentService) {}
 
   get base(): CrudController<PaymentIntent> {
     return this;
   }
-
 }

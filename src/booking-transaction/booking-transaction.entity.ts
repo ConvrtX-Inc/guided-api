@@ -7,7 +7,14 @@ import { BookingRequest } from 'src/booking-request/booking-request.entity';
 import { User } from 'src/users/user.entity';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { IsExist } from 'src/utils/validators/is-exists.validator';
-import { Column, Entity, Generated, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Generated,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class BookingTransaction extends EntityHelper {
@@ -25,7 +32,7 @@ export class BookingTransaction extends EntityHelper {
   @ManyToOne(() => User, {
     eager: true,
   })
-  @JoinColumn({ name: 'tour_guide_id', referencedColumnName: 'id'})
+  @JoinColumn({ name: 'tour_guide_id', referencedColumnName: 'id' })
   user_tour_guide?: User;
 
   @ApiProperty({ example: '2cc5bcab-b726-43a2-98e8-98baa5fce9b4' })
@@ -39,7 +46,7 @@ export class BookingTransaction extends EntityHelper {
   @ManyToOne(() => User, {
     eager: true,
   })
-  @JoinColumn({ name: 'traveler_id', referencedColumnName: 'id'})
+  @JoinColumn({ name: 'traveler_id', referencedColumnName: 'id' })
   user_traveler?: User;
 
   @IsOptional()
@@ -108,7 +115,7 @@ export class BookingTransaction extends EntityHelper {
   @ManyToOne(() => BookingRequest, {
     eager: true,
   })
-  @JoinColumn({ name: 'booking_request_id', referencedColumnName: 'id'})
+  @JoinColumn({ name: 'booking_request_id', referencedColumnName: 'id' })
   bookingrequest?: BookingRequest;
 
   @IsOptional()
@@ -124,7 +131,7 @@ export class BookingTransaction extends EntityHelper {
   @ManyToOne(() => ActivityPackage, {
     eager: true,
   })
-  @JoinColumn({ name: 'activity_package_id', referencedColumnName: 'id'})
+  @JoinColumn({ name: 'activity_package_id', referencedColumnName: 'id' })
   activitypackage?: ActivityPackage;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

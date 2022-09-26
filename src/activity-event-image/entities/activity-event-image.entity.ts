@@ -4,25 +4,25 @@ import { EntityHelper } from 'src/utils/entity-helper';
 import { IsExist } from '../../utils/validators/is-exists.validator';
 import { Transform } from 'class-transformer';
 import * as base64_arraybuffer from 'base64-arraybuffer-converter';
-import { 
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-    BeforeUpdate,
-    BeforeInsert,
-    AfterLoad,
-    CreateDateColumn,
-    UpdateDateColumn,
-    DeleteDateColumn, 
-    Generated, 
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BeforeUpdate,
+  BeforeInsert,
+  AfterLoad,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+  Generated,
 } from 'typeorm';
 
 @Entity()
 export class ActivityEventImage extends EntityHelper {
-@PrimaryGeneratedColumn('uuid')
-id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-@IsOptional()
+  @IsOptional()
   @ApiProperty({ example: 'b97190f4-f2db-4d1e-af48-4f48d881579d' })
   @Transform((value: string | null) => (value == '' ? null : value))
   @Validate(IsExist, ['ActivityEvent', 'id'], {
@@ -73,5 +73,4 @@ id: string;
 
   @DeleteDateColumn()
   deletedAt: Date;
-  
 }

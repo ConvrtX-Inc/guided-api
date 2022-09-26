@@ -33,5 +33,4 @@ export class ActivityPackageDestinationService extends TypeOrmCrudService<Activi
   async softDelete(id: number): Promise<void> {
     await this.activityRepository.softDelete(id);
   }
-
 }

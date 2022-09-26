@@ -86,13 +86,20 @@ export class ActivityPackageService extends TypeOrmCrudService<ActivityPackage> 
         .where("badge.id = '" + activity_package[i].main_badge_id + "'")
         .getOne();
 
-      const activity_package_destination = await getRepository(ActivityPackageDestination)
+      const activity_package_destination = await getRepository(
+        ActivityPackageDestination,
+      )
         .createQueryBuilder('activity_package_destination')
-        .where("activity_package_destination.activity_package_id = '" + activity_package[i].id + "'")
+        .where(
+          "activity_package_destination.activity_package_id = '" +
+            activity_package[i].id +
+            "'",
+        )
         .getRawOne();
 
       activity_package[i]['main_badge'] = main_badge;
-      activity_package[i]['activity_package_destination'] = activity_package_destination;
+      activity_package[i]['activity_package_destination'] =
+        activity_package_destination;
     }
 
     return activity_package;
@@ -236,7 +243,7 @@ export class ActivityPackageService extends TypeOrmCrudService<ActivityPackage> 
         .where("id = '" + activityAvailability[i].activity_package_id + "'")
         .getOne();
 
-      const check = response.find(x => x.id == activityPackage.id);
+      const check = response.find((x) => x.id == activityPackage.id);
       if (!check) {
         const badge = await getRepository(Badge)
           .createQueryBuilder('badge')
@@ -244,11 +251,14 @@ export class ActivityPackageService extends TypeOrmCrudService<ActivityPackage> 
           .getOne();
         activityPackage['main_badge'] = badge;
 
-        const activityPackageDestination = await getRepository(ActivityPackageDestination)
+        const activityPackageDestination = await getRepository(
+          ActivityPackageDestination,
+        )
           .createQueryBuilder('activity_package_destination')
           .where({ activity_package_id: activityPackage.id })
           .getRawOne();
-        activityPackage['activity_package_destination'] = activityPackageDestination;
+        activityPackage['activity_package_destination'] =
+          activityPackageDestination;
 
         response.push(activityPackage);
       }

@@ -5,11 +5,9 @@ import { UserMessagesBlockController } from './user-messages-block.controller';
 import { UserMessagesBlockService } from './user-messages-block.service';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([UserBlockMessages])],
-    controllers: [UserMessagesBlockController],
-    providers: [UserMessagesBlockService],
-    exports:[UserMessagesBlockService]
-  })
-export class UserMessagesBlockModule {
-
-}
+  imports: [TypeOrmModule.forFeature([UserBlockMessages])],
+  controllers: [UserMessagesBlockController],
+  providers: [UserMessagesBlockService],
+  exports: [UserMessagesBlockService],
+})
+export class UserMessagesBlockModule {}

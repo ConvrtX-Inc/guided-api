@@ -8,6 +8,6 @@ import { FreeServices } from './free-services.entity';
   controllers: [FreeServicesController],
   providers: [FreeServicesService],
   imports: [TypeOrmModule.forFeature([FreeServices])],
-  exports: [FreeServicesService]
+  exports: [FreeServicesService],
 })
 export class FreeServicesModule {}

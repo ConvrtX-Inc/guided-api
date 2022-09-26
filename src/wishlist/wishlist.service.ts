@@ -32,9 +32,7 @@ export class WishlistService extends TypeOrmCrudService<Wishlist> {
   }
 
   async saveEntity(data: DeepPartial<Wishlist>[]) {
-    return this.WishlistsRepository.save(
-      this.WishlistsRepository.create(data),
-    );
+    return this.WishlistsRepository.save(this.WishlistsRepository.create(data));
   }
 
   async softDelete(id: number): Promise<void> {

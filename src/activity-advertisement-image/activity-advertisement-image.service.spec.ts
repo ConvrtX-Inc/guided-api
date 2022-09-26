@@ -9,7 +9,9 @@ describe('ActivityAdvertisementImageService', () => {
       providers: [ActivityAdvertisementImageService],
     }).compile();
 
-    service = module.get<ActivityAdvertisementImageService>(ActivityAdvertisementImageService);
+    service = module.get<ActivityAdvertisementImageService>(
+      ActivityAdvertisementImageService,
+    );
   });
 
   it('should be defined', () => {

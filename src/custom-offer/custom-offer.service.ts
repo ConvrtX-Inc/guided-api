@@ -11,7 +11,7 @@ import { CustomOffer } from './custom-offer.entity';
 export class CustomOfferService extends TypeOrmCrudService<CustomOffer> {
   constructor(
     @InjectRepository(CustomOffer)
-    private customOfferRepository: Repository<CustomOffer>    
+    private customOfferRepository: Repository<CustomOffer>,
   ) {
     super(customOfferRepository);
   }
@@ -33,16 +33,18 @@ export class CustomOfferService extends TypeOrmCrudService<CustomOffer> {
   }
 
   async saveEntity(data: DeepPartial<CustomOffer>[]) {
-    return this.customOfferRepository.save(this.customOfferRepository.create(data));
+    return this.customOfferRepository.save(
+      this.customOfferRepository.create(data),
+    );
   }
 
   async softDelete(id: number): Promise<void> {
     await this.customOfferRepository.softDelete(id);
   }
- 
+
   async withdrawOffer(id: string) {
     const offer = await this.customOfferRepository.findOne({
-      where: { id: id }
+      where: { id: id },
     });
     if (offer) {
       offer.is_withdrawn = true;
@@ -50,9 +52,7 @@ export class CustomOfferService extends TypeOrmCrudService<CustomOffer> {
     }
     const data = await this.customOfferRepository.findOne({
       where: { id: id },
-    });    
+    });
     return data;
   }
-
-
 }

@@ -21,11 +21,11 @@ import { BookingTransactionService } from './booking-transaction.service';
     join: {
       user_tour_guide: {
         eager: true,
-        allow: ['profile_photo_firebase_url', 'full_name']
+        allow: ['profile_photo_firebase_url', 'full_name'],
       },
       user_traveler: {
         eager: true,
-        allow: ['profile_photo_firebase_url', 'full_name']
+        allow: ['profile_photo_firebase_url', 'full_name'],
       },
       bookingrequest: {
         eager: true,

@@ -117,43 +117,39 @@ export default class CreateStatus implements Seeder {
     }
 
     const countCompleted = await connection
-    .createQueryBuilder()
-    .select()
-    .from(Status, 'Status')
-    .where('"Status"."status_name" = :status_name', {
-      status_name: StatusName.Completed,
-    })
-    .getCount();
-
-  if (countCompleted === 0) {
-    await connection
       .createQueryBuilder()
-      .insert()
-      .into(Status)
-      .values([{ status_name: StatusName.Completed }])
-      .execute();
-  }
+      .select()
+      .from(Status, 'Status')
+      .where('"Status"."status_name" = :status_name', {
+        status_name: StatusName.Completed,
+      })
+      .getCount();
 
-  const countRefunded = await connection
-    .createQueryBuilder()
-    .select()
-    .from(Status, 'Status')
-    .where('"Status"."status_name" = :status_name', {
-      status_name: StatusName.Refunded,
-    })
-    .getCount();
+    if (countCompleted === 0) {
+      await connection
+        .createQueryBuilder()
+        .insert()
+        .into(Status)
+        .values([{ status_name: StatusName.Completed }])
+        .execute();
+    }
 
-  if (countRefunded === 0) {
-    await connection
+    const countRefunded = await connection
       .createQueryBuilder()
-      .insert()
-      .into(Status)
-      .values([{ status_name: StatusName.Refunded }])
-      .execute();
-  }
+      .select()
+      .from(Status, 'Status')
+      .where('"Status"."status_name" = :status_name', {
+        status_name: StatusName.Refunded,
+      })
+      .getCount();
 
-
-
-
+    if (countRefunded === 0) {
+      await connection
+        .createQueryBuilder()
+        .insert()
+        .into(Status)
+        .values([{ status_name: StatusName.Refunded }])
+        .execute();
+    }
   }
 }

@@ -11,7 +11,9 @@ describe('ActivityAdvertisementImageController', () => {
       providers: [ActivityAdvertisementImageService],
     }).compile();
 
-    controller = module.get<ActivityAdvertisementImageController>(ActivityAdvertisementImageController);
+    controller = module.get<ActivityAdvertisementImageController>(
+      ActivityAdvertisementImageController,
+    );
   });
 
   it('should be defined', () => {

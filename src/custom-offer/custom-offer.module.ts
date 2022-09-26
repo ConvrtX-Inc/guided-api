@@ -7,6 +7,6 @@ import { CustomOfferController } from './custom-offer.controller';
 @Module({
   controllers: [CustomOfferController],
   providers: [CustomOfferService],
-  imports: [ TypeOrmModule.forFeature([CustomOffer])]
+  imports: [TypeOrmModule.forFeature([CustomOffer])],
 })
 export class CustomOfferModule {}

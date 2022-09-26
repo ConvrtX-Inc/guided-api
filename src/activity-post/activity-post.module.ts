@@ -15,13 +15,13 @@ import { ActivityPackageModule } from 'src/activity-package/activity-package.mod
   providers: [ActivityPostService],
   imports: [
     ActivityNewsfeedModule,
-    ActivityAdvertisementModule,    
-    ActivityEventModule, 
-    ActivityArticleModule,    
+    ActivityAdvertisementModule,
+    ActivityEventModule,
+    ActivityArticleModule,
     ActivityOutfitterModule,
     ActivityPostModule,
-    ActivityPackageModule,    
-    TypeOrmModule.forFeature([ActivityPost])
-  ]
+    ActivityPackageModule,
+    TypeOrmModule.forFeature([ActivityPost]),
+  ],
 })
 export class ActivityPostModule {}

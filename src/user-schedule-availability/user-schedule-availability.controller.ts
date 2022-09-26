@@ -1,14 +1,11 @@
-import { 
-  Controller,  
-  UseGuards,
-  } from '@nestjs/common';
+import { Controller, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Crud, CrudController } from '@nestjsx/crud';
-  
+
 import { UserScheduleAvailabilityService } from './user-schedule-availability.service';
 import { UserScheduleAvailability } from './user-schedule-availability.entity';
-  
+
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
 @ApiTags('User Schedule Availability')
@@ -30,18 +27,17 @@ import { UserScheduleAvailability } from './user-schedule-availability.entity';
       field: 'id',
     },
   },
-})  
-
+})
 @Controller({
   path: 'user-schedule-availability',
   version: '1',
 })
-export class UserScheduleAvailabilityController implements CrudController<UserScheduleAvailability> {
+export class UserScheduleAvailabilityController
+  implements CrudController<UserScheduleAvailability>
+{
   constructor(public service: UserScheduleAvailabilityService) {}
-  
+
   get base(): CrudController<UserScheduleAvailability> {
     return this;
   }
-
 }
-  

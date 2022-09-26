@@ -9,7 +9,9 @@ export default class CreateTermsAndConditions implements Seeder {
       .createQueryBuilder()
       .select()
       .from(TermsAndCondition, 'TermsAndCondition')
-      .where('"TermsAndCondition"."type" = :type', { type: 'termsandconditions' })
+      .where('"TermsAndCondition"."type" = :type', {
+        type: 'termsandconditions',
+      })
       .getCount();
 
     if (countTermsAndCondition === 0) {
@@ -505,7 +507,9 @@ export default class CreateTermsAndConditions implements Seeder {
       .createQueryBuilder()
       .select()
       .from(TermsAndCondition, 'TermsAndCondition')
-      .where('"TermsAndCondition"."type" = :type', { type: 'travelerreleaseandwaiverform' })
+      .where('"TermsAndCondition"."type" = :type', {
+        type: 'travelerreleaseandwaiverform',
+      })
       .getCount();
 
     if (countTravelerReleaseAndWaiverForm === 0) {
@@ -646,7 +650,9 @@ export default class CreateTermsAndConditions implements Seeder {
       .createQueryBuilder()
       .select()
       .from(TermsAndCondition, 'TermsAndCondition')
-      .where('"TermsAndCondition"."type" = :type', { type: 'cancellationpolicy' })
+      .where('"TermsAndCondition"."type" = :type', {
+        type: 'cancellationpolicy',
+      })
       .getCount();
 
     if (countCancellationPolicy === 0) {
@@ -781,7 +787,9 @@ export default class CreateTermsAndConditions implements Seeder {
       .createQueryBuilder()
       .select()
       .from(TermsAndCondition, 'TermsAndCondition')
-      .where('"TermsAndCondition"."type" = :type', { type: 'paymentandpayoutterms' })
+      .where('"TermsAndCondition"."type" = :type', {
+        type: 'paymentandpayoutterms',
+      })
       .getCount();
 
     if (countPaymentAndPayoutTerms === 0) {
@@ -945,7 +953,9 @@ export default class CreateTermsAndConditions implements Seeder {
       .createQueryBuilder()
       .select()
       .from(TermsAndCondition, 'TermsAndCondition')
-      .where('"TermsAndCondition"."type" = :type', { type: 'locallawsandtaxes' })
+      .where('"TermsAndCondition"."type" = :type', {
+        type: 'locallawsandtaxes',
+      })
       .getCount();
 
     if (countLocalLawsAndTaxes === 0) {

@@ -46,8 +46,18 @@ export class ActivityAvailabilityHoursController
   }
 
   @Get('/date-range/:activity_package_id/:start_date/:end_date')
-  @ApiOperation({ summary: 'Retrieve activity availability hours by date range' })
-  getActivityAvailabilityHours(@Param('activity_package_id') activity_package_id: string, @Param('start_date') start_date: string, @Param('end_date') end_date: string) {
-    return this.service.getActivityAvailabilityHours(activity_package_id, start_date, end_date);
+  @ApiOperation({
+    summary: 'Retrieve activity availability hours by date range',
+  })
+  getActivityAvailabilityHours(
+    @Param('activity_package_id') activity_package_id: string,
+    @Param('start_date') start_date: string,
+    @Param('end_date') end_date: string,
+  ) {
+    return this.service.getActivityAvailabilityHours(
+      activity_package_id,
+      start_date,
+      end_date,
+    );
   }
 }

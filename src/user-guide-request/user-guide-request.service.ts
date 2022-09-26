@@ -8,7 +8,7 @@ import { UserGuideRequest } from './user-guide-request.entity';
 
 @Injectable()
 export class UserGuideRequestService extends TypeOrmCrudService<UserGuideRequest> {
-  constructor(  
+  constructor(
     @InjectRepository(UserGuideRequest)
     private UserGuideRequestRepository: Repository<UserGuideRequest>,
   ) {

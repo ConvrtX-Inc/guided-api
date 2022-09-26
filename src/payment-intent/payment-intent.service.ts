@@ -32,9 +32,7 @@ export class PaymentIntentService extends TypeOrmCrudService<PaymentIntent> {
   }
 
   async saveEntity(data: DeepPartial<PaymentIntent>[]) {
-    return this.repository.save(
-      this.repository.create(data),
-    );
+    return this.repository.save(this.repository.create(data));
   }
 
   async softDelete(id: number): Promise<void> {
@@ -44,5 +42,4 @@ export class PaymentIntentService extends TypeOrmCrudService<PaymentIntent> {
   async delete(id: number): Promise<void> {
     await this.repository.delete(id);
   }
-    
 }

@@ -46,7 +46,7 @@ export default class CreateUserType implements Seeder {
 
     if (countAdmin === 0) {
       await connection
-        .createQueryBuilder() 
+        .createQueryBuilder()
         .insert()
         .into(UserType)
         .values([{ name: UserTypeName.Admin }])
@@ -60,14 +60,14 @@ export default class CreateUserType implements Seeder {
       .getCount();
 
     //update to Traveller
-    if (countTourist > 0) {          
+    if (countTourist > 0) {
       await connection
         .createQueryBuilder()
         .update(UserType)
         .set({ name: UserTypeName.Traveller })
         .where([{ name: UserTypeName.Tourist }])
-        .execute();    
-    } 
+        .execute();
+    }
 
     const countTraveller = await connection
       .createQueryBuilder()

@@ -1,11 +1,12 @@
-import { Controller,
-         UseGuards,
-         Post,
-         HttpCode,
-         HttpStatus,
-         Param,
-         Request,
-         Body
+import {
+  Controller,
+  UseGuards,
+  Post,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Request,
+  Body,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags, ApiBody, ApiOperation } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
@@ -41,18 +42,19 @@ import { UserProfileQuestionDto } from './dtos/user-profile-question.dto';
   path: 'user-profile-question',
   version: '1',
 })
-export class UserProfileQuestionController implements CrudController<UserProfileQuestion> {
+export class UserProfileQuestionController
+  implements CrudController<UserProfileQuestion>
+{
   constructor(public service: UserProfileQuestionService) {}
-    
+
   get base(): CrudController<UserProfileQuestion> {
     return this;
   }
-  
+
   @ApiOperation({ summary: 'Create one Guide user' })
   @Post('/become-a-guide/:user_id')
   @HttpCode(HttpStatus.OK)
   async createOneGuide(@Body() userProfileQuestionDto: UserProfileQuestionDto) {
-    return this.service.createOneGuide(userProfileQuestionDto)
+    return this.service.createOneGuide(userProfileQuestionDto);
   }
 }
-    

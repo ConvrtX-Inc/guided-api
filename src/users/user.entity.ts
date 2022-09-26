@@ -280,14 +280,16 @@ export class User extends EntityHelper {
   @AfterLoad()
   public async decodeImage() {
     try {
-      if (typeof this.profile_photo !== null && this.profile_photo != undefined) {
+      if (
+        typeof this.profile_photo !== null &&
+        this.profile_photo != undefined
+      ) {
         this.profile_photo = await base64_arraybuffer.ab_2_base64(
           new Uint8Array(base64_arraybuffer.base64_2_ab(this.profile_photo)),
         );
       }
     } catch (e) {}
   }
-
 
   @ApiProperty({ example: 'cbcfa8b8-3a25-4adb-a9c6-e325f0d0f3ae' })
   @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
@@ -345,7 +347,6 @@ export class User extends EntityHelper {
   @Column({ nullable: true })
   address_line1: string | null;
 
-
   @ApiProperty({ example: 'address 2' })
   @IsOptional()
   @Index()
@@ -354,9 +355,8 @@ export class User extends EntityHelper {
 
   @IsOptional()
   @ApiProperty({ example: '1999-12-12 11:11:11' })
-  @Column({ type: 'timestamp' ,nullable: true })
+  @Column({ type: 'timestamp', nullable: true })
   birth_date?: Date;
-
 
   @CreateDateColumn()
   created_date: Date;

@@ -1,4 +1,11 @@
-import { Controller, Body, UseGuards, Post, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Body,
+  UseGuards,
+  Post,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
@@ -13,7 +20,7 @@ import { BankAccountService } from './bank-account.service';
     type: BankAccount,
   },
   routes: {
-    exclude: ['replaceOneBase', 'createManyBase']
+    exclude: ['replaceOneBase', 'createManyBase'],
   },
   query: {
     maxLimit: 50,
@@ -32,10 +39,9 @@ import { BankAccountService } from './bank-account.service';
   version: '1',
 })
 export class BankAccountController implements CrudController<BankAccount> {
-  constructor(public service: BankAccountService) { }
+  constructor(public service: BankAccountService) {}
 
   get base(): CrudController<BankAccount> {
     return this;
   }
-
 }

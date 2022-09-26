@@ -28,9 +28,7 @@ export class CurrencyService extends TypeOrmCrudService<Currency> {
   }
 
   async saveEntity(data: DeepPartial<Currency>) {
-    return this.currencyRepository.save(
-      this.currencyRepository.create(data),
-    );
+    return this.currencyRepository.save(this.currencyRepository.create(data));
   }
 
   async softDelete(id: number): Promise<void> {

@@ -9,5 +9,4 @@ import { FacebookStrategy } from './facebook.strategy';
   providers: [FacebookStrategy],
   controllers: [AuthFacebookController],
 })
-export class AuthFacebookModule {
-}
+export class AuthFacebookModule {}

@@ -30,7 +30,7 @@ export default class CreateAdmin implements Seeder {
         .values([
           plainToClass(User, {
             ...DEFAULT_ADMIN_USER,
-            user_type_id: adminUserTypeRaw?.id
+            user_type_id: adminUserTypeRaw?.id,
           }),
         ])
         .execute();

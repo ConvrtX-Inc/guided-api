@@ -14,7 +14,7 @@ export class UserProfileQuestionService extends TypeOrmCrudService<UserProfileQu
     @InjectRepository(UserProfileQuestion)
     private userProfileQuestionRepository: Repository<UserProfileQuestion>,
     @InjectRepository(User)
-    private userRepository: Repository<User>
+    private userRepository: Repository<User>,
   ) {
     super(userProfileQuestionRepository);
   }
@@ -36,7 +36,9 @@ export class UserProfileQuestionService extends TypeOrmCrudService<UserProfileQu
   }
 
   async saveEntity(data: DeepPartial<UserProfileQuestion>[]) {
-    return this.userProfileQuestionRepository.save(this.userProfileQuestionRepository.create(data));
+    return this.userProfileQuestionRepository.save(
+      this.userProfileQuestionRepository.create(data),
+    );
   }
 
   async softDelete(id: number): Promise<void> {
@@ -44,19 +46,26 @@ export class UserProfileQuestionService extends TypeOrmCrudService<UserProfileQu
   }
 
   async createOneGuide(data) {
-    if(this.userRepository
-      .createQueryBuilder()
-      .update()
-      .set({ first_name: data.first_name, last_name: data.last_name, email: data.email, phone_no: data.phone_no, is_guide: data.is_guide })
-      .where('id = :id', { id: data.id })
-      .execute()){
+    if (
+      this.userRepository
+        .createQueryBuilder()
+        .update()
+        .set({
+          first_name: data.first_name,
+          last_name: data.last_name,
+          email: data.email,
+          phone_no: data.phone_no,
+          is_guide: data.is_guide,
+        })
+        .where('id = :id', { id: data.id })
+        .execute()
+    ) {
       this.userProfileQuestionRepository
         .createQueryBuilder()
         .insert()
         .into(UserProfileQuestion)
         .values(data.user_profile_question)
         .execute();
-      }
+    }
   }
- 
 }

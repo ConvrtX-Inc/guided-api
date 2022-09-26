@@ -1,9 +1,8 @@
-import { Controller, UseGuards, 
-} from '@nestjs/common';
+import { Controller, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Crud, CrudController } from '@nestjsx/crud';
- 
+
 import { UserMessagesBlockService } from './user-messages-block.service';
 import { UserBlockMessages } from './user-message-block.entity';
 
@@ -33,10 +32,12 @@ import { UserBlockMessages } from './user-message-block.entity';
   path: 'user-messages-block',
   version: '1',
 })
-export class UserMessagesBlockController implements CrudController<UserBlockMessages> {
-    constructor(public service: UserMessagesBlockService) {}
-  
-    get base(): CrudController<UserBlockMessages> {
-      return this;
-    }
+export class UserMessagesBlockController
+  implements CrudController<UserBlockMessages>
+{
+  constructor(public service: UserMessagesBlockService) {}
+
+  get base(): CrudController<UserBlockMessages> {
+    return this;
   }
+}

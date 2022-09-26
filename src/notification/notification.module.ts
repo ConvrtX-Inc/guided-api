@@ -8,6 +8,6 @@ import { BookingRequestModule } from 'src/booking-request/booking-request.module
 @Module({
   controllers: [NotificationController],
   providers: [NotificationService],
-  imports: [BookingRequestModule,TypeOrmModule.forFeature([Notification])],
+  imports: [BookingRequestModule, TypeOrmModule.forFeature([Notification])],
 })
 export class NotificationModule {}

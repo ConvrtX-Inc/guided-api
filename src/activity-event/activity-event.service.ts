@@ -38,7 +38,7 @@ export class ActivityEventService extends TypeOrmCrudService<ActivityEvent> {
     await this.activityRepository.softDelete(id);
   }
 
-  async approvedEvent(id: string) {    
+  async approvedEvent(id: string) {
     const post = await this.activityRepository.findOne({
       where: { id: id },
     });
@@ -47,12 +47,12 @@ export class ActivityEventService extends TypeOrmCrudService<ActivityEvent> {
     });
     if (post) {
       post.status_id = status.id;
-      post.is_published = true;      
+      post.is_published = true;
       await post.save();
     }
   }
 
-  async rejectEvent(id: string) {    
+  async rejectEvent(id: string) {
     const post = await this.activityRepository.findOne({
       where: { id: id },
     });
@@ -61,16 +61,16 @@ export class ActivityEventService extends TypeOrmCrudService<ActivityEvent> {
     });
     if (post) {
       post.status_id = status.id;
-      post.is_published = false;      
+      post.is_published = false;
       await post.save();
     }
-  }  
+  }
 
   async getEventsByUserAndStatus(eventUserAndStatusDto: EventUserAndStatusDto) {
     return this.activityRepository.find({
       where: {
         user_id: eventUserAndStatusDto.user_id,
-        status_id: eventUserAndStatusDto.status_id
+        status_id: eventUserAndStatusDto.status_id,
       },
     });
   }

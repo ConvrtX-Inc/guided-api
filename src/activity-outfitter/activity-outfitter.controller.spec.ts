@@ -10,22 +10,24 @@ describe('ActivityOutfitterController', () => {
     const ApiServiceProvider = {
       provide: ActivityOutfitterService,
       useFactory: () => ({
-        approvedActivityOutfitter: jest.fn(() => { }),
-        rejectActivityOutfitter: jest.fn(() => { })
-      })
-    }
+        approvedActivityOutfitter: jest.fn(() => {}),
+        rejectActivityOutfitter: jest.fn(() => {}),
+      }),
+    };
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ActivityOutfitterController],
       providers: [ActivityOutfitterService, ApiServiceProvider],
     }).compile();
 
-    controller = module.get<ActivityOutfitterController>(ActivityOutfitterController);
+    controller = module.get<ActivityOutfitterController>(
+      ActivityOutfitterController,
+    );
     spyService = module.get<ActivityOutfitterService>(ActivityOutfitterService);
   });
 
   it('calling approvedActivityOutfitter method', () => {
-    const id = "6952bcec-d3eb-4ffa-b8a1-9cc64f3f5f9b";
+    const id = '6952bcec-d3eb-4ffa-b8a1-9cc64f3f5f9b';
 
     controller.approvedActivityOutfitter(id);
 
@@ -33,7 +35,7 @@ describe('ActivityOutfitterController', () => {
   });
 
   it('calling rejectActivityOutfitter method', () => {
-    const id = "6952bcec-d3eb-4ffa-b8a1-9cc64f3f5f9b";
+    const id = '6952bcec-d3eb-4ffa-b8a1-9cc64f3f5f9b';
 
     controller.rejectActivityOutfitter(id);
 

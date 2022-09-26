@@ -11,7 +11,7 @@ import { Status } from 'src/statuses/status.entity';
 import { User } from 'src/users/user.entity';
 
 @Injectable()
-export class ActivityAdvertisementService extends TypeOrmCrudService<ActivityAdvertisement>{
+export class ActivityAdvertisementService extends TypeOrmCrudService<ActivityAdvertisement> {
   constructor(
     @InjectRepository(ActivityAdvertisement)
     private advertisementRepository: Repository<ActivityAdvertisement>,
@@ -33,7 +33,9 @@ export class ActivityAdvertisementService extends TypeOrmCrudService<ActivityAdv
   }
 
   async saveEntity(data: DeepPartial<ActivityAdvertisement>) {
-    return this.advertisementRepository.save(this.advertisementRepository.create(data));
+    return this.advertisementRepository.save(
+      this.advertisementRepository.create(data),
+    );
   }
 
   async softDelete(id: string): Promise<void> {
@@ -80,12 +82,14 @@ export class ActivityAdvertisementService extends TypeOrmCrudService<ActivityAdv
     } else {
       const stat = await getRepository(Status)
         .createQueryBuilder('status')
-        .where('status.status_name = :status_name', { status_name: status.replace(/\b\w/g, (l) => l.toUpperCase()) })
+        .where('status.status_name = :status_name', {
+          status_name: status.replace(/\b\w/g, (l) => l.toUpperCase()),
+        })
         .getOne();
       transactions = await this.advertisementRepository.find({
         where: {
           user_id: user_id,
-          status_id: stat.id
+          status_id: stat.id,
         },
       });
     }
@@ -99,7 +103,7 @@ export class ActivityAdvertisementService extends TypeOrmCrudService<ActivityAdv
         .createQueryBuilder('status')
         .where({ id: transactions[i].status_id })
         .getOne();
-      returnResponse.push(transactions[i])
+      returnResponse.push(transactions[i]);
     }
     return returnResponse;
   }

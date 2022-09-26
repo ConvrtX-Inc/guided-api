@@ -1,6 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { CrudValidationGroups } from '@nestjsx/crud';
-import { IsNotEmpty, IsNumber, IsOptional, Validate, Allow } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  Validate,
+  Allow,
+} from 'class-validator';
 import { EntityHelper } from '../../utils/entity-helper';
 import { IsExist } from '../../utils/validators/is-exists.validator';
 import {
