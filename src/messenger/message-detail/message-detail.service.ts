@@ -18,9 +18,8 @@ export class MessageDetailService extends TypeOrmCrudService<MessageDetail> {
   constructor(
     @InjectRepository(MessageDetail)
     private msgRepository: Repository<MessageDetail>,
-    private userSvc: UsersService,
-  ) //_participantService: ParticipantService,
-  {
+    private userSvc: UsersService, //_participantService: ParticipantService,
+  ) {
     super(msgRepository);
   }
 
@@ -121,14 +120,14 @@ export class MessageDetailService extends TypeOrmCrudService<MessageDetail> {
 
       let chatMessages = [];
 
-      let rooms = [...new Set(messages.map((item) => item.message_id))];
+      const rooms = [...new Set(messages.map((item) => item.message_id))];
 
       for (var i = 0; i < rooms.length; i++) {
         const msgs = messages.filter((m) => m.message_id == rooms[i]);
 
-        let chatDetails = msgs[0];
+        const chatDetails = msgs[0];
 
-        let receiver_id =
+        const receiver_id =
           chatDetails.sender_id == msgs[0].user_id
             ? chatDetails.receiver_id
             : chatDetails.sender_id;
@@ -164,8 +163,8 @@ export class MessageDetailService extends TypeOrmCrudService<MessageDetail> {
       }
 
       chatMessages = chatMessages.sort((a, b) => {
-        let date1 = new Date(a.messages[a.messages.length - 1].created_date);
-        let date2 = new Date(b.messages[b.messages.length - 1].created_date);
+        const date1 = new Date(a.messages[a.messages.length - 1].created_date);
+        const date2 = new Date(b.messages[b.messages.length - 1].created_date);
         return date2.valueOf() - date1.valueOf();
       });
 

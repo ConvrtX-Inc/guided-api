@@ -74,7 +74,7 @@ export class ActivityPostService extends TypeOrmCrudService<ActivityPost> {
     });
     if (post) {
       post.is_published = true;
-      let categorypost = post.category_type;
+      const categorypost = post.category_type;
       await post.save();
 
       switch (categorypost) {
@@ -112,7 +112,7 @@ export class ActivityPostService extends TypeOrmCrudService<ActivityPost> {
     });
     if (post) {
       post.is_published = false;
-      let categorypost = post.category_type;
+      const categorypost = post.category_type;
       await post.save();
 
       switch (categorypost) {
@@ -145,7 +145,7 @@ export class ActivityPostService extends TypeOrmCrudService<ActivityPost> {
   }
 
   async getPosts(user_id: string) {
-    let aggregatedPosts: Array<ActivityPost[]> = [];
+    const aggregatedPosts: Array<ActivityPost[]> = [];
     const users = await this.activityPostRepository.find({ user_id: user_id });
     for (const user of users) {
       switch (user.category_type) {

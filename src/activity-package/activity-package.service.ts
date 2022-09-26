@@ -229,7 +229,7 @@ export class ActivityPackageService extends TypeOrmCrudService<ActivityPackage> 
   }
 
   async getActivitypackageRange(start_date: string, end_date: string) {
-    let response = [];
+    const response = [];
     const activityAvailability = await getRepository(ActivityAvailability)
       .createQueryBuilder()
       .select()

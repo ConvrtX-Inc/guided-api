@@ -75,8 +75,8 @@ export class NotificationService extends TypeOrmCrudService<Notification> {
 
     ///Sort notifications
     notifs = notifs.sort((a: any, b: any) => {
-      let date1 = new Date(a?.created_date);
-      let date2 = new Date(b?.created_date);
+      const date1 = new Date(a?.created_date);
+      const date2 = new Date(b?.created_date);
       return date2.valueOf() - date1.valueOf();
     });
 

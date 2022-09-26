@@ -77,12 +77,12 @@ describe('Users Service (Unit Test)', () => {
 
   describe('Update Phone No', () => {
     it('should successfully update', async () => {
-      let findOneEntitySpy = jest
+      const findOneEntitySpy = jest
         .spyOn(crudService, 'findOneEntity')
         .mockImplementation(async (options: FindOptions<User>) => {
           return testUser;
         });
-      let updateSpy = jest
+      const updateSpy = jest
         .spyOn(userRepo, 'update')
         .mockImplementation(async (id: string, user: User) => {
           return new UpdateResult();
@@ -95,12 +95,12 @@ describe('Users Service (Unit Test)', () => {
     });
 
     it('should fail if user id not specified', async () => {
-      let findOneEntitySpy = jest
+      const findOneEntitySpy = jest
         .spyOn(crudService, 'findOneEntity')
         .mockImplementation(async (options: FindOptions<User>) => {
           return testUser;
         });
-      let updateSpy = jest
+      const updateSpy = jest
         .spyOn(userRepo, 'update')
         .mockImplementation(async (id: string, user: User) => {
           return new UpdateResult();
@@ -115,12 +115,12 @@ describe('Users Service (Unit Test)', () => {
     });
 
     it('should fail if phone_no not specified', async () => {
-      let findOneEntitySpy = jest
+      const findOneEntitySpy = jest
         .spyOn(crudService, 'findOneEntity')
         .mockImplementation(async (options: FindOptions<User>) => {
           return testUser;
         });
-      let updateSpy = jest
+      const updateSpy = jest
         .spyOn(userRepo, 'update')
         .mockImplementation(async (id: string, user: User) => {
           return new UpdateResult();
@@ -135,12 +135,12 @@ describe('Users Service (Unit Test)', () => {
     });
 
     it('should fail if User not Found', async () => {
-      let findOneEntitySpy = jest
+      const findOneEntitySpy = jest
         .spyOn(crudService, 'findOneEntity')
         .mockImplementation(async (options: FindOptions<User>) => {
           return null;
         });
-      let updateSpy = jest
+      const updateSpy = jest
         .spyOn(userRepo, 'update')
         .mockImplementation(async (id: string, user: User) => {
           return new UpdateResult();
@@ -157,12 +157,12 @@ describe('Users Service (Unit Test)', () => {
 
   describe('Update User', () => {
     it('should successfully update', async () => {
-      let findOneEntitySpy = jest
+      const findOneEntitySpy = jest
         .spyOn(crudService, 'findOneEntity')
         .mockImplementation(async (options: FindOptions<User>) => {
           return testUser;
         });
-      let updateSpy = jest
+      const updateSpy = jest
         .spyOn(userRepo, 'update')
         .mockImplementation(async (id: string, user: User) => {
           return new UpdateResult();
@@ -176,12 +176,12 @@ describe('Users Service (Unit Test)', () => {
     });
 
     it('should fail if password is not provided', async () => {
-      let findOneEntitySpy = jest
+      const findOneEntitySpy = jest
         .spyOn(crudService, 'findOneEntity')
         .mockImplementation(async (options: FindOptions<User>) => {
           return testUser;
         });
-      let updateSpy = jest
+      const updateSpy = jest
         .spyOn(userRepo, 'update')
         .mockImplementation(async (id: string, user: User) => {
           return new UpdateResult();
@@ -196,12 +196,12 @@ describe('Users Service (Unit Test)', () => {
     });
 
     it('should fail if password is not long enough (should be 6 chars)', async () => {
-      let findOneEntitySpy = jest
+      const findOneEntitySpy = jest
         .spyOn(crudService, 'findOneEntity')
         .mockImplementation(async (options: FindOptions<User>) => {
           return testUser;
         });
-      let updateSpy = jest
+      const updateSpy = jest
         .spyOn(userRepo, 'update')
         .mockImplementation(async (id: string, user: User) => {
           return new UpdateResult();
@@ -217,12 +217,12 @@ describe('Users Service (Unit Test)', () => {
     });
 
     it('should fail if id is not specified', async () => {
-      let findOneEntitySpy = jest
+      const findOneEntitySpy = jest
         .spyOn(crudService, 'findOneEntity')
         .mockImplementation(async (options: FindOptions<User>) => {
           return testUser;
         });
-      let updateSpy = jest
+      const updateSpy = jest
         .spyOn(userRepo, 'update')
         .mockImplementation(async (id: string, user: User) => {
           return new UpdateResult();
@@ -238,12 +238,12 @@ describe('Users Service (Unit Test)', () => {
     });
 
     it('should fail if user does not exist', async () => {
-      let findOneEntitySpy = jest
+      const findOneEntitySpy = jest
         .spyOn(crudService, 'findOneEntity')
         .mockImplementation(async (options: FindOptions<User>) => {
           return null;
         });
-      let updateSpy = jest
+      const updateSpy = jest
         .spyOn(userRepo, 'update')
         .mockImplementation(async (id: string, user: User) => {
           return new UpdateResult();
@@ -261,12 +261,12 @@ describe('Users Service (Unit Test)', () => {
 
   describe('Update About Text', () => {
     it('should successfully update', async () => {
-      let findOneEntitySpy = jest
+      const findOneEntitySpy = jest
         .spyOn(crudService, 'findOneEntity')
         .mockImplementation(async (options: FindOptions<User>) => {
           return testUser;
         });
-      let updateSpy = jest
+      const updateSpy = jest
         .spyOn(userRepo, 'update')
         .mockImplementation(async (id: string, user: User) => {
           return new UpdateResult();
@@ -279,12 +279,12 @@ describe('Users Service (Unit Test)', () => {
     });
 
     it('should fail if user id not specified', async () => {
-      let findOneEntitySpy = jest
+      const findOneEntitySpy = jest
         .spyOn(crudService, 'findOneEntity')
         .mockImplementation(async (options: FindOptions<User>) => {
           return testUser;
         });
-      let updateSpy = jest
+      const updateSpy = jest
         .spyOn(userRepo, 'update')
         .mockImplementation(async (id: string, user: User) => {
           return new UpdateResult();
@@ -299,12 +299,12 @@ describe('Users Service (Unit Test)', () => {
     });
 
     it('should fail if User not Found', async () => {
-      let findOneEntitySpy = jest
+      const findOneEntitySpy = jest
         .spyOn(crudService, 'findOneEntity')
         .mockImplementation(async (options: FindOptions<User>) => {
           return null;
         });
-      let updateSpy = jest
+      const updateSpy = jest
         .spyOn(userRepo, 'update')
         .mockImplementation(async (id: string, user: User) => {
           return new UpdateResult();
@@ -321,17 +321,17 @@ describe('Users Service (Unit Test)', () => {
 
   describe('Update Photo', () => {
     it('should successfully update photo', async () => {
-      let findOneEntitySpy = jest
+      const findOneEntitySpy = jest
         .spyOn(crudService, 'findOneEntity')
         .mockImplementation(async (options: FindOptions<User>) => {
           return testUser;
         });
-      let findFileSpy = jest
+      const findFileSpy = jest
         .spyOn(fileRepo, 'findOne')
         .mockImplementation(async ({ id: string }) => {
           return new FileEntity();
         });
-      let updateSpy = jest
+      const updateSpy = jest
         .spyOn(userRepo, 'update')
         .mockImplementation(async (id: string, user: User) => {
           return new UpdateResult();
@@ -345,17 +345,17 @@ describe('Users Service (Unit Test)', () => {
     });
 
     it('should fail if user id not specified', async () => {
-      let findOneEntitySpy = jest
+      const findOneEntitySpy = jest
         .spyOn(crudService, 'findOneEntity')
         .mockImplementation(async (options: FindOptions<User>) => {
           return testUser;
         });
-      let findFileSpy = jest
+      const findFileSpy = jest
         .spyOn(fileRepo, 'findOne')
         .mockImplementation(async ({ id: string }) => {
           return new FileEntity();
         });
-      let updateSpy = jest
+      const updateSpy = jest
         .spyOn(userRepo, 'update')
         .mockImplementation(async (id: string, user: User) => {
           return new UpdateResult();
@@ -371,17 +371,17 @@ describe('Users Service (Unit Test)', () => {
     });
 
     it('should fail if file id not specified', async () => {
-      let findOneEntitySpy = jest
+      const findOneEntitySpy = jest
         .spyOn(crudService, 'findOneEntity')
         .mockImplementation(async (options: FindOptions<User>) => {
           return testUser;
         });
-      let findFileSpy = jest
+      const findFileSpy = jest
         .spyOn(fileRepo, 'findOne')
         .mockImplementation(async ({ id: string }) => {
           return new FileEntity();
         });
-      let updateSpy = jest
+      const updateSpy = jest
         .spyOn(userRepo, 'update')
         .mockImplementation(async (id: string, user: User) => {
           return new UpdateResult();
@@ -397,17 +397,17 @@ describe('Users Service (Unit Test)', () => {
     });
 
     it('should fail if User not Found', async () => {
-      let findOneEntitySpy = jest
+      const findOneEntitySpy = jest
         .spyOn(crudService, 'findOneEntity')
         .mockImplementation(async (options: FindOptions<User>) => {
           return null;
         });
-      let findFileSpy = jest
+      const findFileSpy = jest
         .spyOn(fileRepo, 'findOne')
         .mockImplementation(async ({ id: string }) => {
           return new FileEntity();
         });
-      let updateSpy = jest
+      const updateSpy = jest
         .spyOn(userRepo, 'update')
         .mockImplementation(async (id: string, user: User) => {
           return new UpdateResult();
@@ -423,17 +423,17 @@ describe('Users Service (Unit Test)', () => {
     });
 
     it('should fail if File not Found', async () => {
-      let findOneEntitySpy = jest
+      const findOneEntitySpy = jest
         .spyOn(crudService, 'findOneEntity')
         .mockImplementation(async (options: FindOptions<User>) => {
           return testUser;
         });
-      let findFileSpy = jest
+      const findFileSpy = jest
         .spyOn(fileRepo, 'findOne')
         .mockImplementation(async ({ id: string }) => {
           return null;
         });
-      let updateSpy = jest
+      const updateSpy = jest
         .spyOn(userRepo, 'update')
         .mockImplementation(async (id: string, user: User) => {
           return new UpdateResult();

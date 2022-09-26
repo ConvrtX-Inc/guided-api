@@ -82,8 +82,8 @@ export class DashboardRelatedService {
 
       const fs = require('fs');
 
-      let rawdata = fs.readFileSync('gdata.json');
-      let student = JSON.parse(rawdata);
+      const rawdata = fs.readFileSync('gdata.json');
+      const student = JSON.parse(rawdata);
 
       return { downloads: student['installs'] };
     } catch {}

@@ -59,7 +59,7 @@ export class RoomService extends TypeOrmCrudService<Room> {
 
   async insertRoom(user_id, recipient_id): Promise<void> {
     const query = this.roomRepository.createQueryBuilder('room');
-    var roomid: any;
+    let roomid: any;
     query.select('room.*');
     query.innerJoin(
       'participant',
@@ -84,12 +84,12 @@ export class RoomService extends TypeOrmCrudService<Room> {
       room.type = 'conversation';
       this.newRoomID = (await room.save()).id;
 
-      let data1 = new Participant();
+      const data1 = new Participant();
       data1.user_id = user_id;
       data1.room_id = this.newRoomID;
       await data1.save();
 
-      let data2 = new Participant();
+      const data2 = new Participant();
       data2.user_id = recipient_id;
       data2.room_id = this.newRoomID;
       await data2.save();
@@ -112,7 +112,7 @@ export class RoomService extends TypeOrmCrudService<Room> {
       });
 
       if (msgdetail.ParentID != '') {
-        let userMsgDetail = new MessageDetail();
+        const userMsgDetail = new MessageDetail();
         userMsgDetail.user_id = participantData[i].user_id;
         userMsgDetail.message_id = msgdetail.ParentID;
         userMsgDetail.message = msgdetail.Text;
@@ -125,7 +125,7 @@ export class RoomService extends TypeOrmCrudService<Room> {
 
         await userMsgDetail.save();
       } else {
-        let userMessage = new Message();
+        const userMessage = new Message();
         userMessage.room_id = room_id;
         userMessage.user_id = participantData[i].user_id;
         userMessage.message = msgdetail.Text;

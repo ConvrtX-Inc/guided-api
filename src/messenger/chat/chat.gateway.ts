@@ -39,7 +39,7 @@ export class ChatGateway
   handleDisconnect(client: Socket) {
     this.logger.log(`Client disconnected: ${client.id}`);
 
-    let room = this.getRoomOfClient(client);
+    const room = this.getRoomOfClient(client);
     if (room != '') {
       this.leaveRoom(client, room);
     }
@@ -55,8 +55,8 @@ export class ChatGateway
 
   @SubscribeMessage('msgToServer')
   public handleMessage(client: Socket, payload: any): void {
-    var curDate = new Date();
-    let _message = new MessageDetailClass(
+    const curDate = new Date();
+    const _message = new MessageDetailClass(
       payload.sender_id,
       payload.text,
       MessageStatus.msSent,
@@ -66,7 +66,7 @@ export class ChatGateway
       payload.receiver_id,
       payload.type,
     );
-    let room = this.getRoomOfClient(client);
+    const room = this.getRoomOfClient(client);
     this.addMessage(_message, room);
     this.wss.to(room).emit('msgToClient', _message);
   }
@@ -89,19 +89,19 @@ export class ChatGateway
   }
 
   addClient(client: Socket, sender_id: string, room: string) {
-    var c = new ClientSocketInfo(client.id, room, sender_id);
+    const c = new ClientSocketInfo(client.id, room, sender_id);
     this.lstClients.push(c);
 
-    let objRoom = this.lstRooms.find((o) => o.RoomID === room);
+    const objRoom = this.lstRooms.find((o) => o.RoomID === room);
     if (objRoom === undefined) {
-      var rm = new RoomInfo(room);
+      const rm = new RoomInfo(room);
       rm.UserMessages = '';
       this.lstRooms.push(rm);
     }
   }
 
   deleteClient(client: Socket) {
-    for (var i = 0; i < this.lstClients.length; i++) {
+    for (let i = 0; i < this.lstClients.length; i++) {
       if (this.lstClients[i]['ClientID'] === client.id) {
         this.lstClients.splice(i, 1);
         break;
@@ -110,8 +110,8 @@ export class ChatGateway
   }
 
   getRoomOfClient(client: Socket): string {
-    var res = '';
-    let objClient = this.lstClients.find((o) => o.ClientID === client.id);
+    let res = '';
+    const objClient = this.lstClients.find((o) => o.ClientID === client.id);
     if (objClient != undefined) {
       res = objClient.RoomID;
     }
@@ -120,7 +120,7 @@ export class ChatGateway
 
   async saveMessage(roomID: string) {
     this.logger.log('saveMessage:' + roomID);
-    let objRoom = this.lstRooms.find((o) => o.RoomID === roomID);
+    const objRoom = this.lstRooms.find((o) => o.RoomID === roomID);
     if (objRoom != undefined) {
       //this.logger.log('saveMessage:'+objRoom.UserMessages);
       if (objRoom.UserMessages != '') {
@@ -135,17 +135,17 @@ export class ChatGateway
   }
 
   addMessage(UserMessage: MessageDetailClass, clientRoom: string) {
-    let objRoom = this.lstRooms.find((o) => o.RoomID === clientRoom);
+    const objRoom = this.lstRooms.find((o) => o.RoomID === clientRoom);
     if (objRoom === undefined) {
-      let myJSON = JSON.stringify(UserMessage);
+      const myJSON = JSON.stringify(UserMessage);
       //marg here
-      let msg = myJSON + ',\r\n';
-      var rm = new RoomInfo(clientRoom);
+      const msg = myJSON + ',\r\n';
+      const rm = new RoomInfo(clientRoom);
       rm.UserMessages = msg;
       rm.UserMessageDetail = UserMessage;
       this.lstRooms.push(rm);
     } else {
-      let myJSON = JSON.stringify(UserMessage);
+      const myJSON = JSON.stringify(UserMessage);
       objRoom.UserMessages = objRoom.UserMessages + myJSON + ',\r\n';
       objRoom.UserMessageDetail = UserMessage;
 

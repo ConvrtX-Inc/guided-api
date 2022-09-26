@@ -25,7 +25,7 @@ export class NearbyActivitiesService {
     lat: number,
     lng: number,
     distance: number,
-    searchText: string = '',
+    searchText = '',
   ) {
     return this.destinationRepo
       .createQueryBuilder('destination')
@@ -142,7 +142,7 @@ export class NearbyActivitiesService {
     lat: number,
     lng: number,
     distance: number,
-    searchText: string = '',
+    searchText = '',
   ) {
     const users = await this.userRepo
       .createQueryBuilder('user')

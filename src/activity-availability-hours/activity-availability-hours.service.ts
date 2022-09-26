@@ -40,7 +40,7 @@ export class ActivityAvailabilityHoursService extends TypeOrmCrudService<Activit
     start_date: string,
     end_date: string,
   ) {
-    let response = [];
+    const response = [];
     const activityAvailability = await getRepository(ActivityAvailability)
       .createQueryBuilder()
       .select()

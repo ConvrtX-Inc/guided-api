@@ -7,9 +7,9 @@ export class PasswordGeneratorService {
   constructor(private mailService: MailService) {}
 
   generatePassword() {
-    var generator = require('generate-password');
+    const generator = require('generate-password');
 
-    var randompassword = generator.generate({
+    const randompassword = generator.generate({
       length: 10,
       numbers: true,
     });

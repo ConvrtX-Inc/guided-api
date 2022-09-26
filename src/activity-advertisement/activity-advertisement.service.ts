@@ -71,7 +71,7 @@ export class ActivityAdvertisementService extends TypeOrmCrudService<ActivityAdv
   }
 
   async getadvertisementsByUserAndStatus(user_id: string, status: string) {
-    let returnResponse = [];
+    const returnResponse = [];
     let transactions;
     if (status.toLowerCase() === 'all') {
       transactions = await this.advertisementRepository.find({

@@ -57,7 +57,7 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
   async getTransactionsByGuideAndStatus(tour_guide_id: string, status: string) {
     console.log('Tourguide ID:' + tour_guide_id);
     console.log('Status: ' + status);
-    let returnResponse = [];
+    const returnResponse = [];
     let transactions;
     if (status.toLowerCase() === 'all') {
       transactions = await this.destinationsRepository.find({
@@ -101,7 +101,7 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
   async getTransactionsByUserAndStatus(user_id: string, status: string) {
     console.log('user:' + user_id);
     console.log('status:' + status);
-    let returnResponse = [];
+    const returnResponse = [];
     let transactions;
     if (status.toLowerCase() === 'all') {
       transactions = await this.destinationsRepository.find({
@@ -148,20 +148,20 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
       .where({ status_name: 'Refunded' })
       .getOne();
 
-    let transaction = new Transaction();
+    const transaction = new Transaction();
     transaction.id = transaction_id;
     transaction.status_id = status.id;
     return this.destinationsRepository.update(transaction_id, transaction);
   }
 
   async getEarnings(tour_guide_id: string) {
-    var totalEarning: number = 0.0;
-    var pending: number = 0.0;
-    var personalBalance: number = 0.0;
-    var pendingName = 'Pending';
-    var pendingStatusId = '';
-    var completedName = 'Completed';
-    var completedStatusId = '';
+    let totalEarning = 0.0;
+    let pending = 0.0;
+    let personalBalance = 0.0;
+    const pendingName = 'Pending';
+    let pendingStatusId = '';
+    const completedName = 'Completed';
+    let completedStatusId = '';
 
     const stats = await getRepository(Status).find();
 
@@ -173,7 +173,7 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
       }
     }
 
-    var trans = await this.destinationsRepository.find({
+    const trans = await this.destinationsRepository.find({
       where: {
         tour_guide_id: tour_guide_id,
       },
@@ -189,7 +189,7 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
       }
     }
 
-    var result =
+    const result =
       '{' +
       '"total":' +
       totalEarning +

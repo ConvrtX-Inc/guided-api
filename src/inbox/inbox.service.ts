@@ -17,7 +17,7 @@ export class InboxService extends TypeOrmCrudService<Messages> {
   }
 
   async getMessagesList(user_id: string) {
-    let inboxList: Array<Messages[]> = [];
+    const inboxList: Array<Messages[]> = [];
     const uniqueSenderId = await this.inboxRepository
       .createQueryBuilder('inboxlist')
       .select(['inboxlist.sender_id'])
