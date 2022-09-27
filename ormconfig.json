@@ -1,4 +1,5 @@
 {
+  "url": "postgres://pptxugqlzzgmzk:bf260036175654c2d79050cddb747bf9946c552c62dd40be64f4ca682e78165f@ec2-50-16-241-192.compute-1.amazonaws.com:5432/d7jfq76eg73kai",
   "type": "postgres",
   "port": 5432,
   "synchronize": false,
