@@ -185,7 +185,7 @@ export class AuthService {
           hash,
         },
       })
-      .catch(Logger.error);
+      .catch(console.error);
   }
 
   async confirmEmail(hash: string): Promise<void> {
