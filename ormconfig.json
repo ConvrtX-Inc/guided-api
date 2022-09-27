@@ -6,16 +6,16 @@
   "keepConnectionAlive": true,
   "logging": true,
   "entities": [
-    "/Users/sselast/dev/convrtx/guided-api/src/database/../**/*.entity{.ts,.js}"
+    "./**/*.entity{.ts,.js}"
   ],
   "migrations": [
-    "/Users/sselast/dev/convrtx/guided-api/src/database/migrations/**/*{.ts,.js}"
+    "./dist/database/migrations/**/*{.ts,.js}"
   ],
   "seeds": [
-    "/Users/sselast/dev/convrtx/guided-api/src/database/seeds/**/*{.ts,.js}"
+    "./dist/database/seeds/**/*{.ts,.js}"
   ],
   "factories": [
-    "/Users/sselast/dev/convrtx/guided-api/src/database/factories/**/*{.ts,.js}"
+    "./dist/database/factories/**/*{.ts,.js}"
   ],
   "cli": {
     "entitiesDir": "src",
