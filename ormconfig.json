@@ -1,0 +1,28 @@
+{
+  "type": "postgres",
+  "port": 5432,
+  "synchronize": false,
+  "dropSchema": false,
+  "keepConnectionAlive": true,
+  "logging": true,
+  "entities": [
+    "/Users/sselast/dev/convrtx/guided-api/src/database/../**/*.entity{.ts,.js}"
+  ],
+  "migrations": [
+    "/Users/sselast/dev/convrtx/guided-api/src/database/migrations/**/*{.ts,.js}"
+  ],
+  "seeds": [
+    "/Users/sselast/dev/convrtx/guided-api/src/database/seeds/**/*{.ts,.js}"
+  ],
+  "factories": [
+    "/Users/sselast/dev/convrtx/guided-api/src/database/factories/**/*{.ts,.js}"
+  ],
+  "cli": {
+    "entitiesDir": "src",
+    "migrationsDir": "src/database/migrations",
+    "subscribersDir": "subscriber"
+  },
+  "extra": {
+    "max": 100
+  }
+}
