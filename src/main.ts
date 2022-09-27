@@ -6,7 +6,7 @@ import { AppModule } from './app.module';
 import { SerializerInterceptor } from './utils/serializer.interceptor';
 import validationOptions from './utils/validation-options';
 
-async function bootstrap() {
+async function bootstrap(port = process.env.PORT || 8000) {
   const app = await NestFactory.create(AppModule, { cors: true });
   const configService = app.get(ConfigService);
 
@@ -30,7 +30,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('docs', app, document);
 
-  const port = configService.get('app.port');
   await app.listen(port, () => {
     Logger.log('------');
     console.log();
